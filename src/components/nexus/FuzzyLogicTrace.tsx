@@ -475,7 +475,6 @@ export const FuzzyLogicTrace = ({ decisions, className }: FuzzyLogicTraceProps) 
                 </div>
               )}
             </div>
-          </div>
         )}
       </div>
     </div>
