@@ -13,6 +13,9 @@ import { ProtocolIndicator } from '@/components/nexus/ProtocolIndicator';
 import { MasterSystemSwitch } from '@/components/nexus/MasterSystemSwitch';
 import { CongestionControlPanel } from '@/components/nexus/CongestionControlPanel';
 import { CommandOperationsGrid } from '@/components/nexus/CommandOperationsGrid';
+import { IncidentLogFeed } from '@/components/nexus/IncidentLogFeed';
+import { ArrivalPredictionWidget } from '@/components/nexus/ArrivalPredictionWidget';
+import { PerformanceMetricsCompact } from '@/components/nexus/PerformanceMetricsCompact';
 import { EnvironmentalSensorParams } from '@/components/nexus/EnvironmentalSensorParams';
 import { 
   Car, Users, Clock, TrendingUp, AlertTriangle, CheckCircle,
@@ -396,8 +399,34 @@ const Index = () => {
           >
              <EnvironmentalSensorParams />
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.75 }}
+          >
+            <ArrivalPredictionWidget />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.8 }}
+          >
+            <PerformanceMetricsCompact />
+          </motion.div>
         </motion.div>
       </div>
+
+      {/* Incident Log Row */}
+      <motion.div 
+        className="glass-panel p-2 sm:p-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.55 }}
+      >
+        <IncidentLogFeed />
+      </motion.div>
 
       {/* Zone Overview */}
       <main id="main-content" className="glass-panel p-2 sm:p-4" role="main" aria-label="Zone control and bay monitoring">
