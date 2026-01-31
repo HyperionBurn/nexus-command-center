@@ -302,9 +302,9 @@ const Index = () => {
 
       {/* Main Grid - 3 Column Layout for Desktop */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4">
-        {/* Left Column - Digital Twin */}
+        {/* Left Column - Digital Twin (Expanded) */}
         <motion.div 
-          className="col-span-1 lg:col-span-5 space-y-3 sm:space-y-4"
+          className="col-span-1 lg:col-span-7 space-y-3 sm:space-y-4"
           variants={slideUpVariants}
           initial="hidden"
           animate="visible"
@@ -343,7 +343,7 @@ const Index = () => {
 
         {/* Center Column - Wave Graph & System Health */}
         <motion.div 
-          className="col-span-1 lg:col-span-4 space-y-3 sm:space-y-4"
+          className="col-span-1 lg:col-span-3 space-y-3 sm:space-y-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
@@ -377,7 +377,7 @@ const Index = () => {
 
         {/* Right Column - Rewards & Environment */}
         <motion.div 
-          className="col-span-1 lg:col-span-3 space-y-3 sm:space-y-4"
+          className="col-span-1 lg:col-span-2 space-y-3 sm:space-y-4"
           variants={slideRightVariants}
           initial="hidden"
           animate="visible"

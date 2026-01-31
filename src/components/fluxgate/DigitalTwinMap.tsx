@@ -84,8 +84,8 @@ export const DigitalTwinMap = memo(({ zones, vehicles, className }: DigitalTwinM
         </div>
 
         {/* SVG Map */}
-        <div className="w-full h-full min-h-[400px]">
-            <svg viewBox="0 0 800 400" className="w-full h-full">
+        <div className="w-full h-full min-h-[520px]">
+            <svg viewBox="0 0 800 450" className="w-full h-full">
                 
                 {/* Background Grid */}
                 <defs>
@@ -116,7 +116,7 @@ export const DigitalTwinMap = memo(({ zones, vehicles, className }: DigitalTwinM
                         <path d="M0,1 L0,7 L6,4 z" fill="#22c55e" />
                     </marker>
                 </defs>
-                <rect width="800" height="400" fill="url(#simpleGrid)" />
+                <rect width="800" height="450" fill="url(#simpleGrid)" />
 
                 {/* --- ENTRY GATE (Left Side) --- */}
                 <g transform="translate(15, 270)">
