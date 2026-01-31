@@ -97,35 +97,114 @@ $$ T_{clear} = \frac{N_{backlog}}{\mu - \lambda_{new}} $$
 
 ---
 
-## 5. Example Scenario Calculation
+## 5. Control Flow & Time Slot Management
 
-**Scenario**:
-*   **School**: NEXUS Academy
-*   **Input**: 500 cars arriving between 7:30 - 8:00 (Arrival Rate $\lambda = 1000$ veh/hr).
-*   **Infrastructure**: 10 Drop-off Bays ($N_{bays} = 10$).
-*   **Behavior**: Avg Dwell time 35s + 10s maneuver ($t_{total} = 45s$).
+This section defines how NEXUS manages the "Input" to ensure it matches the "Capacity".
 
-### Step 1: Calculate Service Rate ($\mu$)
-$$ \mu = \frac{3600}{45} \times 10 = 80 \times 10 = \mathbf{800 \text{ veh/hr}} $$
+### A. The Slotting Algorithm (Prevention)
+Instead of allowing random arrivals, NEXUS pre-assigns capacity slots.
 
-### Step 2: Determine Saturation ($\rho$)
-$$ \rho = \frac{1000}{800} = \mathbf{1.25} $$
-*   **Result**: $\rho > 1.0$. The system is failing. Congestion is occurring.
+**Total Slots per Interval** ($S_{int}$) are calculated as:
+$$ S_{int} = \mu \times T_{interval} \times \alpha $$
 
-### Step 3: Calculate Queue Growth
-$$ \Delta Q_{rate} = 1000 - 800 = \mathbf{200 \text{ cars/hr}} $$
-Over the 30-minute peak ($t = 0.5$):
-$$ \text{Backlog} = 200 \times 0.5 = \mathbf{100 \text{ cars}} $$
+*   **$\mu$**: System Capacity (veh/hr).
+*   **$T_{interval}$**: Slot duration (e.g., 5 min = 0.083 hr).
+*   **$\alpha$**: Safety Factor (0.85 - 0.90). To account for human error/delays.
 
-### Step 4: Calculate Physical Impact
-$$ L_{q} = 100 \text{ cars} \times 7 \text{ meters} = \mathbf{700 \text{ meters}} $$
-*   **Impact**: The queue extends 0.7 km out of the school gate.
+**Result**: If capacity is 800 veh/hr, a 5-minute slot has:
+$$ 800 \times \frac{5}{60} \times 0.90 = \mathbf{60 \text{ cars allowed}} $$
 
-### Step 5: NEXUS Mitigation
-NEXUS detects $\rho = 1.25$ ahead of time.
-**Action**: Extend arrival window or open 3 overflow bays.
-**New Capacity with 13 Bays**:
-$$ \mu_{new} = 80 \times 13 = 1040 \text{ veh/hr} $$
-$$ \rho_{new} = \frac{1000}{1040} = \mathbf{0.96} $$
-*   **Result**: Queue is eliminated (or kept negligible).
+### B. Control Flow States
+The system operates in one of three control states based on real-time telemetry:
+
+1.  **Green State (Free Flow)**
+    *   **Condition**: $\rho < 0.85$ (Arrivals are 85% of capacity).
+    *   **Action**: Gates open, no restrictions. Standard 45s dwell time.
+
+2.  **Yellow State (Throttled)**
+    *   **Condition**: $0.85 < \rho < 0.95$.
+    *   **Action**:
+        *   "Express Mode" activated: Digital signage reduces dwell time target to 30s.
+        *   Late arrivals strictly deprioritized.
+
+3.  **Red State (Metering)**
+    *   **Condition**: $\rho \ge 1.0$ (Saturation).
+    *   **Action**:
+        *   Upstream metering lights activated.
+        *   Staff redirect traffic to "Holding Zones".
+        *   Overflow bays opened immediately.
+
+---
+
+## 6. Peak Load & Congestion Management Strategies
+
+Handling the inevitable surges when demand exceeds design capacity.
+
+### A. Demand Spreading (The "Flattening" Strategy)
+If Peak Demand ($\lambda_{peak}$) > Capacity ($\mu$), we must spread the excess volume over time.
+
+**Excess Volume to Shift**:
+$$ V_{shift} = (\lambda_{peak} - \mu) \times T_{peak} $$
+
+*   **Strategy**: Incentivize parents to arrive *before* or *after* the peak.
+*   **Mechanic**: "Early Bird" points or "Late Start" flexibility.
+
+### B. Supply Boosting (The "Surge" Strategy)
+Temporarily increasing $\mu$ to handle spikes.
+
+1.  **Staff Surge**: Deploy 2 extra marshals to reduce $t_{maneuver}$ by 5s.
+    *   Impact: Increases $\mu$ by ~15-20%.
+2.  **Tandem Loading**: Switch from single-file to double-file loading (if geometry permits).
+    *   Impact: Increases $N_{bays}$ by 50-80%.
+
+---
+
+## 7. Detailed Case Study: Apex International School
+
+A comprehensive walkthrough of the math in a complex scenario.
+
+### A. School Profile
+*   **Student Population**: 1500 students.
+*   **Mode Share**: 60% Private Car, 30% Bus, 10% Walk.
+*   **Car Demand**: 900 families (approx 1.5 students/car) $\approx$ **600 vehicles**.
+*   **Arrival Window**: 7:15 AM - 7:45 AM (30 minutes).
+*   **Infrastructure**: 1 lane, 12 drop-off bays.
+
+### B. The "Unmanaged" Disaster (Baseline)
+If all 600 cars arrive randomly in 30 mins:
+*   **Arrival Rate ($\lambda$)**: $\frac{600 \text{ veh}}{0.5 \text{ hr}} = 1200 \text{ veh/hr}$.
+*   **Capacity ($\mu$)**:
+    *   Process time: 45s dwell + 15s maneuver = 60s total per car.
+    *   $\mu = \frac{3600}{60} \times 12 \text{ bays} = 60 \times 12 = 720 \text{ veh/hr}$.
+*   **Saturation ($\rho$)**:
+    $$ \rho = \frac{1200}{720} = \mathbf{1.66} $$ (Extreme Congestion)
+*   **Queue Buildup**:
+    *   Growth: $1200 - 720 = 480 \text{ veh/hr}$.
+    *   In 30 mins: $480 \times 0.5 = \mathbf{240 \text{ cars in queue}}$.
+    *   Length: $240 \times 7m = \mathbf{1.68 \text{ km}}$.
+    *   **Result**: Gridlock affecting city roads.
+
+### C. The NEXUS Solution Applied
+
+**Step 1: Time Slot Expansion (Demand Spreading)**
+*   Problem: 30 mins is too short.
+*   Action: Extend window to 45 mins (7:10 AM - 7:55 AM).
+*   **New Design Arrival Rate**: $\lambda_{target} = \frac{600}{0.75} = 800 \text{ veh/hr}$.
+
+**Step 2: Capacity Optimization (Supply Boosting)**
+*   Problem: $\mu = 720$ is still < $\lambda = 800$.
+*   Action: Implement "Staff Surge" to cut maneuver time to 5s (Total 50s).
+*   **New Capacity**: $\mu_{new} = \frac{3600}{50} \times 12 = 72 \times 12 = 864 \text{ veh/hr}$.
+
+**Step 3: Verification (The Safety Margin)**
+*   **New Saturation**:
+    $$ \rho_{final} = \frac{800}{864} = \mathbf{0.92} $$
+*   **Status**: **Unstable but Flowing (Green/Yellow border)**.
+    *   The queue will fluctuate but never grow infinitely.
+    *   Max queue expected: ~15-20 cars (inside school property).
+
+**Summary of Fix**:
+1.  Extend window by 15 mins.
+2.  Deploy marshals to save 10s per car.
+3.  **Result**: 1.6km queue reduced to internal circulation only.
 
