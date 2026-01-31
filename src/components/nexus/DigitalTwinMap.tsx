@@ -1,6 +1,6 @@
-import { Zone, Vehicle } from '@/types/nexus';
-import { cn } from '@/lib/utils';
-import { useMemo } from 'react';
+import { Zone, Vehicle } from "@/types/nexus";
+import { cn } from "@/lib/utils";
+import { useMemo } from "react";
 
 interface DigitalTwinMapProps {
   zones: Zone[];
@@ -9,239 +9,153 @@ interface DigitalTwinMapProps {
 }
 
 export const DigitalTwinMap = ({ zones, vehicles, className }: DigitalTwinMapProps) => {
-  const zonePositions = useMemo<Record<string, { x: number; y: number; width: number; height: number }>>(() => ({
-    A: { x: 120, y: 120, width: 180, height: 100 },
-    B: { x: 340, y: 120, width: 180, height: 100 },
-    C: { x: 560, y: 120, width: 180, height: 100 },
-    BUS: { x: 120, y: 20, width: 620, height: 60 }, // Priority lane at top
-  }), []);
-
-  const getZoneColor = (zone: Zone) => {
-    if (zone.status === 'CRITICAL') return 'fill-nexus-hold/20 stroke-nexus-hold';
-    if (zone.status === 'SURGE') return 'fill-nexus-wait/20 stroke-nexus-wait';
-    return 'fill-nexus-open/10 stroke-nexus-open/50';
+  // Simplified fixed coordinates for "Campus Loop"
+  // A, B, C aligned with vehicle simulation lanes (y=270 & y=310)
+  const zoneCoords = {
+    "A": { x: 150, y: 220, width: 140, height: 80 },
+    "B": { x: 400, y: 350, width: 140, height: 80 },
+    "C": { x: 650, y: 220, width: 140, height: 80 },
+    "BUS": { x: 350, y: 50, width: 300, height: 60 }
   };
 
-  const getGateColor = (status: Zone['gateStatus']) => {
-    if (status === 'OPEN') return 'fill-nexus-open';
-    if (status === 'CLOSED') return 'fill-nexus-hold';
-    return 'fill-nexus-wait';
+  const getZoneColor = (status: Zone["status"]) => {
+      switch(status) {
+          case "CRITICAL": return "stroke-red-500 fill-red-500/10"; 
+          case "SURGE": return "stroke-amber-500 fill-amber-500/10"; 
+          default: return "stroke-emerald-500 fill-emerald-500/10";
+      }
   };
 
   return (
-    <div className={cn('relative', className)}>
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h3 className="text-lg font-semibold text-foreground">Digital Twin</h3>
-          <p className="text-xs text-muted-foreground">Real-time Zone Visualization</p>
+    <div className={cn("relative bg-slate-950 rounded-xl border border-slate-800 overflow-hidden shadow-2xl", className)}>
+        
+        {/* Simple Header */}
+        <div className="absolute top-4 left-4 z-10">
+            <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+                DIGITAL TWIN (L2)
+            </h3>
         </div>
-        <div className="flex items-center gap-3 text-xs">
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-nexus-open animate-pulse" />
-            <span className="text-muted-foreground">YOLO v8 Active</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-nexus-cyan" />
-            <span className="text-muted-foreground">
-              {vehicles.length} vehicles tracked
-            </span>
-          </div>
-        </div>
-      </div>
 
-      <div className="relative bg-secondary/30 rounded-lg overflow-hidden border border-border">
-        <svg viewBox="0 0 800 400" className="w-full h-auto">
-          {/* Grid pattern */}
-          <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path 
-                d="M 40 0 L 0 0 0 40" 
-                fill="none" 
-                stroke="hsl(var(--border))" 
-                strokeWidth="0.5"
-                strokeOpacity="0.3"
-              />
-            </pattern>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-              <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-          </defs>
-          
-          <rect width="800" height="400" fill="url(#grid)" />
+        {/* SVG Map */}
+        <div className="w-full h-full min-h-[400px]">
+            <svg viewBox="0 0 800 400" className="w-full h-full">
+                
+                {/* Background Grid */}
+                <defs>
+                    <pattern id="simpleGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" strokeWidth="0.5"/>
+                    </pattern>
+                </defs>
+                <rect width="800" height="400" fill="url(#simpleGrid)" />
 
-          {/* Road markings */}
-          <rect x="50" y="250" width="700" height="80" fill="hsl(var(--secondary))" rx="4" />
-          <line x1="50" y1="290" x2="750" y2="290" stroke="hsl(var(--nexus-wait))" strokeWidth="2" strokeDasharray="20 10" />
+                {/* --- ROADS --- */}
+                
+                {/* Top Bus Lane (Y approx 50) */}
+                <rect x="50" y="40" width="700" height="80" rx="10" fill="#0f172a" stroke="#fbbf24" strokeWidth="1" strokeDasharray="10 5" opacity="0.3" />
+                <text x="80" y="30" fill="#fbbf24" fontSize="10" opacity="0.5">BUS RAPID TRANSIT LANE</text>
 
-          {/* Entry/Exit labels */}
-          <text x="70" y="295" fill="hsl(var(--muted-foreground))" fontSize="12" fontFamily="JetBrains Mono">
-            ENTRY →
-          </text>
-          <text x="680" y="295" fill="hsl(var(--muted-foreground))" fontSize="12" fontFamily="JetBrains Mono">
-            → EXIT
-          </text>
-
-          {/* Zones */}
-          {zones.map(zone => {
-            const pos = zonePositions[zone.id];
-            return (
-              <g key={zone.id}>
-                {/* Zone rectangle */}
-                <rect
-                  x={pos.x}
-                  y={pos.y}
-                  width={pos.width}
-                  height={pos.height}
-                  rx="8"
-                  className={cn('transition-all duration-500', getZoneColor(zone))}
-                  strokeWidth="2"
-                  filter={zone.status !== 'NORMAL' ? 'url(#glow)' : undefined}
+                {/* Main Loop (Lanes at 270 and 310) */}
+                {/* Visual road container */}
+                <path 
+                    d="M -10 290 L 810 290" 
+                    stroke="#1e293b" 
+                    strokeWidth="120" 
+                    strokeLinecap="square"
                 />
                 
-                {/* Zone label */}
-                <text
-                  x={pos.x + pos.width / 2}
-                  y={pos.y - 10}
-                  textAnchor="middle"
-                  fill="hsl(var(--foreground))"
-                  fontSize="14"
-                  fontWeight="600"
-                >
-                  Zone {zone.id}
-                </text>
+                {/* Lane Dividers */}
+                <path 
+                    d="M 0 290 L 800 290" 
+                    fill="none" 
+                    stroke="#334155" 
+                    strokeWidth="2" 
+                    strokeDasharray="20 20" 
+                    opacity="0.5"
+                />
+                <text x="40" y="240" fill="#94a3b8" fontSize="10" opacity="0.5">PICKUP LANE A</text>
+                <text x="40" y="340" fill="#94a3b8" fontSize="10" opacity="0.5">PICKUP LANE B</text>
 
-                {/* Bay indicators */}
-                {zone.bays.map((bay, i) => {
-                  const bayX = pos.x + 15 + (i * 42);
-                  const bayY = pos.y + 30;
-                  return (
-                    <g key={bay.id}>
-                      <rect
-                        x={bayX}
-                        y={bayY}
-                        width="35"
-                        height="50"
-                        rx="4"
-                        className={cn(
-                          'transition-all duration-300',
-                          bay.status === 'OPEN' && 'fill-nexus-open/20 stroke-nexus-open/50',
-                          bay.status === 'OCCUPIED' && 'fill-primary/30 stroke-primary',
-                          bay.status === 'CLEARING' && 'fill-nexus-cyan/20 stroke-nexus-cyan',
-                          bay.status === 'BLOCKED' && 'fill-nexus-hold/30 stroke-nexus-hold',
-                        )}
-                        strokeWidth="1"
-                      />
-                      <text
-                        x={bayX + 17.5}
-                        y={bayY + 30}
-                        textAnchor="middle"
-                        fill="hsl(var(--foreground))"
-                        fontSize="10"
-                        fontFamily="JetBrains Mono"
-                      >
-                        {bay.id}
-                      </text>
-                      {bay.status === 'OCCUPIED' && (
-                        <circle
-                          cx={bayX + 17.5}
-                          cy={bayY + 10}
-                          r="4"
-                          className="fill-nexus-cyan animate-pulse"
-                        />
-                      )}
-                    </g>
-                  );
+                {/* --- ZONES --- */}
+                {zones.map((zone) => {
+                    const coords = zoneCoords[zone.id] || { x: 0, y: 0, width: 0, height: 0};
+                    const isBus = zone.id === "BUS";
+                    
+                    return (
+                        <g key={zone.id}>
+                            <rect 
+                                x={coords.x - coords.width / 2}
+                                y={coords.y - coords.height / 2}
+                                width={coords.width}
+                                height={coords.height}
+                                className={cn("transition-colors duration-500", getZoneColor(zone.status))}
+                                strokeWidth="1"
+                                rx="8"
+                            />
+                            <text 
+                                x={coords.x} 
+                                y={coords.y - coords.height/2 - 10} 
+                                textAnchor="middle" 
+                                fill="white" 
+                                fontSize="12" 
+                                fontWeight="bold"
+                            >
+                                {isBus ? "BUS STATION" : `ZONE ${zone.id}`}
+                            </text>
+
+                            {/* Bays */}
+                            {zone.bays.map((bay, i) => {
+                                const bx = (coords.x - coords.width/2 + 20) + (i * 30);
+                                const by = coords.y - 10;
+                                return (
+                                    <rect 
+                                        key={bay.id}
+                                        x={bx}
+                                        y={by}
+                                        width="20"
+                                        height="30"
+                                        rx="2"
+                                        fill={bay.status === "OCCUPIED" ? (isBus ? "#fbbf24" : "#60a5fa") : "#1e293b"}
+                                        className="transition-colors duration-300"
+                                    />
+                                );
+                            })}
+                        </g>
+                    )
                 })}
 
-                {/* Gate indicator */}
-                <rect
-                  x={pos.x + pos.width / 2 - 20}
-                  y={pos.y + pos.height - 5}
-                  width="40"
-                  height="10"
-                  rx="2"
-                  className={cn('transition-all duration-300', getGateColor(zone.gateStatus))}
-                />
-                <text
-                  x={pos.x + pos.width / 2}
-                  y={pos.y + pos.height + 20}
-                  textAnchor="middle"
-                  fill="hsl(var(--muted-foreground))"
-                  fontSize="9"
-                  fontFamily="JetBrains Mono"
-                >
-                  GATE {zone.gateStatus}
-                </text>
+                {/* --- VEHICLES --- */}
+                {vehicles.map((v) => (
+                    <g 
+                        key={v.id}
+                        className="transition-all duration-300 ease-linear"
+                        style={{ transform: `translate(${v.position.x}px, ${v.position.y}px)` }}
+                    >
+                         {/* Glow */}
+                         <circle r="20" fill={v.type === "BUS" ? "#fbbf24" : "#60a5fa"} fillOpacity="0.1" />
+                         
+                         {/* Body */}
+                         {v.type === "BUS" ? (
+                             <g>
+                                <rect x="-18" y="-8" width="36" height="16" rx="2" fill="#fbbf24" stroke="white" strokeWidth="1" />
+                                <rect x="-14" y="-6" width="20" height="12" fill="white" fillOpacity="0.2" rx="1"/>
+                             </g>
+                         ) : (
+                             <g>
+                                <rect x="-12" y="-6" width="24" height="12" rx="3" fill="#60a5fa" stroke="white" strokeWidth="1" />
+                                <rect x="-8" y="-4" width="10" height="8" rx="1" fill="#1e293b" />
+                             </g>
+                         )}
 
-                {/* Zone stats */}
-                <text
-                  x={pos.x + 10}
-                  y={pos.y + pos.height + 35}
-                  fill="hsl(var(--muted-foreground))"
-                  fontSize="9"
-                >
-                  Queue: {zone.queueLength.toFixed(0)}m
-                </text>
-              </g>
-            );
-          })}
+                         {/* Tag */}
+                         <text y="-12" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold" style={{textShadow: "0px 1px 2px black"}}>
+                             {v.id.slice(0, 3)}
+                         </text>
+                    </g>
+                ))}
 
-          {/* Vehicles with YOLO bounding boxes */}
-          {vehicles.map(vehicle => (
-            <g key={vehicle.id} className="transition-all duration-500">
-              {/* Bounding box */}
-              <rect
-                x={vehicle.position.x - vehicle.boundingBox.width / 2}
-                y={vehicle.position.y - vehicle.boundingBox.height / 2}
-                width={vehicle.boundingBox.width}
-                height={vehicle.boundingBox.height}
-                fill="hsl(var(--nexus-cyan))"
-                fillOpacity="0.05"
-                stroke="hsl(var(--nexus-cyan))"
-                strokeWidth="1"
-                rx="2"
-                opacity={0.6}
-              />
-              {/* Vehicle dot */}
-              <circle
-                cx={vehicle.position.x}
-                cy={vehicle.position.y}
-                r="4"
-                className="fill-nexus-cyan"
-                filter="url(#glow)"
-              />
-              {/* Confidence label */}
-              <text
-                x={vehicle.position.x}
-                y={vehicle.position.y - vehicle.boundingBox.height / 2 - 5}
-                textAnchor="middle"
-                fill="hsl(var(--nexus-cyan))"
-                fontSize="8"
-                fontFamily="JetBrains Mono"
-              >
-                {(vehicle.confidence * 100).toFixed(0)}%
-              </text>
-            </g>
-          ))}
-
-          {/* Legend */}
-          <g transform="translate(620, 340)">
-            <rect x="0" y="0" width="160" height="50" fill="hsl(var(--card))" rx="4" opacity="0.8" />
-            <circle cx="15" cy="15" r="4" className="fill-nexus-open" />
-            <text x="25" y="18" fill="hsl(var(--muted-foreground))" fontSize="9">Open Bay</text>
-            <circle cx="85" cy="15" r="4" className="fill-nexus-cyan" />
-            <text x="95" y="18" fill="hsl(var(--muted-foreground))" fontSize="9">Occupied</text>
-            <circle cx="15" cy="35" r="4" className="fill-nexus-hold" />
-            <text x="25" y="38" fill="hsl(var(--muted-foreground))" fontSize="9">Blocked</text>
-            <circle cx="85" cy="35" r="4" className="fill-nexus-wait" />
-            <text x="95" y="38" fill="hsl(var(--muted-foreground))" fontSize="9">Clearing</text>
-          </g>
-        </svg>
-      </div>
+            </svg>
+        </div>
     </div>
   );
 };
