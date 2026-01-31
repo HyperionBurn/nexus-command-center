@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import { AlertTriangle, Zap, RefreshCw, Layers, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { SimulationMode } from '@/types/nexus';
+import { SimulationMode } from '@/types/fluxgate';
 
 interface QuickActionsProps {
   onTriggerSurge: () => void;
@@ -44,7 +44,7 @@ export const QuickActions = ({
         size="sm"
         onClick={onTriggerSurge}
         aria-label="Trigger surge event simulation"
-        className="h-9 sm:h-8 min-w-[44px] px-2 sm:px-3 border-nexus-wait/50 text-nexus-wait hover:bg-nexus-wait/10 hover:text-nexus-wait touch-manipulation text-xs sm:text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        className="h-9 sm:h-8 min-w-[44px] px-2 sm:px-3 border-FLUXGATE-wait/50 text-FLUXGATE-wait hover:bg-FLUXGATE-wait/10 hover:text-FLUXGATE-wait touch-manipulation text-xs sm:text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       >
         <Zap className="h-3.5 w-3.5 sm:h-3 sm:w-3 sm:mr-1" aria-hidden="true" />
         <span className="hidden sm:inline">Surge Event</span>
@@ -56,7 +56,7 @@ export const QuickActions = ({
         size="sm"
         onClick={onTriggerStalled}
         aria-label="Trigger stalled vehicle simulation"
-        className="h-9 sm:h-8 min-w-[44px] px-2 sm:px-3 border-nexus-hold/50 text-nexus-hold hover:bg-nexus-hold/10 hover:text-nexus-hold touch-manipulation text-xs sm:text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        className="h-9 sm:h-8 min-w-[44px] px-2 sm:px-3 border-FLUXGATE-hold/50 text-FLUXGATE-hold hover:bg-FLUXGATE-hold/10 hover:text-FLUXGATE-hold touch-manipulation text-xs sm:text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       >
         <AlertTriangle className="h-3.5 w-3.5 sm:h-3 sm:w-3 sm:mr-1" aria-hidden="true" />
         <span className="hidden sm:inline">Stalled Vehicle</span>

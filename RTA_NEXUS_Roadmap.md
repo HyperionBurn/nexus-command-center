@@ -1,11 +1,11 @@
-# 🗺️ RTA NEXUS: Future Roadmap
+# 🗺️ RTA FLUXGATE: Future Roadmap
 ## Strategic Extensions & Long-Term Vision
 
 ---
 
 ## Executive Summary
 
-NEXUS Phase 1 solves the immediate problem: **school zone congestion**. But the platform's architecture enables much larger possibilities. This roadmap outlines the evolution from a single-school solution to a **city-wide intelligent mobility network**.
+FLUXGATE Phase 1 solves the immediate problem: **school zone congestion**. But the platform's architecture enables much larger possibilities. This roadmap outlines the evolution from a single-school solution to a **city-wide intelligent mobility network**.
 
 ---
 
@@ -37,9 +37,9 @@ flowchart LR
         S3[School C: 8:00 AM]
     end
     
-    NEXUS[NEXUS Corridor Controller] --> S1
-    NEXUS --> S2
-    NEXUS --> S3
+    FLUXGATE[FLUXGATE Corridor Controller] --> S1
+    FLUXGATE --> S2
+    FLUXGATE --> S3
     
     S1 --> WAVE1[Traffic Wave 1]
     S2 --> WAVE2[Traffic Wave 2]
@@ -204,4 +204,4 @@ graph TB
 
 ---
 
-*RTA NEXUS Roadmap — Dubai's Future of School Mobility*
+*RTA FLUXGATE Roadmap — Dubai's Future of School Mobility*

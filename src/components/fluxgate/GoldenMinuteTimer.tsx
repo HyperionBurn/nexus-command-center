@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Bay } from '@/types/nexus';
+import { Bay } from '@/types/fluxgate';
 import { cn } from '@/lib/utils';
 
 interface GoldenMinuteTimerProps {
@@ -25,16 +25,16 @@ export const GoldenMinuteTimer = ({ bay, size = 'md' }: GoldenMinuteTimerProps) 
   // Determine status color
   const statusColor = useMemo(() => {
     if (bay.status !== 'OCCUPIED') return 'stroke-muted';
-    if (bay.dwellTime > 60) return 'stroke-nexus-hold';
-    if (bay.dwellTime > 45) return 'stroke-nexus-wait';
-    return 'stroke-nexus-open';
+    if (bay.dwellTime > 60) return 'stroke-FLUXGATE-hold';
+    if (bay.dwellTime > 45) return 'stroke-FLUXGATE-wait';
+    return 'stroke-FLUXGATE-open';
   }, [bay.status, bay.dwellTime]);
 
   const textColor = useMemo(() => {
     if (bay.status !== 'OCCUPIED') return 'text-muted-foreground';
-    if (bay.dwellTime > 60) return 'text-nexus-hold text-glow-red';
-    if (bay.dwellTime > 45) return 'text-nexus-wait text-glow-amber';
-    return 'text-nexus-open text-glow-green';
+    if (bay.dwellTime > 60) return 'text-FLUXGATE-hold text-glow-red';
+    if (bay.dwellTime > 45) return 'text-FLUXGATE-wait text-glow-amber';
+    return 'text-FLUXGATE-open text-glow-green';
   }, [bay.status, bay.dwellTime]);
 
   // Pulse effect when critical
@@ -87,7 +87,7 @@ export const GoldenMinuteTimer = ({ bay, size = 'md' }: GoldenMinuteTimerProps) 
             cy={dimensions.size / 2}
             r={radius - dimensions.stroke - 4}
             fill="none"
-            stroke="hsl(var(--nexus-hold) / 0.3)"
+            stroke="hsl(var(--FLUXGATE-hold) / 0.3)"
             strokeWidth={2}
             strokeDasharray="4 4"
             className="animate-spin"
@@ -109,12 +109,12 @@ export const GoldenMinuteTimer = ({ bay, size = 'md' }: GoldenMinuteTimerProps) 
           </>
         ) : bay.status === 'BLOCKED' ? (
           <>
-            <span className="text-nexus-hold text-lg font-bold text-glow-red">!</span>
-            <span className="text-xs text-nexus-hold">ALERT</span>
+            <span className="text-FLUXGATE-hold text-lg font-bold text-glow-red">!</span>
+            <span className="text-xs text-FLUXGATE-hold">ALERT</span>
           </>
         ) : (
           <>
-            <span className="text-nexus-open text-lg font-semibold">✓</span>
+            <span className="text-FLUXGATE-open text-lg font-semibold">✓</span>
             <span className="text-xs text-muted-foreground">READY</span>
           </>
         )}

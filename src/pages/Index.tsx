@@ -1,22 +1,22 @@
-import { useNexusSimulation } from '@/hooks/useNexusSimulation';
-import { CommandHeader } from '@/components/nexus/CommandHeader';
-import { QuickActions } from '@/components/nexus/QuickActions';
-import { StatCard } from '@/components/nexus/StatCard';
-import { LiveWaveGraph } from '@/components/nexus/LiveWaveGraph';
-import { DigitalTwinMap } from '@/components/nexus/DigitalTwinMap';
-import { ZoneOverview } from '@/components/nexus/ZoneOverview';
-import { FuzzyLogicTrace } from '@/components/nexus/FuzzyLogicTrace';
-import { NOLRewardTicker } from '@/components/nexus/NOLRewardTicker';
-import { SurgeAlertBanner } from '@/components/nexus/SurgeAlertBanner';
-import { SystemHealthPanel } from '@/components/nexus/SystemHealthPanel';
-import { ProtocolIndicator } from '@/components/nexus/ProtocolIndicator';
-import { MasterSystemSwitch } from '@/components/nexus/MasterSystemSwitch';
-import { CongestionControlPanel } from '@/components/nexus/CongestionControlPanel';
-import { CommandOperationsGrid } from '@/components/nexus/CommandOperationsGrid';
-import { IncidentLogFeed } from '@/components/nexus/IncidentLogFeed';
-import { ArrivalPredictionWidget } from '@/components/nexus/ArrivalPredictionWidget';
-import { PerformanceMetricsCompact } from '@/components/nexus/PerformanceMetricsCompact';
-import { EnvironmentalSensorParams } from '@/components/nexus/EnvironmentalSensorParams';
+import { useFLUXGATESimulation } from '@/hooks/useFluxGateSimulation';
+import { CommandHeader } from '@/components/fluxgate/CommandHeader';
+import { QuickActions } from '@/components/fluxgate/QuickActions';
+import { StatCard } from '@/components/fluxgate/StatCard';
+import { LiveWaveGraph } from '@/components/fluxgate/LiveWaveGraph';
+import { DigitalTwinMap } from '@/components/fluxgate/DigitalTwinMap';
+import { ZoneOverview } from '@/components/fluxgate/ZoneOverview';
+import { FuzzyLogicTrace } from '@/components/fluxgate/FuzzyLogicTrace';
+import { NOLRewardTicker } from '@/components/fluxgate/NOLRewardTicker';
+import { SurgeAlertBanner } from '@/components/fluxgate/SurgeAlertBanner';
+import { SystemHealthPanel } from '@/components/fluxgate/SystemHealthPanel';
+import { ProtocolIndicator } from '@/components/fluxgate/ProtocolIndicator';
+import { MasterSystemSwitch } from '@/components/fluxgate/MasterSystemSwitch';
+import { CongestionControlPanel } from '@/components/fluxgate/CongestionControlPanel';
+import { CommandOperationsGrid } from '@/components/fluxgate/CommandOperationsGrid';
+import { IncidentLogFeed } from '@/components/fluxgate/IncidentLogFeed';
+import { ArrivalPredictionWidget } from '@/components/fluxgate/ArrivalPredictionWidget';
+import { PerformanceMetricsCompact } from '@/components/fluxgate/PerformanceMetricsCompact';
+import { EnvironmentalSensorParams } from '@/components/fluxgate/EnvironmentalSensorParams';
 import { 
   Car, Users, Clock, TrendingUp, AlertTriangle, CheckCircle,
   Scan, Camera, Brain, Timer, Shield, Gauge, Zap, Star
@@ -47,7 +47,7 @@ const Index = () => {
     triggerStalledVehicle,
     mode,
     toggleSimulationMode,
-  } = useNexusSimulation();
+  } = useFLUXGATESimulation();
 
   // Calculate stats
   const stats = useMemo(() => {
@@ -441,7 +441,7 @@ const Index = () => {
         transition={{ delay: 0.8 }}
       >
         <p className="text-xs text-muted-foreground">
-          RTA NEXUS Command Center • Dubai Roads & Transport Authority • 
+          RTA FLUXGATE Command Center • Dubai Roads & Transport Authority • 
           <span className="text-primary ml-1">Cyber-Physical Sync v2.4</span>
         </p>
       </motion.footer>

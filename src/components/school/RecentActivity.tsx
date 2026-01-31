@@ -23,15 +23,15 @@ interface ActivityEvent {
 const getEventIcon = (type: ActivityEvent["type"]) => {
   switch (type) {
     case "student_loaded":
-      return <UserCheck className="h-4 w-4 text-nexus-success" />;
+      return <UserCheck className="h-4 w-4 text-FLUXGATE-success" />;
     case "bus_departed":
-      return <Departure className="h-4 w-4 text-nexus-blue" />;
+      return <Departure className="h-4 w-4 text-FLUXGATE-blue" />;
     case "bus_arrived":
-      return <Bus className="h-4 w-4 text-nexus-purple" />;
+      return <Bus className="h-4 w-4 text-FLUXGATE-purple" />;
     case "alert":
       return <AlertCircle className="h-4 w-4 text-destructive" />;
     case "gate_change":
-      return <CheckCircle2 className="h-4 w-4 text-nexus-orange" />;
+      return <CheckCircle2 className="h-4 w-4 text-FLUXGATE-orange" />;
     default:
       return <Activity className="h-4 w-4" />;
   }
@@ -40,15 +40,15 @@ const getEventIcon = (type: ActivityEvent["type"]) => {
 const getEventBadgeVariant = (type: ActivityEvent["type"]) => {
   switch (type) {
     case "student_loaded":
-      return "bg-nexus-success/10 text-nexus-success border-nexus-success/30";
+      return "bg-FLUXGATE-success/10 text-FLUXGATE-success border-FLUXGATE-success/30";
     case "bus_departed":
-      return "bg-nexus-blue/10 text-nexus-blue border-nexus-blue/30";
+      return "bg-FLUXGATE-blue/10 text-FLUXGATE-blue border-FLUXGATE-blue/30";
     case "bus_arrived":
-      return "bg-nexus-purple/10 text-nexus-purple border-nexus-purple/30";
+      return "bg-FLUXGATE-purple/10 text-FLUXGATE-purple border-FLUXGATE-purple/30";
     case "alert":
       return "bg-destructive/10 text-destructive border-destructive/30";
     case "gate_change":
-      return "bg-nexus-orange/10 text-nexus-orange border-nexus-orange/30";
+      return "bg-FLUXGATE-orange/10 text-FLUXGATE-orange border-FLUXGATE-orange/30";
     default:
       return "";
   }
@@ -128,10 +128,10 @@ export const RecentActivity = () => {
 
   if (isLoading) {
     return (
-      <Card className="glass-panel border-nexus-border/50">
+      <Card className="glass-panel border-FLUXGATE-border/50">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg flex items-center gap-2">
-            <Activity className="h-5 w-5 text-nexus-purple" />
+            <Activity className="h-5 w-5 text-FLUXGATE-purple" />
             Recent Activity
           </CardTitle>
         </CardHeader>
@@ -154,10 +154,10 @@ export const RecentActivity = () => {
 
   if (events.length === 0) {
     return (
-      <Card className="glass-panel border-nexus-border/50">
+      <Card className="glass-panel border-FLUXGATE-border/50">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg flex items-center gap-2">
-            <Activity className="h-5 w-5 text-nexus-purple" />
+            <Activity className="h-5 w-5 text-FLUXGATE-purple" />
             Recent Activity
           </CardTitle>
         </CardHeader>
@@ -173,16 +173,16 @@ export const RecentActivity = () => {
   }
 
   return (
-    <Card className="glass-panel border-nexus-border/50">
+    <Card className="glass-panel border-FLUXGATE-border/50">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg flex items-center justify-between">
           <span className="flex items-center gap-2">
-            <Activity className="h-5 w-5 text-nexus-purple" />
+            <Activity className="h-5 w-5 text-FLUXGATE-purple" />
             Recent Activity
           </span>
           <Badge variant="outline" className="text-xs font-normal">
             Live
-            <span className="ml-1 w-2 h-2 rounded-full bg-nexus-success animate-pulse inline-block" />
+            <span className="ml-1 w-2 h-2 rounded-full bg-FLUXGATE-success animate-pulse inline-block" />
           </Badge>
         </CardTitle>
       </CardHeader>
@@ -192,7 +192,7 @@ export const RecentActivity = () => {
             <div
               key={event.id}
               className={`flex items-start gap-3 p-3 rounded-lg bg-secondary/10 border border-border/30 
-                transition-all hover:bg-secondary/20 ${index === 0 ? 'ring-1 ring-nexus-blue/30' : ''}`}
+                transition-all hover:bg-secondary/20 ${index === 0 ? 'ring-1 ring-FLUXGATE-blue/30' : ''}`}
             >
               <div className={`p-2 rounded-full ${getEventBadgeVariant(event.type)}`}>
                 {getEventIcon(event.type)}

@@ -1,4 +1,4 @@
-// Animated wrapper components for NEXUS Command Center
+// Animated wrapper components for FLUXGATE Command Center
 // Provides drop-in animated versions of common layout patterns
 
 import { motion, AnimatePresence, HTMLMotionProps } from 'framer-motion';

@@ -1,12 +1,12 @@
-# NEXUS: Comprehensive System Architecture
+# FLUXGATE: Comprehensive System Architecture
 
-This content provides a deep technical overview of the NEXUS Traffic & Logistics Command Center, including Data Models and Sequence Interactions.
+This content provides a deep technical overview of the FLUXGATE Traffic & Logistics Command Center, including Data Models and Sequence Interactions.
 
 ---
 
 ## 1. System Entity Relationship Diagram (ERD)
 
-The following diagram illustrates the core data structure driving the NEXUS applications, Command Center, and Nexus Companion App.
+The following diagram illustrates the core data structure driving the FLUXGATE applications, Command Center, and FLUXGATE Companion App.
 
 ```mermaid
 erDiagram
@@ -107,8 +107,8 @@ sequenceDiagram
     autonumber
     actor Parent
     participant App as Companion App
-    participant Context as NexusContext (State)
-    participant Cloud as NEXUS Cloud / API
+    participant Context as FLUXGATEContext (State)
+    participant Cloud as FLUXGATE Cloud / API
     participant School as School System
     participant Gate as Gate Controller
 
@@ -171,7 +171,7 @@ sequenceDiagram
     autonumber
     actor Parent
     participant App as Companion App
-    participant Context as NexusContext
+    participant Context as FLUXGATEContext
     participant Scheduler as Scheduling Engine
 
     Parent->>App: View Dashboard
@@ -207,7 +207,7 @@ sequenceDiagram
     autonumber
     participant Teacher
     participant SchoolSystem
-    participant Cloud as NEXUS Cloud
+    participant Cloud as FLUXGATE Cloud
     participant StudentApp
     participant ParentApp
 
@@ -233,7 +233,7 @@ sequenceDiagram
 
 ## 3. Core Logic Flowchart (System Brain)
 
-The central logic governing the `NexusContext` simulation engine.
+The central logic governing the `FLUXGATEContext` simulation engine.
 
 ```mermaid
 flowchart TD

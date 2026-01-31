@@ -1,10 +1,10 @@
-# NEXUS: Intelligent School Zone Traffic Orchestration
+# FLUXGATE: Intelligent School Zone Traffic Orchestration
 ## Transforming Chaos into Laminar Flow | RTA Innovation Challenge
 
-**Presented by:** GitHub Copilot (on behalf of the Nexus Team)
+**Presented by:** GitHub Copilot (on behalf of the FLUXGATE Team)
 **Date:** January 31, 2026
 
-![Hero Image: A conceptual rendering of a school zone drop-off lane with smooth, flowing traffic, green holographic "slots" on the road, and a futuristic RTA command center overlay.](images/nexus-hero-concept.png)
+![Hero Image: A conceptual rendering of a school zone drop-off lane with smooth, flowing traffic, green holographic "slots" on the road, and a futuristic RTA command center overlay.](images/FLUXGATE-hero-concept.png)
 *> "The Future of School Mobility is Fluid."*
 
 ---
@@ -27,13 +27,13 @@
 
 ---
 
-# 2. Executive Summary: Introducing NEXUS
+# 2. Executive Summary: Introducing FLUXGATE
 ### A Unified Orchestration Platform
 
-![Image: The NEXUS Ecosystem Diagram showing the connection between the Parent App, Cloud Logic, and Physical Smart Gates.](images/nexus-ecosystem-overview.png)
+![Image: The FLUXGATE Ecosystem Diagram showing the connection between the Parent App, Cloud Logic, and Physical Smart Gates.](images/FLUXGATE-ecosystem-overview.png)
 *Caption: A closed-loop system connecting demand (parents) with supply (bays).*
 
-**NEXUS** is a comprehensive traffic orchestration ecosystem that eliminates congestion through:
+**FLUXGATE** is a comprehensive traffic orchestration ecosystem that eliminates congestion through:
 
 1.  **Predictive Scheduling:** Pre-allocating arrival slots to smooth demand.
 2.  **Real-Time Synchronization:** Coordinating vehicle movements with student readiness.
@@ -47,7 +47,7 @@
 # 3. Core Philosophy: From Chaos to Flow
 ### Engineering Principles
 
-![Image: An abstract visual comparing "Turbulent Flow" (standard traffic) vs "Laminar Flow" (NEXUS organized platoons).](images/laminar-flow-comparison.png)
+![Image: An abstract visual comparing "Turbulent Flow" (standard traffic) vs "Laminar Flow" (FLUXGATE organized platoons).](images/laminar-flow-comparison.png)
 *Caption: Applying fluid dynamics to vehicle logistics.*
 
 We apply industrial logistics principles to school traffic:
@@ -61,7 +61,7 @@ We apply industrial logistics principles to school traffic:
 ---
 
 # 4. System Architecture: The 5-Layer Stack
-### How NEXUS Works
+### How FLUXGATE Works
 
 ![Image: Technical layered architecture diagram showing Physical, Perception, Communication, Logic, and UI layers.](images/system-architecture-stack.png)
 *Caption: Built on a robust IoT and AI foundation compliant with Dubai Data Standards.*
@@ -117,7 +117,7 @@ We apply industrial logistics principles to school traffic:
 ![Image: Decision Matrix visualization showing inputs (Queue, Zone Status) leading to Output Actions (Green/Red Light).](images/fuzzy-logic-matrix.png)
 *Caption: Smarter than a simple timer. It thinks like a traffic policeman.*
 
-Standard traffic lights are too rigid. NEXUS uses **Fuzzy Logic**:
+Standard traffic lights are too rigid. FLUXGATE uses **Fuzzy Logic**:
 
 *   **Inputs:**
     *   Queue Length (Sensors)
@@ -198,7 +198,7 @@ Administrators monitor the entire ecosystem via a consolidated dashboard:
 ---
 
 # 12. Conclusion: The RTA Vision
-### Why NEXUS Wins
+### Why FLUXGATE Wins
 
 ![Image: Inspiring shot of a student walking safely into school while a parent waves from a moving car, with no traffic jam in sight.](images/vision-success.png)
 *Caption: Making school runs safe, stress-free, and sustainable.*
@@ -207,7 +207,7 @@ Administrators monitor the entire ecosystem via a consolidated dashboard:
 *   **Scalable:** Cloud-native architecture supports hundreds of schools.
 *   **Impactful:** Directly addresses RTA's strategic goals for smart mobility and safety.
 
-**NEXUS isn't just an app. It's the operating system for the future of school logistics.**
+**FLUXGATE isn't just an app. It's the operating system for the future of school logistics.**
 
 **Thank You.**  
 *Questions?*

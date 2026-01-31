@@ -1,4 +1,4 @@
-import { TrafficMetrics } from '@/types/nexus';
+import { TrafficMetrics } from '@/types/fluxgate';
 import { XAxis, YAxis, ResponsiveContainer, Tooltip, ReferenceLine, Area, AreaChart, ReferenceArea, TooltipProps } from 'recharts';
 import { memo, useMemo, useCallback } from 'react';
 
@@ -29,28 +29,28 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>)
       <div className="space-y-1.5">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-nexus-cyan" />
+            <div className="w-2 h-2 rounded-full bg-FLUXGATE-cyan" />
             <span className="text-xs text-muted-foreground">Arrival λ</span>
           </div>
-          <span className="text-xs font-mono font-semibold text-nexus-cyan">
+          <span className="text-xs font-mono font-semibold text-FLUXGATE-cyan">
             {Number(arrival).toFixed(1)}/min
           </span>
         </div>
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-nexus-open" />
+            <div className="w-2 h-2 rounded-full bg-FLUXGATE-open" />
             <span className="text-xs text-muted-foreground">Service μ</span>
           </div>
-          <span className="text-xs font-mono font-semibold text-nexus-open">
+          <span className="text-xs font-mono font-semibold text-FLUXGATE-open">
             {Number(service).toFixed(1)}/min
           </span>
         </div>
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-nexus-hold" />
+            <div className="w-2 h-2 rounded-full bg-FLUXGATE-hold" />
             <span className="text-xs text-muted-foreground">Queue</span>
           </div>
-          <span className="text-xs font-mono font-semibold text-nexus-hold">
+          <span className="text-xs font-mono font-semibold text-FLUXGATE-hold">
             {Number(queue).toFixed(0)}m
           </span>
         </div>
@@ -126,11 +126,11 @@ export const LiveWaveGraph = memo(({ data, className }: LiveWaveGraphProps) => {
       {/* Legend */}
       <div className="flex flex-wrap items-center gap-4 mb-3 text-xs">
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-0.5 bg-nexus-cyan rounded" />
+          <div className="w-3 h-0.5 bg-FLUXGATE-cyan rounded" />
           <span className="text-muted-foreground">Arrival Rate (λ)</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-0.5 bg-nexus-open rounded" />
+          <div className="w-3 h-0.5 bg-FLUXGATE-open rounded" />
           <span className="text-muted-foreground">Service Rate (μ)</span>
         </div>
         <div className="flex items-center gap-1.5">
@@ -282,11 +282,11 @@ export const LiveWaveGraph = memo(({ data, className }: LiveWaveGraphProps) => {
           <div className={`p-3 rounded-lg border transition-colors ${
             isSurge 
               ? 'bg-red-500/10 border-red-500/30' 
-              : 'bg-nexus-cyan/10 border-nexus-cyan/30'
+              : 'bg-FLUXGATE-cyan/10 border-FLUXGATE-cyan/30'
           }`}>
             <span className="text-xs text-muted-foreground block">Arrival λ</span>
             <span className={`font-mono text-2xl font-bold ${
-              isSurge ? 'text-red-400' : 'text-nexus-cyan'
+              isSurge ? 'text-red-400' : 'text-FLUXGATE-cyan'
             }`}>
               {currentArrival.toFixed(1)}
             </span>
@@ -294,9 +294,9 @@ export const LiveWaveGraph = memo(({ data, className }: LiveWaveGraphProps) => {
           </div>
           
           {/* Service Rate */}
-          <div className="p-3 rounded-lg bg-nexus-open/10 border border-nexus-open/30">
+          <div className="p-3 rounded-lg bg-FLUXGATE-open/10 border border-FLUXGATE-open/30">
             <span className="text-xs text-muted-foreground block">Service μ</span>
-            <span className="font-mono text-2xl font-bold text-nexus-open">
+            <span className="font-mono text-2xl font-bold text-FLUXGATE-open">
               {currentService.toFixed(1)}
             </span>
             <span className="text-xs text-muted-foreground">/min</span>
@@ -328,7 +328,7 @@ export const LiveWaveGraph = memo(({ data, className }: LiveWaveGraphProps) => {
       <div className="grid grid-cols-4 gap-2 mt-4">
         <div className="p-2 rounded-lg bg-secondary/50 border border-border text-center">
           <span className="text-xs text-muted-foreground block">Queue Length</span>
-          <span className="font-mono text-lg font-semibold text-nexus-hold">
+          <span className="font-mono text-lg font-semibold text-FLUXGATE-hold">
             {currentQueue.toFixed(0)}m
           </span>
         </div>
@@ -347,11 +347,11 @@ export const LiveWaveGraph = memo(({ data, className }: LiveWaveGraphProps) => {
         <div className={`p-2 rounded-lg border text-center ${
           isSurge 
             ? 'bg-red-500/10 border-red-500/30' 
-            : 'bg-nexus-open/10 border-nexus-open/30'
+            : 'bg-FLUXGATE-open/10 border-FLUXGATE-open/30'
         }`}>
           <span className="text-xs text-muted-foreground block">Status</span>
           <span className={`font-mono text-sm font-semibold ${
-            isSurge ? 'text-red-400' : 'text-nexus-open'
+            isSurge ? 'text-red-400' : 'text-FLUXGATE-open'
           }`}>
             {isSurge ? 'OVERLOAD' : utilization > 80 ? 'BUSY' : 'NORMAL'}
           </span>

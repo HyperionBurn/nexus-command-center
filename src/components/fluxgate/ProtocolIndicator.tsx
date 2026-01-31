@@ -1,4 +1,4 @@
-import { SimulationMode } from '@/types/nexus';
+import { SimulationMode } from '@/types/fluxgate';
 import { cn } from '@/lib/utils';
 import { Info } from 'lucide-react';
 

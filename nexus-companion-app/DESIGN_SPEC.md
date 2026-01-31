@@ -1,7 +1,7 @@
-# NEXUS Companion App: Design Specification
+# FLUXGATE Companion App: Design Specification
 
 ## Overview
-The NEXUS Companion App is the mobile interface for Parents and Students, acting as the edge nodes for the NEXUS Command Center. It facilitates real-time coordination for the "Critical Minute" drop-off and "Secure Handoff" pickup protocols.
+The FLUXGATE Companion App is the mobile interface for Parents and Students, acting as the edge nodes for the FLUXGATE Command Center. It facilitates real-time coordination for the "Critical Minute" drop-off and "Secure Handoff" pickup protocols.
 
 ## User Roles
 1.  **Parent/Guardian**: Drivers responsible for drop-off and pickup.

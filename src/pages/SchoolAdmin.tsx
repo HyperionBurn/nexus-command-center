@@ -4,13 +4,13 @@ import { BusCoordination } from "@/components/school/BusCoordination";
 import { GateControlWidget } from "@/components/school/GateControlWidget";
 import { TodaySummary } from "@/components/school/TodaySummary";
 import { RecentActivity } from "@/components/school/RecentActivity";
-import { ZoneOverview } from "@/components/nexus/ZoneOverview";
-import { DigitalTwinMap } from "@/components/nexus/DigitalTwinMap";
-import { useNexusSimulation } from "@/hooks/useNexusSimulation";
+import { ZoneOverview } from "@/components/fluxgate/ZoneOverview";
+import { DigitalTwinMap } from "@/components/fluxgate/DigitalTwinMap";
+import { useFLUXGATESimulation } from "@/hooks/useFluxGateSimulation";
 
 const SchoolAdmin = () => {
     // Reuse the simulation hooks for the map data, even if simplified
-    const { zones, vehicles } = useNexusSimulation();
+    const { zones, vehicles } = useFLUXGATESimulation();
 
     return (
         <div className="min-h-screen bg-background">

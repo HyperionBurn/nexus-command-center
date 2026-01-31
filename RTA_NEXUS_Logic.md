@@ -1,10 +1,10 @@
-# 🧠 RTA NEXUS: Complete System Logic
+# 🧠 RTA FLUXGATE: Complete System Logic
 ## Technical Deep-Dive into Decision Algorithms & Control Flow
 
 ---
 
 > [!NOTE]
-> This document provides a detailed technical breakdown of the NEXUS system logic, suitable for engineers and technical reviewers.
+> This document provides a detailed technical breakdown of the FLUXGATE system logic, suitable for engineers and technical reviewers.
 
 ---
 
@@ -33,7 +33,7 @@ The fundamental problem of school zone congestion:
 λ (Arrival Rate) > μ (Service Rate) → Queue Forms → Congestion
 ```
 
-**NEXUS Solution:**
+**FLUXGATE Solution:**
 
 ```
 Control λ to match μ → Queue ≈ 0 → No Congestion
@@ -566,7 +566,7 @@ class StagingZoneManager:
 | **Machine Learning** | Adaptive | Black box, needs data |
 | **Fuzzy Logic** | Human-readable, tunable, handles uncertainty | Requires expert design |
 
-**NEXUS Choice:** Fuzzy Logic because RTA engineers can **inspect, understand, and tune** every rule.
+**FLUXGATE Choice:** Fuzzy Logic because RTA engineers can **inspect, understand, and tune** every rule.
 
 ### 4.2 Input Variables (Fuzzification)
 
@@ -1066,7 +1066,7 @@ class NOLAPIClient:
             'card_id': nol_card_id,
             'amount': amount_aed,
             'currency': 'AED',
-            'source': 'NEXUS_SCHOOL_TRAFFIC',
+            'source': 'FLUXGATE_SCHOOL_TRAFFIC',
             'reason': reason,
             'timestamp': now().isoformat()
         }
@@ -1263,7 +1263,7 @@ class SystemHealthMonitor:
 ### 9.1 System APIs
 
 ```yaml
-# NEXUS API Specification (OpenAPI 3.0)
+# FLUXGATE API Specification (OpenAPI 3.0)
 
 paths:
   /api/v1/parent/check-in:
@@ -1341,7 +1341,7 @@ flowchart TB
         WEATHER[Weather API]
     end
     
-    subgraph NEXUS["NEXUS Cloud"]
+    subgraph FLUXGATE["FLUXGATE Cloud"]
         API[API Gateway]
         SAS[Slot Assignment Service]
         LDS[Live Departure Sync]
@@ -1412,4 +1412,4 @@ flowchart TB
 
 *Document Version: 1.0*
 *Last Updated: January 2026*
-*Author: RTA NEXUS Team*
+*Author: RTA FLUXGATE Team*

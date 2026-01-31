@@ -1,10 +1,10 @@
-# ⏳ RTA NEXUS: Timing Determination Logic
+# ⏳ RTA FLUXGATE: Timing Determination Logic
 ## The Algorithms Behind "The Perfect Arrival"
 
 ---
 
 ## 🎯 Overview
-Uniquely, NEXUS calculates "Time" in two distinct phases. It relies on a **Static Control** (The Plan) and a **Dynamic Control** (The Reality). This document details exactly how the system determines the specific millisecond a parent is allowed to enter the drop-off zone.
+Uniquely, FLUXGATE calculates "Time" in two distinct phases. It relies on a **Static Control** (The Plan) and a **Dynamic Control** (The Reality). This document details exactly how the system determines the specific millisecond a parent is allowed to enter the drop-off zone.
 
 ---
 
@@ -154,4 +154,4 @@ $$
 
 ---
 
-*System Logic Specification — RTA NEXUS*
+*System Logic Specification — RTA FLUXGATE*

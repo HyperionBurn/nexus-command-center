@@ -34,7 +34,7 @@ export const GateControlWidget = () => {
   };
 
   return (
-    <Card className={`glass-panel border-nexus-border/50 bg-secondary/5 ${emergencyLockdown ? 'ring-2 ring-destructive animate-pulse' : ''}`}>
+    <Card className={`glass-panel border-FLUXGATE-border/50 bg-secondary/5 ${emergencyLockdown ? 'ring-2 ring-destructive animate-pulse' : ''}`}>
       <CardHeader className="pb-2">
         <CardTitle className="text-lg flex items-center justify-between">
           <span className="flex items-center gap-2">
@@ -66,11 +66,11 @@ export const GateControlWidget = () => {
 
           <Button 
               variant={!gatesLocked ? "secondary" : "outline"}
-              className="h-24 flex flex-col gap-2 bg-nexus-success/10 hover:bg-nexus-success/20 border-nexus-success/30"
+              className="h-24 flex flex-col gap-2 bg-FLUXGATE-success/10 hover:bg-FLUXGATE-success/20 border-FLUXGATE-success/30"
               onClick={() => setGatesLocked(false)}
               disabled={autoMode || emergencyLockdown}
           >
-              <Unlock className="h-8 w-8 text-nexus-success" />
+              <Unlock className="h-8 w-8 text-FLUXGATE-success" />
               <span>NORMAL OPS</span>
           </Button>
         </div>
@@ -125,7 +125,7 @@ export const GateControlWidget = () => {
             <AlertDialogTrigger asChild>
               <Button 
                 variant="outline" 
-                className="w-full h-12 font-bold uppercase tracking-wider border-nexus-success text-nexus-success hover:bg-nexus-success/10"
+                className="w-full h-12 font-bold uppercase tracking-wider border-FLUXGATE-success text-FLUXGATE-success hover:bg-FLUXGATE-success/10"
               >
                 <Unlock className="h-5 w-5 mr-2" />
                 Cancel Emergency Lockdown
@@ -133,7 +133,7 @@ export const GateControlWidget = () => {
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle className="flex items-center gap-2 text-nexus-success">
+                <AlertDialogTitle className="flex items-center gap-2 text-FLUXGATE-success">
                   <Unlock className="h-6 w-6" />
                   Cancel Emergency Lockdown
                 </AlertDialogTitle>
@@ -146,7 +146,7 @@ export const GateControlWidget = () => {
                 <AlertDialogCancel>Keep Lockdown Active</AlertDialogCancel>
                 <AlertDialogAction 
                   onClick={handleCancelEmergency}
-                  className="bg-nexus-success text-white hover:bg-nexus-success/90"
+                  className="bg-FLUXGATE-success text-white hover:bg-FLUXGATE-success/90"
                 >
                   Restore Normal Operations
                 </AlertDialogAction>
@@ -161,7 +161,7 @@ export const GateControlWidget = () => {
                      <ShieldAlert className="h-3 w-3 animate-pulse" /> EMERGENCY LOCKDOWN ACTIVE
                 </span>
             ) : !autoMode ? (
-                <span className="text-nexus-orange flex items-center justify-center gap-2">
+                <span className="text-FLUXGATE-orange flex items-center justify-center gap-2">
                      <AlertTriangle className="h-3 w-3" /> Manual Override Active
                 </span>
             ) : (

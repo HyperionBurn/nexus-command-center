@@ -1,4 +1,4 @@
-import { NOLReward } from '@/types/nexus';
+import { NOLReward } from '@/types/fluxgate';
 import { cn } from '@/lib/utils';
 import { Coins, Star, Zap, Clock, Flame, CreditCard, Trophy, Sparkles } from 'lucide-react';
 import { format } from 'date-fns';
@@ -37,16 +37,16 @@ const rewardTypeConfig: Record<RewardType, {
   },
   'perfect-dropoff': {
     icon: Trophy,
-    bgColor: 'bg-nexus-open/20',
-    textColor: 'text-nexus-open',
-    borderColor: 'border-nexus-open/40',
+    bgColor: 'bg-FLUXGATE-open/20',
+    textColor: 'text-FLUXGATE-open',
+    borderColor: 'border-FLUXGATE-open/40',
     label: 'Perfect'
   },
   'on-time': {
     icon: Clock,
-    bgColor: 'bg-nexus-cyan/20',
-    textColor: 'text-nexus-cyan',
-    borderColor: 'border-nexus-cyan/40',
+    bgColor: 'bg-FLUXGATE-cyan/20',
+    textColor: 'text-FLUXGATE-cyan',
+    borderColor: 'border-FLUXGATE-cyan/40',
     label: 'On-Time'
   },
   'standard': {
@@ -106,11 +106,11 @@ const ConfettiCelebration = () => {
 // NOL Card Badge component
 const NOLCardBadge = ({ className }: { className?: string }) => (
   <div className={cn(
-    'flex items-center gap-1 px-2 py-1 rounded-md bg-gradient-to-r from-nexus-wait/30 to-amber-500/30 border border-nexus-wait/40',
+    'flex items-center gap-1 px-2 py-1 rounded-md bg-gradient-to-r from-FLUXGATE-wait/30 to-amber-500/30 border border-FLUXGATE-wait/40',
     className
   )}>
-    <CreditCard className="h-3.5 w-3.5 text-nexus-wait" />
-    <span className="text-xs font-bold text-nexus-wait">NOL</span>
+    <CreditCard className="h-3.5 w-3.5 text-FLUXGATE-wait" />
+    <span className="text-xs font-bold text-FLUXGATE-wait">NOL</span>
   </div>
 );
 
@@ -156,12 +156,12 @@ export const NOLRewardTicker = ({ rewards, className }: NOLRewardTickerProps) =>
   return (
     <div className={className}>
       {/* Running Total Banner */}
-      <div className="mb-4 p-3 rounded-lg bg-gradient-to-r from-nexus-wait/20 via-amber-500/10 to-nexus-open/20 border border-nexus-wait/30 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-nexus-wait/5 to-transparent" />
+      <div className="mb-4 p-3 rounded-lg bg-gradient-to-r from-FLUXGATE-wait/20 via-amber-500/10 to-FLUXGATE-open/20 border border-FLUXGATE-wait/30 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-FLUXGATE-wait/5 to-transparent" />
         <div className="relative flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-nexus-wait/20 border border-nexus-wait/30">
-              <Coins className="h-5 w-5 text-nexus-wait" />
+            <div className="p-2 rounded-lg bg-FLUXGATE-wait/20 border border-FLUXGATE-wait/30">
+              <Coins className="h-5 w-5 text-FLUXGATE-wait" />
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -176,7 +176,7 @@ export const NOLRewardTicker = ({ rewards, className }: NOLRewardTickerProps) =>
               key={totalCredits}
               initial={{ scale: 1.2, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="font-mono text-2xl font-bold text-nexus-wait text-glow-amber"
+              className="font-mono text-2xl font-bold text-FLUXGATE-wait text-glow-amber"
             >
               {totalCredits.toLocaleString()}
             </motion.div>
@@ -187,20 +187,20 @@ export const NOLRewardTicker = ({ rewards, className }: NOLRewardTickerProps) =>
 
       {/* Stats Row */}
       <div className="flex items-center gap-2 mb-3">
-        <div className="flex-1 flex items-center gap-2 px-2 py-1.5 rounded bg-nexus-open/10 border border-nexus-open/20">
-          <Trophy className="h-3.5 w-3.5 text-nexus-open" />
+        <div className="flex-1 flex items-center gap-2 px-2 py-1.5 rounded bg-FLUXGATE-open/10 border border-FLUXGATE-open/20">
+          <Trophy className="h-3.5 w-3.5 text-FLUXGATE-open" />
           <span className="text-xs text-muted-foreground">Perfect:</span>
-          <span className="font-mono text-sm font-bold text-nexus-open">{perfectDropoffs}</span>
+          <span className="font-mono text-sm font-bold text-FLUXGATE-open">{perfectDropoffs}</span>
         </div>
         <div className="flex-1 flex items-center gap-2 px-2 py-1.5 rounded bg-orange-500/10 border border-orange-500/20">
           <Flame className="h-3.5 w-3.5 text-orange-400" />
           <span className="text-xs text-muted-foreground">Streaks:</span>
           <span className="font-mono text-sm font-bold text-orange-400">{rewardTypeCounts['streak-bonus'] || 0}</span>
         </div>
-        <div className="flex-1 flex items-center gap-2 px-2 py-1.5 rounded bg-nexus-cyan/10 border border-nexus-cyan/20">
-          <Clock className="h-3.5 w-3.5 text-nexus-cyan" />
+        <div className="flex-1 flex items-center gap-2 px-2 py-1.5 rounded bg-FLUXGATE-cyan/10 border border-FLUXGATE-cyan/20">
+          <Clock className="h-3.5 w-3.5 text-FLUXGATE-cyan" />
           <span className="text-xs text-muted-foreground">On-Time:</span>
-          <span className="font-mono text-sm font-bold text-nexus-cyan">{rewardTypeCounts['on-time'] || 0}</span>
+          <span className="font-mono text-sm font-bold text-FLUXGATE-cyan">{rewardTypeCounts['on-time'] || 0}</span>
         </div>
       </div>
 
@@ -245,7 +245,7 @@ export const NOLRewardTicker = ({ rewards, className }: NOLRewardTickerProps) =>
                   className={cn(
                     'relative flex items-center gap-3 p-2.5 rounded-lg bg-secondary/30 border transition-all',
                     config.borderColor,
-                    index === 0 && 'ring-1 ring-nexus-wait/20',
+                    index === 0 && 'ring-1 ring-FLUXGATE-wait/20',
                     isLargeReward && 'bg-gradient-to-r from-amber-500/10 to-yellow-500/5'
                   )}
                 >
@@ -321,10 +321,10 @@ export const NOLRewardTicker = ({ rewards, className }: NOLRewardTickerProps) =>
       )}
 
       {/* Summary bar */}
-      <div className="mt-4 p-3 rounded-lg bg-gradient-to-r from-nexus-wait/10 to-nexus-open/10 border border-nexus-wait/20">
+      <div className="mt-4 p-3 rounded-lg bg-gradient-to-r from-FLUXGATE-wait/10 to-FLUXGATE-open/10 border border-FLUXGATE-wait/20">
         <div className="flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
-            <CreditCard className="h-4 w-4 text-nexus-wait" />
+            <CreditCard className="h-4 w-4 text-FLUXGATE-wait" />
             <span className="text-muted-foreground">Today's efficiency bonus pool</span>
           </div>
           <span className="font-mono font-bold text-foreground">

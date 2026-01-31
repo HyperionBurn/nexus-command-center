@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { NexusProvider } from "@/context/NexusContext";
+import { FLUXGATEProvider } from "@/context/FluxGateContext";
 import Login from "@/pages/Login";
 import ParentDashboard from "@/pages/ParentDashboard";
 import StudentDashboard from "@/pages/StudentDashboard";
@@ -22,11 +22,11 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <NexusProvider>
+    <FLUXGATEProvider>
       <Router>
         <AnimatedRoutes />
       </Router>
-    </NexusProvider>
+    </FLUXGATEProvider>
   );
 }
 

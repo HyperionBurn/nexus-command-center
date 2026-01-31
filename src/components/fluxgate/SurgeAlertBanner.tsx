@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { SurgeEvent } from '@/types/nexus';
+import { SurgeEvent } from '@/types/fluxgate';
 import { cn } from '@/lib/utils';
 import { AlertTriangle, Coffee, ArrowRight, CheckCircle } from 'lucide-react';
 import { format } from 'date-fns';
@@ -15,20 +15,20 @@ export const SurgeAlertBanner = memo(({ surge, onDismiss }: SurgeAlertBannerProp
 
   const severityConfig = {
     LOW: {
-      bg: 'bg-nexus-wait/10 border-nexus-wait/30',
-      text: 'text-nexus-wait',
+      bg: 'bg-FLUXGATE-wait/10 border-FLUXGATE-wait/30',
+      text: 'text-FLUXGATE-wait',
       icon: AlertTriangle,
       pulseColor: 'rgba(251, 191, 36, 0.3)',
     },
     MEDIUM: {
-      bg: 'bg-nexus-wait/20 border-nexus-wait/50',
-      text: 'text-nexus-wait',
+      bg: 'bg-FLUXGATE-wait/20 border-FLUXGATE-wait/50',
+      text: 'text-FLUXGATE-wait',
       icon: AlertTriangle,
       pulseColor: 'rgba(251, 191, 36, 0.4)',
     },
     HIGH: {
-      bg: 'bg-nexus-hold/20 border-nexus-hold/50',
-      text: 'text-nexus-hold',
+      bg: 'bg-FLUXGATE-hold/20 border-FLUXGATE-hold/50',
+      text: 'text-FLUXGATE-hold',
       icon: AlertTriangle,
       pulseColor: 'rgba(239, 68, 68, 0.5)',
     },
@@ -88,7 +88,7 @@ export const SurgeAlertBanner = memo(({ surge, onDismiss }: SurgeAlertBannerProp
         <motion.div 
           className={cn(
             'flex items-center justify-center w-10 h-10 rounded-full',
-            surge.resolved ? 'bg-nexus-open/20' : 'bg-nexus-hold/20'
+            surge.resolved ? 'bg-FLUXGATE-open/20' : 'bg-FLUXGATE-hold/20'
           )}
           animate={surge.resolved ? {} : { 
             scale: [1, 1.08, 1],
@@ -106,7 +106,7 @@ export const SurgeAlertBanner = memo(({ surge, onDismiss }: SurgeAlertBannerProp
               animate={{ scale: 1, rotate: 0 }}
               transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             >
-              <CheckCircle className="h-5 w-5 text-nexus-open" />
+              <CheckCircle className="h-5 w-5 text-FLUXGATE-open" />
             </motion.div>
           ) : (
             <motion.div
@@ -122,7 +122,7 @@ export const SurgeAlertBanner = memo(({ surge, onDismiss }: SurgeAlertBannerProp
           <div className="flex items-center gap-2 mb-1">
             <h4 className={cn(
               'font-semibold',
-              surge.resolved ? 'text-nexus-open' : severityConfig.text
+              surge.resolved ? 'text-FLUXGATE-open' : severityConfig.text
             )}>
               {surge.resolved ? 'SURGE RESOLVED' : `SURGE DETECTED - ${surge.severity}`}
             </h4>
@@ -138,13 +138,13 @@ export const SurgeAlertBanner = memo(({ surge, onDismiss }: SurgeAlertBannerProp
           <div className="flex items-center gap-6 text-xs">
             <div className="flex items-center gap-2">
               <span className="text-muted-foreground">Arrival Rate:</span>
-              <span className="font-mono font-semibold text-nexus-cyan">
+              <span className="font-mono font-semibold text-FLUXGATE-cyan">
                 λ = {surge.arrivalRate.toFixed(1)}/min
               </span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-muted-foreground">Service Rate:</span>
-              <span className="font-mono font-semibold text-nexus-open">
+              <span className="font-mono font-semibold text-FLUXGATE-open">
                 μ = {surge.serviceRate.toFixed(1)}/min
               </span>
             </div>
@@ -152,7 +152,7 @@ export const SurgeAlertBanner = memo(({ surge, onDismiss }: SurgeAlertBannerProp
               <span className="text-muted-foreground">Overflow:</span>
               <span className={cn(
                 'font-mono font-semibold',
-                surge.resolved ? 'text-nexus-open' : 'text-nexus-hold'
+                surge.resolved ? 'text-FLUXGATE-open' : 'text-FLUXGATE-hold'
               )}>
                 {((surge.arrivalRate / surge.serviceRate - 1) * 100).toFixed(0)}%
               </span>
@@ -170,7 +170,7 @@ export const SurgeAlertBanner = memo(({ surge, onDismiss }: SurgeAlertBannerProp
                 animate={{ rotate: [0, 12, -12, 0] }}
                 transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
               >
-                <Coffee className="h-5 w-5 text-nexus-wait" />
+                <Coffee className="h-5 w-5 text-FLUXGATE-wait" />
               </motion.div>
               <div className="flex-1">
                 <span className="text-sm font-medium text-foreground">

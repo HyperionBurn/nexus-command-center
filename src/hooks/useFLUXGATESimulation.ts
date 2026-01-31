@@ -3,7 +3,7 @@ import {
   Bay, Zone, TrafficMetrics, FuzzyLogicDecision, 
   NOLReward, SurgeEvent, SystemHealth, Vehicle,
   SimulationMode, BayPhase
-} from '@/types/nexus';
+} from '@/types/fluxgate';
 
 // Generate realistic vehicle plates
 const generatePlate = () => {
@@ -117,7 +117,7 @@ export interface ExtendedMetrics {
   aiDecisionsPerMin: number; // fuzzy logic decisions
 }
 
-export const useNexusSimulation = () => {
+export const useFLUXGATESimulation = () => {
   const [isRunning, setIsRunning] = useState(true);
   const [mode, setMode] = useState<SimulationMode>('DROPOFF');
   const [zones, setZones] = useState<Zone[]>(initializeBays('DROPOFF'));

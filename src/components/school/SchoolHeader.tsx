@@ -7,13 +7,13 @@ export const SchoolHeader = ({ schoolName = "Horizon International School" }) =>
     <header className="glass-panel p-4 mb-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-nexus-blue/20">
-            <School className="h-8 w-8 text-nexus-blue" />
+          <div className="p-3 rounded-xl bg-FLUXGATE-blue/20">
+            <School className="h-8 w-8 text-FLUXGATE-blue" />
           </div>
           <div>
             <h1 className="text-2xl font-bold tracking-tight">{schoolName}</h1>
             <p className="text-sm text-muted-foreground flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-nexus-success animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-FLUXGATE-success animate-pulse" />
               Operations Active • Week 4, Term 2
             </p>
           </div>

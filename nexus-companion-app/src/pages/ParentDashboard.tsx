@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Car, Clock, MapPin, Navigation, ShieldCheck, LogOut, CheckCheck, Wallet, ChevronRight, Settings, CreditCard, Sparkles, Zap, Map as MapIcon, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useNexus, StudentStatus } from "@/context/NexusContext";
+import { useFLUXGATE, StudentStatus } from "@/context/FluxGateContext";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
 import { use3DTilt } from "@/hooks/use3DTilt";
@@ -47,7 +47,7 @@ export default function ParentDashboard() {
       tripHistory,
       bookedSlot,
       bookSlot
-  } = useNexus();
+  } = useFLUXGATE();
   const navigate = useNavigate();
   const [timer, setTimer] = useState(60);
 
@@ -89,7 +89,7 @@ export default function ParentDashboard() {
                     N
                   </motion.div>
                   <div>
-                    <span className="font-black text-xl tracking-tight text-white block leading-none">NEXUS</span>
+                    <span className="font-black text-xl tracking-tight text-white block leading-none">FLUXGATE</span>
                     <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold">Command Center</span>
                   </div>
               </div>

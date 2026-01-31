@@ -48,14 +48,14 @@ export const CommandHeader = ({ className }: CommandHeaderProps) => {
         {/* Logo & Title */}
         <div className="flex items-center gap-2 sm:gap-4">
           <div className="relative">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-nexus-cyan to-nexus-purple flex items-center justify-center">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-FLUXGATE-cyan to-FLUXGATE-purple flex items-center justify-center">
               <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-background" />
             </div>
-            <div className="absolute -top-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-nexus-open animate-pulse" />
+            <div className="absolute -top-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-FLUXGATE-open animate-pulse" />
           </div>
           <div>
             <h1 className="text-base sm:text-xl font-bold text-foreground tracking-tight">
-              NEXUS <span className="text-primary hidden xs:inline">Command Center</span><span className="text-primary xs:hidden">CC</span>
+              FLUXGATE <span className="text-primary hidden xs:inline">Command Center</span><span className="text-primary xs:hidden">CC</span>
             </h1>
             <p className="text-[10px] sm:text-xs text-muted-foreground hidden sm:block">
               School Zone Orchestration System v2.4.1
@@ -65,7 +65,7 @@ export const CommandHeader = ({ className }: CommandHeaderProps) => {
 
         {/* School Selector - Hidden on mobile, shown on md+ */}
         <div className="hidden md:flex items-center gap-2 bg-secondary/30 p-1.5 rounded-lg border border-border/50 backdrop-blur-sm mx-6">
-          <School className="h-4 w-4 text-nexus-blue ml-2" />
+          <School className="h-4 w-4 text-FLUXGATE-blue ml-2" />
           <Select value={selectedSchool} onValueChange={setSelectedSchool}>
             <SelectTrigger className="w-[260px] h-8 border-0 bg-transparent focus:ring-0 focus:ring-offset-0 text-sm font-medium">
               <SelectValue placeholder="Select School" />
@@ -92,13 +92,13 @@ export const CommandHeader = ({ className }: CommandHeaderProps) => {
         <div className="flex items-center gap-2 sm:gap-6">
           {/* Live indicator - always visible */}
           <div className="flex items-center gap-1 sm:gap-2">
-            <Radio className="h-3 w-3 sm:h-4 sm:w-4 text-nexus-open animate-pulse" />
+            <Radio className="h-3 w-3 sm:h-4 sm:w-4 text-FLUXGATE-open animate-pulse" />
             <span className="text-[10px] sm:text-xs text-muted-foreground">LIVE</span>
           </div>
           
           {/* Connected - hidden on mobile */}
           <div className="hidden sm:flex items-center gap-2">
-            <Wifi className="h-4 w-4 text-nexus-cyan" />
+            <Wifi className="h-4 w-4 text-FLUXGATE-cyan" />
             <span className="text-xs text-muted-foreground">Connected</span>
           </div>
 
@@ -135,7 +135,7 @@ export const CommandHeader = ({ className }: CommandHeaderProps) => {
               <SheetHeader>
                 <SheetTitle className="text-left flex items-center gap-2">
                   <Shield className="h-5 w-5 text-primary" />
-                  NEXUS Menu
+                  FLUXGATE Menu
                 </SheetTitle>
               </SheetHeader>
               <div className="mt-6 space-y-6">
@@ -177,7 +177,7 @@ export const CommandHeader = ({ className }: CommandHeaderProps) => {
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Connection</span>
                     <div className="flex items-center gap-2">
-                      <Wifi className="h-4 w-4 text-nexus-cyan" />
+                      <Wifi className="h-4 w-4 text-FLUXGATE-cyan" />
                       <span className="text-sm">Connected</span>
                     </div>
                   </div>

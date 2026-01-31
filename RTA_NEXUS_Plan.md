@@ -1,4 +1,4 @@
-# 🏆 RTA NEXUS: Masterclass Award-Winning Solution
+# 🏆 RTA FLUXGATE: Masterclass Award-Winning Solution
 ## Intelligent School Zone Traffic Orchestration System
 
 ---
@@ -10,25 +10,25 @@
 
 ## Executive Summary
 
-**RTA NEXUS** is a **practical, deployable** traffic orchestration platform that combines **predictive scheduling**, **transparent rule-based control**, and **proven infrastructure** to eliminate school zone congestion. This solution leverages **deterministic algorithms** trusted by government engineers, while maintaining innovation in behavioral intervention and flow optimization.
+**RTA FLUXGATE** is a **practical, deployable** traffic orchestration platform that combines **predictive scheduling**, **transparent rule-based control**, and **proven infrastructure** to eliminate school zone congestion. This solution leverages **deterministic algorithms** trusted by government engineers, while maintaining innovation in behavioral intervention and flow optimization.
 
 > [!NOTE]
 > This plan addresses ALL 16 problem factors identified in the RTA challenge through a unified, scalable framework — using **off-the-shelf technology** that can be deployed within 6 months.
 
 ---
 
-## Part 1: The Framework Solution — "NEXUS ARCHITECTURE"
+## Part 1: The Framework Solution — "FLUXGATE ARCHITECTURE"
 
 ### 🎯 Core Philosophy: From Chaos to Flow
 
-Traditional traffic management treats vehicles as obstacles. **NEXUS** treats them as particles in a **fluid system**, applying principles of:
+Traditional traffic management treats vehicles as obstacles. **FLUXGATE** treats them as particles in a **fluid system**, applying principles of:
 - **Laminar Flow Theory** — Smooth, predictable movement patterns
 - **Deterministic Control** — Transparent, auditable decision logic
 - **Behavioral Economics** — Incentivizing correct behavior over punishment
 
 ---
 
-### 📐 Framework Architecture: The 5-Layer NEXUS Stack
+### 📐 Framework Architecture: The 5-Layer FLUXGATE Stack
 
 ```mermaid
 graph TB
@@ -104,7 +104,7 @@ graph TB
 #### **Layer 4: Communication Hub**
 | Component | Purpose | User Experience |
 |-----------|---------|-----------------|
-| **NEXUS Parent App** | Slot booking, navigation, notifications | "Your slot is 7:45 AM. Proceed to Zone B." |
+| **FLUXGATE Parent App** | Slot booking, navigation, notifications | "Your slot is 7:45 AM. Proceed to Zone B." |
 | **School Dashboard** | Real-time visibility, emergency controls | Live queue status, gate override |
 | **In-App Feedback Only** | Private behavior scoring | "Great job! Drop-off in 47 seconds 🌟" |
 | **Bus Coordination** | Priority signaling | Buses get green wave when approaching |
@@ -129,7 +129,7 @@ graph TB
 
 ### 🔬 Algorithm Overview
 
-The **TFOE** is the brain of NEXUS. It solves the school zone problem using **transparent, deterministic algorithms** that engineers can verify:
+The **TFOE** is the brain of FLUXGATE. It solves the school zone problem using **transparent, deterministic algorithms** that engineers can verify:
 
 1. **Minimize Total Delay** — Reduce wait time for all vehicles
 2. **Maximize Throughput** — Move more vehicles through per minute
@@ -140,7 +140,7 @@ The **TFOE** is the brain of NEXUS. It solves the school zone problem using **tr
 ## 🌟 INNOVATION SPOTLIGHT: Beyond Time Slots
 
 > [!IMPORTANT]
-> **What makes NEXUS different?** Everyone will propose "time slots." We go further with two breakthrough innovations that eliminate queuing entirely.
+> **What makes FLUXGATE different?** Everyone will propose "time slots." We go further with two breakthrough innovations that eliminate queuing entirely.
 
 ---
 
@@ -149,7 +149,7 @@ The **TFOE** is the brain of NEXUS. It solves the school zone problem using **tr
 **The Problem with Physical Queues:**
 Even with time slots, parents arrive early and form physical lines. The queue itself causes congestion.
 
-**The NEXUS Solution: No Physical Queue**
+**The FLUXGATE Solution: No Physical Queue**
 
 Parents never line up. Instead:
 1. Parent checks in from **home/remote location** via app
@@ -212,7 +212,7 @@ graph TD
         GC[Gate C]
     end
     
-    APP[NEXUS App] -->|"Wait here"| S1
+    APP[FLUXGATE App] -->|"Wait here"| S1
     APP -->|"Wait here"| S2
     APP -->|"Wait here"| S3
     APP -->|"Wait here"| S4
@@ -229,7 +229,7 @@ graph TD
 > [!IMPORTANT]
 > **Identified Risk**: If 500 parents arrive and school processes 10/min, ~200 parents need to stage simultaneously. Do nearby areas have 200 spots? If not, parents "roam" creating worse congestion.
 
-**The NEXUS Solution: Multi-Tier Staging + Roaming Prevention**
+**The FLUXGATE Solution: Multi-Tier Staging + Roaming Prevention**
 
 #### Staging Capacity Mapping (Per Pilot School)
 
@@ -280,7 +280,7 @@ graph TD
 
 #### Staging Zone Partnerships
 
-| Partner Type | Benefit to Partner | Benefit to NEXUS |
+| Partner Type | Benefit to Partner | Benefit to FLUXGATE |
 |--------------|-------------------|------------------|
 | Coffee Shops | Guaranteed morning customers | 30+ staging spots |
 | Mosques | Community goodwill | 80+ spots (off-peak use) |
@@ -297,7 +297,7 @@ graph TD
 **The Problem with Fixed Schedules:**
 Time slots assume parents leave on time. Reality: traffic varies, parents run late, arrivals bunch up unpredictably.
 
-**The NEXUS Solution: Real-Time Inbound Tracking**
+**The FLUXGATE Solution: Real-Time Inbound Tracking**
 
 Parents tap "Leaving Now" when departing. The system sees the **actual inbound wave** and adjusts dynamically.
 
@@ -366,7 +366,7 @@ RESULT: Predictive, not reactive gate control
 ```mermaid
 sequenceDiagram
     participant P as Parent
-    participant APP as NEXUS App
+    participant APP as FLUXGATE App
     participant VQS as Virtual Queue
     participant LDS as Live Departure Sync
     participant GATE as Gate Controller
@@ -402,7 +402,7 @@ Home → Drive → Queue → Wait → Drop → Exit
               30+ minutes
 ```
 
-**NEXUS Approach:**
+**FLUXGATE Approach:**
 ```
 Home → Check-In → Stage → Called → Drop → Exit
        ↑____________________________↑
@@ -411,7 +411,7 @@ Home → Check-In → Stage → Called → Drop → Exit
 
 **Key Metrics:**
 
-| Metric | Traditional | With NEXUS |
+| Metric | Traditional | With FLUXGATE |
 |--------|-------------|------------|
 | Physical queue length | 50+ vehicles | 0 vehicles |
 | Wait time at school | 15-20 min | 0 min |
@@ -676,7 +676,7 @@ stateDiagram-v2
 
 ```mermaid
 flowchart LR
-    APP[NEXUS App] --> API[RTA NOL API]
+    APP[FLUXGATE App] --> API[RTA NOL API]
     API --> NOL[Parent's NOL Card]
     
     subgraph Triggers
@@ -695,7 +695,7 @@ flowchart LR
 **Technical Implementation:**
 - RTA NOL API integration (existing developer portal)
 - Automatic credit transfer upon daily verification
-- Real-time balance display in NEXUS app
+- Real-time balance display in FLUXGATE app
 - Monthly statements with breakdown
 
 ---
@@ -773,7 +773,7 @@ The TFOE coordinates all subsystems using **deterministic logic**:
 
 ## Part 3: Problem-Solution Mapping
 
-| # | Problem Factor | NEXUS Solution | Proven Technology |
+| # | Problem Factor | FLUXGATE Solution | Proven Technology |
 |---|----------------|----------------|-------------------|
 | 1 | Overlapping start/dismissal times | Staggered Scheduling (SAS) | Mobile app + constraint solver |
 | 2 | Limited road capacity | Staged zones + satellite parking | Painted markings + signage |
@@ -856,7 +856,7 @@ The TFOE coordinates all subsystems using **deterministic logic**:
 
 ## Part 6: Competitive Advantages (Aligned to Judging Criteria)
 
-| Judging Criteria | How NEXUS Excels |
+| Judging Criteria | How FLUXGATE Excels |
 |------------------|------------------|
 | **Excellence & Creativity** | First system to unify slot scheduling, fuzzy logic control, and gamified behavior change for school traffic |
 | **Methodology Quality** | Transparent, auditable algorithms that RTA engineers can inspect and tune |
@@ -869,7 +869,7 @@ The TFOE coordinates all subsystems using **deterministic logic**:
 ## Part 7: Key Differentiators
 
 > [!TIP]
-> These are the "wow factors" that will make judges remember NEXUS.
+> These are the "wow factors" that will make judges remember FLUXGATE.
 
 ### 1. **Transparent Logic, Not Black Boxes**
 Every decision can be explained: "Gate opened because queue exceeded 50m and zone was empty."
@@ -894,7 +894,7 @@ No embedded electronics in roads. All equipment rated for 50°C+ operation.
 ## Part 8: The "Cyber-Physical Sync" — Visual Hook
 
 > [!TIP]
-> **This is what makes NEXUS unforgettable**: The moment when the digital countdown on the parent's phone hits zero, and the physical bollard retracts in perfect sync. This is the "wow moment" for the demo.
+> **This is what makes FLUXGATE unforgettable**: The moment when the digital countdown on the parent's phone hits zero, and the physical bollard retracts in perfect sync. This is the "wow moment" for the demo.
 
 ### 🎬 The Driver's View (Demo Sequence)
 
@@ -948,7 +948,7 @@ No embedded electronics in roads. All equipment rated for 50°C+ operation.
 ```mermaid
 sequenceDiagram
     participant PHONE as 📱 Parent Phone
-    participant CLOUD as ☁️ NEXUS Cloud
+    participant CLOUD as ☁️ FLUXGATE Cloud
     participant BOLLARD as 🔴 Bollard
     participant DMS as 📺 Overhead Sign
     
@@ -1141,13 +1141,13 @@ sequenceDiagram
 
 ### 🎯 The Honest Pitch
 
-> *"No system is perfect. NEXUS has known limitations around adoption, edge cases, and human behavior. But unlike purely software solutions, we use **physical infrastructure (bollards)** as the enforcement backstop. You can ignore an app notification — you can't drive through a closed bollard."*
+> *"No system is perfect. FLUXGATE has known limitations around adoption, edge cases, and human behavior. But unlike purely software solutions, we use **physical infrastructure (bollards)** as the enforcement backstop. You can ignore an app notification — you can't drive through a closed bollard."*
 
 ---
 
 ## Summary
 
-**RTA NEXUS** transforms school zone chaos into organized flow through:
+**RTA FLUXGATE** transforms school zone chaos into organized flow through:
 
 1. **Framework**: 5-layer architecture using **proven RTA-standard infrastructure**
 2. **Algorithm**: TFOE with **transparent fuzzy logic** and deterministic rules

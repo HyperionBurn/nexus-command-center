@@ -11,7 +11,7 @@ export const StudentQueues = () => {
   ];
 
   return (
-    <Card className="glass-panel border-nexus-border/50">
+    <Card className="glass-panel border-FLUXGATE-border/50">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg flex items-center gap-2">
           <Users className="h-5 w-5 text-primary" />
@@ -34,7 +34,7 @@ export const StudentQueues = () => {
                     <div className="text-[10px] uppercase text-muted-foreground">Students</div>
                  </div>
                  <Badge variant={q.status === 'Boarding' ? 'default' : 'outline'} 
-                        className={q.status === 'Active' ? 'bg-nexus-success/20 text-nexus-success border-nexus-success/50' : ''}>
+                        className={q.status === 'Active' ? 'bg-FLUXGATE-success/20 text-FLUXGATE-success border-FLUXGATE-success/50' : ''}>
                     {q.status}
                  </Badge>
               </div>

@@ -1,10 +1,10 @@
-# ⚡ NEXUS: The 90-Second Pickup Protocol
+# ⚡ FLUXGATE: The 90-Second Pickup Protocol
 ## "The Secure Handoff" — A Child-Verified Exit Mechanics Guide
 
 ---
 
 ## 🎯 Concept: Airport Security Efficiency
-Unlike drop-off (speed-focused), pickup prioritizes **security + speed**. Every child must be matched to an authorized adult before release. NEXUS treats pickup like an **airport baggage claim** — you can only collect what's registered to you.
+Unlike drop-off (speed-focused), pickup prioritizes **security + speed**. Every child must be matched to an authorized adult before release. FLUXGATE treats pickup like an **airport baggage claim** — you can only collect what's registered to you.
 
 ---
 
@@ -183,7 +183,7 @@ flowchart TD
 
 ## 📊 Why This Works
 
-| Metric | Traditional Pickup | NEXUS Protocol |
+| Metric | Traditional Pickup | FLUXGATE Protocol |
 |--------|-------------------|----------------|
 | **Verification** | Visual (parent waves) | LPR + RFID + App |
 | **Child Location** | Unknown until seen | RFID-tracked |
@@ -192,7 +192,7 @@ flowchart TD
 | **Throughput** | ~15 cars/hr/lane | **40 cars/hr/lane** |
 
 > [!IMPORTANT]
-> **2.5x Throughput + 3x Security**: NEXUS doesn't trade speed for safety — it achieves both.
+> **2.5x Throughput + 3x Security**: FLUXGATE doesn't trade speed for safety — it achieves both.
 
 ---
 
@@ -200,7 +200,7 @@ flowchart TD
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    NEXUS: PICKUP MODE                           │
+│                    FLUXGATE: PICKUP MODE                           │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │   ✅ Ahmed is READY for pickup!                                 │

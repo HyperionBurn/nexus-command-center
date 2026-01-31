@@ -17,8 +17,8 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        nexusSuccess: "bg-green-600 text-white hover:bg-green-700 shadow-lg shadow-green-900/20",
-        nexusWarning: "bg-amber-500 text-white hover:bg-amber-600 shadow-lg shadow-amber-900/20",
+        FLUXGATESuccess: "bg-green-600 text-white hover:bg-green-700 shadow-lg shadow-green-900/20",
+        FLUXGATEWarning: "bg-amber-500 text-white hover:bg-amber-600 shadow-lg shadow-amber-900/20",
       },
       size: {
         default: "h-10 px-4 py-2",

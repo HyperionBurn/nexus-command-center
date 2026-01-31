@@ -1,10 +1,10 @@
-# ⚡ NEXUS: The 60-Second Drop-off Protocol
+# ⚡ FLUXGATE: The 60-Second Drop-off Protocol
 ## "The Critical Minute" — A Choreographed Pit Stop Mechanics Guide
 
 ---
 
 ## 🎯 Concept: Formula 1 Efficiency
-Standard school drop-offs are chaotic and open-ended. **NEXUS** treats every drop-off as a precision "Pit Stop" with a strictly defined 60-second window.
+Standard school drop-offs are chaotic and open-ended. **FLUXGATE** treats every drop-off as a precision "Pit Stop" with a strictly defined 60-second window.
 
 ### The Phases of the Minute
 
@@ -133,7 +133,7 @@ flowchart TD
 
 ## 📊 Why This Works
 
-| Metric | Traditional Drop-off | NEXUS Protocol |
+| Metric | Traditional Drop-off | FLUXGATE Protocol |
 |--------|----------------------|----------------|
 | **Spot Selection** | Random / Hesitant | Assigned / Guided |
 | **Safety** | Parent check | Sensor verified |

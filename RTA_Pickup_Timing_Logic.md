@@ -1,10 +1,10 @@
-# ⏳ RTA NEXUS: Pickup Timing Determination Logic
+# ⏳ RTA FLUXGATE: Pickup Timing Determination Logic
 ## The Algorithms Behind "The Perfect Pickup"
 
 ---
 
 ## 🎯 Overview
-Pickup is fundamentally different from drop-off because the **child's location is known** (inside the school), but the **parent's arrival is uncertain**. NEXUS inverts the control: **the child triggers the parent**, not vice-versa.
+Pickup is fundamentally different from drop-off because the **child's location is known** (inside the school), but the **parent's arrival is uncertain**. FLUXGATE inverts the control: **the child triggers the parent**, not vice-versa.
 
 ---
 
@@ -176,4 +176,4 @@ flowchart TD
 
 ---
 
-*System Logic Specification — RTA NEXUS Pickup Module*
+*System Logic Specification — RTA FLUXGATE Pickup Module*

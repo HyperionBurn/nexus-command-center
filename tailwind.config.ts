@@ -59,13 +59,13 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // NEXUS Status Colors
-        nexus: {
-          open: "hsl(var(--nexus-open))",
-          wait: "hsl(var(--nexus-wait))",
-          hold: "hsl(var(--nexus-hold))",
-          cyan: "hsl(var(--nexus-cyan))",
-          purple: "hsl(var(--nexus-purple))",
+        // FLUXGATE Status Colors
+        FLUXGATE: {
+          open: "hsl(var(--FLUXGATE-open))",
+          wait: "hsl(var(--FLUXGATE-wait))",
+          hold: "hsl(var(--FLUXGATE-hold))",
+          cyan: "hsl(var(--FLUXGATE-cyan))",
+          purple: "hsl(var(--FLUXGATE-purple))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -105,8 +105,8 @@ export default {
           to: { opacity: "1", transform: "scale(1)" },
         },
         "glow-pulse": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(var(--nexus-cyan) / 0.3)" },
-          "50%": { boxShadow: "0 0 35px hsl(var(--nexus-cyan) / 0.5)" },
+          "0%, 100%": { boxShadow: "0 0 20px hsl(var(--FLUXGATE-cyan) / 0.3)" },
+          "50%": { boxShadow: "0 0 35px hsl(var(--FLUXGATE-cyan) / 0.5)" },
         },
         "number-tick": {
           "0%": { transform: "translateY(0) scale(1)" },

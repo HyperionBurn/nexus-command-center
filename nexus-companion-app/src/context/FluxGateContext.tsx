@@ -14,7 +14,7 @@ export type TripRecord = {
     status: 'perfect' | 'standard' | 'delayed';
 }
 
-interface NexusState {
+interface FLUXGATEState {
   tripStatus: TripStatus;
   studentStatus: StudentStatus;
   eta: number; // in minutes
@@ -26,7 +26,7 @@ interface NexusState {
   bookedSlot: string | null;
 }
 
-interface NexusContextType extends NexusState {
+interface FLUXGATEContextType extends FLUXGATEState {
   login: (role: 'parent' | 'student') => void;
   logout: () => void;
   startTrip: () => void;
@@ -38,14 +38,14 @@ interface NexusContextType extends NexusState {
   bookSlot: (slot: string | null) => void;
 }
 
-const NexusContext = createContext<NexusContextType | undefined>(undefined);
+const FLUXGATEContext = createContext<FLUXGATEContextType | undefined>(undefined);
 
 // Local Storage Key for persistence across tabs (simulating cloud sync)
-const STORAGE_KEY = 'nexus_simulation_state_v1';
+const STORAGE_KEY = 'FLUXGATE_simulation_state_v1';
 
-export const NexusProvider = ({ children }: { children: ReactNode }) => {
+export const FLUXGATEProvider = ({ children }: { children: ReactNode }) => {
   // Initial State
-  const initialState: NexusState = {
+  const initialState: FLUXGATEState = {
     tripStatus: 'idle',
     studentStatus: 'in-class',
     eta: 15,
@@ -61,7 +61,7 @@ export const NexusProvider = ({ children }: { children: ReactNode }) => {
     bookedSlot: null,
   };
 
-  const [state, setState] = useState<NexusState>(initialState);
+  const [state, setState] = useState<FLUXGATEState>(initialState);
 
   // Load from storage on mount
   useEffect(() => {
@@ -183,7 +183,7 @@ export const NexusProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <NexusContext.Provider value={{ 
+    <FLUXGATEContext.Provider value={{ 
       ...state, 
       login, 
       logout,
@@ -196,12 +196,12 @@ export const NexusProvider = ({ children }: { children: ReactNode }) => {
       bookSlot
     }}>
       {children}
-    </NexusContext.Provider>
+    </FLUXGATEContext.Provider>
   );
 };
 
-export const useNexus = () => {
-  const context = useContext(NexusContext);
-  if (!context) throw new Error('useNexus must be used within NexusProvider');
+export const useFLUXGATE = () => {
+  const context = useContext(FLUXGATEContext);
+  if (!context) throw new Error('useFLUXGATE must be used within FLUXGATEProvider');
   return context;
 };

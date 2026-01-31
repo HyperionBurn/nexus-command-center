@@ -89,7 +89,7 @@ export const MasterSystemSwitch = ({ isRunning, onToggle, className }: MasterSys
             animate={isRunning ? { opacity: [1, 0.7, 1] } : {}}
             transition={{ duration: 1.5, repeat: Infinity }}
           >
-            {isRunning ? "NEXUS ONLINE" : "SYSTEM OFFLINE"}
+            {isRunning ? "FLUXGATE ONLINE" : "SYSTEM OFFLINE"}
           </motion.span>
           
           {/* Activity indicators */}

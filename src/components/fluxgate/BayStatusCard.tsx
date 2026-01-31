@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Bay, BayPhase } from '@/types/nexus';
+import { Bay, BayPhase } from '@/types/fluxgate';
 import { GoldenMinuteTimer } from './GoldenMinuteTimer';
 import { cn } from '@/lib/utils';
 import { Car, AlertTriangle, CheckCircle, Clock, ShieldCheck, UserCheck, Bus } from 'lucide-react';
@@ -35,27 +35,27 @@ export const BayStatusCard = memo(({ bay }: BayStatusCardProps) => {
 
   const statusConfig = {
     OPEN: {
-      bg: 'border-nexus-open/30 bg-nexus-open/5',
+      bg: 'border-FLUXGATE-open/30 bg-FLUXGATE-open/5',
       icon: CheckCircle,
-      iconColor: 'text-nexus-open',
+      iconColor: 'text-FLUXGATE-open',
       label: 'READY',
     },
     OCCUPIED: {
-      bg: bay.dwellTime > (bay.maxDwell * 0.8) ? 'border-nexus-wait/50 bg-nexus-wait/10' : 'border-primary/30 bg-primary/5',
+      bg: bay.dwellTime > (bay.maxDwell * 0.8) ? 'border-FLUXGATE-wait/50 bg-FLUXGATE-wait/10' : 'border-primary/30 bg-primary/5',
       icon: bay.type === 'BUS' ? Bus : Car,
-      iconColor: bay.dwellTime > (bay.maxDwell * 0.8) ? 'text-nexus-wait' : 'text-primary',
+      iconColor: bay.dwellTime > (bay.maxDwell * 0.8) ? 'text-FLUXGATE-wait' : 'text-primary',
       label: 'ACTIVE',
     },
     CLEARING: {
-      bg: 'border-nexus-cyan/30 bg-nexus-cyan/5',
+      bg: 'border-FLUXGATE-cyan/30 bg-FLUXGATE-cyan/5',
       icon: Clock,
-      iconColor: 'text-nexus-cyan',
+      iconColor: 'text-FLUXGATE-cyan',
       label: 'CLEARING',
     },
     BLOCKED: {
-      bg: 'border-nexus-hold/50 bg-nexus-hold/10',
+      bg: 'border-FLUXGATE-hold/50 bg-FLUXGATE-hold/10',
       icon: AlertTriangle,
-      iconColor: 'text-nexus-hold',
+      iconColor: 'text-FLUXGATE-hold',
       label: 'BLOCKED',
     },
   }[bay.status];
@@ -81,10 +81,10 @@ export const BayStatusCard = memo(({ bay }: BayStatusCardProps) => {
             </span>
             <span className={cn(
               'px-2 py-0.5 rounded text-xs font-medium uppercase tracking-wider',
-              bay.status === 'OPEN' && 'bg-nexus-open/20 text-nexus-open',
+              bay.status === 'OPEN' && 'bg-FLUXGATE-open/20 text-FLUXGATE-open',
               bay.status === 'OCCUPIED' && 'bg-primary/20 text-primary',
-              bay.status === 'CLEARING' && 'bg-nexus-cyan/20 text-nexus-cyan',
-              bay.status === 'BLOCKED' && 'bg-nexus-hold/20 text-nexus-hold',
+              bay.status === 'CLEARING' && 'bg-FLUXGATE-cyan/20 text-FLUXGATE-cyan',
+              bay.status === 'BLOCKED' && 'bg-FLUXGATE-hold/20 text-FLUXGATE-hold',
             )}>
               {statusConfig.label}
             </span>
@@ -138,8 +138,8 @@ export const BayStatusCard = memo(({ bay }: BayStatusCardProps) => {
               <div 
                 className={cn(
                   'absolute top-0 left-0 h-full transition-all duration-1000',
-                  bay.dwellTime <= bay.maxDwell * 0.75 ? 'bg-nexus-open' : 
-                  bay.dwellTime <= bay.maxDwell ? 'bg-nexus-wait' : 'bg-nexus-hold'
+                  bay.dwellTime <= bay.maxDwell * 0.75 ? 'bg-FLUXGATE-open' : 
+                  bay.dwellTime <= bay.maxDwell ? 'bg-FLUXGATE-wait' : 'bg-FLUXGATE-hold'
                 )}
                 style={{ width: `${Math.min((bay.dwellTime / bay.maxDwell) * 100, 100)}%` }}
               />
@@ -152,11 +152,11 @@ export const BayStatusCard = memo(({ bay }: BayStatusCardProps) => {
 
       {bay.isAlerted && (
         <div 
-          className="mt-3 p-2 rounded bg-nexus-hold/20 border border-nexus-hold/30"
+          className="mt-3 p-2 rounded bg-FLUXGATE-hold/20 border border-FLUXGATE-hold/30"
           role="alert"
           aria-live="assertive"
         >
-          <div className="flex items-center gap-2 text-nexus-hold text-xs">
+          <div className="flex items-center gap-2 text-FLUXGATE-hold text-xs">
             <AlertTriangle className="h-3 w-3" aria-hidden="true" />
             <span>Marshall Alert: Dwell time exceeded</span>
           </div>

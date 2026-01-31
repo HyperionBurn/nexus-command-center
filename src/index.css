@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    /* NEXUS Command Center - Dark Futuristic Theme */
+    /* FLUXGATE Command Center - Dark Futuristic Theme */
     --background: 222 47% 6%;
     --foreground: 210 40% 98%;
 
@@ -38,12 +38,12 @@
 
     --radius: 0.75rem;
 
-    /* NEXUS Status Colors */
-    --nexus-open: 142 100% 50%;
-    --nexus-wait: 38 100% 50%;
-    --nexus-hold: 0 100% 60%;
-    --nexus-cyan: 186 100% 50%;
-    --nexus-purple: 270 100% 65%;
+    /* FLUXGATE Status Colors */
+    --FLUXGATE-open: 142 100% 50%;
+    --FLUXGATE-wait: 38 100% 50%;
+    --FLUXGATE-hold: 0 100% 60%;
+    --FLUXGATE-cyan: 186 100% 50%;
+    --FLUXGATE-purple: 270 100% 65%;
 
     /* Glassmorphism */
     --glass-bg: 222 47% 8% / 0.7;
@@ -110,35 +110,35 @@
 
   /* Neon Text Effects */
   .text-glow-cyan {
-    text-shadow: 0 0 20px hsl(var(--nexus-cyan) / 0.6), 0 0 40px hsl(var(--nexus-cyan) / 0.3);
+    text-shadow: 0 0 20px hsl(var(--FLUXGATE-cyan) / 0.6), 0 0 40px hsl(var(--FLUXGATE-cyan) / 0.3);
   }
 
   .text-glow-green {
-    text-shadow: 0 0 20px hsl(var(--nexus-open) / 0.6), 0 0 40px hsl(var(--nexus-open) / 0.3);
+    text-shadow: 0 0 20px hsl(var(--FLUXGATE-open) / 0.6), 0 0 40px hsl(var(--FLUXGATE-open) / 0.3);
   }
 
   .text-glow-amber {
-    text-shadow: 0 0 20px hsl(var(--nexus-wait) / 0.6), 0 0 40px hsl(var(--nexus-wait) / 0.3);
+    text-shadow: 0 0 20px hsl(var(--FLUXGATE-wait) / 0.6), 0 0 40px hsl(var(--FLUXGATE-wait) / 0.3);
   }
 
   .text-glow-red {
-    text-shadow: 0 0 20px hsl(var(--nexus-hold) / 0.6), 0 0 40px hsl(var(--nexus-hold) / 0.3);
+    text-shadow: 0 0 20px hsl(var(--FLUXGATE-hold) / 0.6), 0 0 40px hsl(var(--FLUXGATE-hold) / 0.3);
   }
 
   /* Status Indicators */
   .status-open {
-    @apply bg-nexus-open text-background;
-    box-shadow: 0 0 20px hsl(var(--nexus-open) / 0.5);
+    @apply bg-FLUXGATE-open text-background;
+    box-shadow: 0 0 20px hsl(var(--FLUXGATE-open) / 0.5);
   }
 
   .status-wait {
-    @apply bg-nexus-wait text-background;
-    box-shadow: 0 0 20px hsl(var(--nexus-wait) / 0.5);
+    @apply bg-FLUXGATE-wait text-background;
+    box-shadow: 0 0 20px hsl(var(--FLUXGATE-wait) / 0.5);
   }
 
   .status-hold {
-    @apply bg-nexus-hold text-white;
-    box-shadow: 0 0 20px hsl(var(--nexus-hold) / 0.5);
+    @apply bg-FLUXGATE-hold text-white;
+    box-shadow: 0 0 20px hsl(var(--FLUXGATE-hold) / 0.5);
   }
 
   /* Bento Grid */
@@ -194,7 +194,7 @@
   .scan-line::after {
     content: '';
     @apply absolute left-0 right-0 h-px pointer-events-none;
-    background: linear-gradient(90deg, transparent, hsl(var(--nexus-cyan) / 0.3), transparent);
+    background: linear-gradient(90deg, transparent, hsl(var(--FLUXGATE-cyan) / 0.3), transparent);
     animation: scan-line 12s linear infinite;
     will-change: transform;
   }
@@ -208,9 +208,9 @@
   .data-stream {
     background: linear-gradient(90deg, 
       transparent 0%, 
-      hsl(var(--nexus-cyan) / 0.1) 25%,
-      hsl(var(--nexus-cyan) / 0.3) 50%,
-      hsl(var(--nexus-cyan) / 0.1) 75%,
+      hsl(var(--FLUXGATE-cyan) / 0.1) 25%,
+      hsl(var(--FLUXGATE-cyan) / 0.3) 50%,
+      hsl(var(--FLUXGATE-cyan) / 0.1) 75%,
       transparent 100%
     );
     background-size: 200% 100%;
@@ -221,12 +221,12 @@
   /* Surge Alert - reduced animation frequency */
   @keyframes surge-pulse {
     0%, 100% { 
-      box-shadow: 0 0 20px hsl(var(--nexus-hold) / 0.3);
-      border-color: hsl(var(--nexus-hold) / 0.5);
+      box-shadow: 0 0 20px hsl(var(--FLUXGATE-hold) / 0.3);
+      border-color: hsl(var(--FLUXGATE-hold) / 0.5);
     }
     50% { 
-      box-shadow: 0 0 35px hsl(var(--nexus-hold) / 0.5);
-      border-color: hsl(var(--nexus-hold));
+      box-shadow: 0 0 35px hsl(var(--FLUXGATE-hold) / 0.5);
+      border-color: hsl(var(--FLUXGATE-hold));
     }
   }
 

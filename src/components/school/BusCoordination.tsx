@@ -11,10 +11,10 @@ export const BusCoordination = () => {
   ];
 
   return (
-    <Card className="glass-panel border-nexus-border/50">
+    <Card className="glass-panel border-FLUXGATE-border/50">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg flex items-center gap-2">
-          <Bus className="h-5 w-5 text-nexus-orange" />
+          <Bus className="h-5 w-5 text-FLUXGATE-orange" />
           Bus Fleet Status
         </CardTitle>
       </CardHeader>
@@ -26,7 +26,7 @@ export const BusCoordination = () => {
                 <span className="font-bold font-mono">{bus.id}</span>
                 <span className="text-muted-foreground">{bus.route}</span>
                 <span className={`text-xs px-2 py-0.5 rounded font-medium 
-                  ${bus.status === 'DEPARTED' ? 'bg-nexus-success/20 text-nexus-success' : 
+                  ${bus.status === 'DEPARTED' ? 'bg-FLUXGATE-success/20 text-FLUXGATE-success' : 
                     bus.status === 'DELAYED' ? 'bg-destructive/20 text-destructive' : 'bg-secondary text-secondary-foreground'}`}>
                   {bus.status}
                 </span>

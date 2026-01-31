@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Zone } from '@/types/nexus';
+import { Zone } from '@/types/fluxgate';
 import { BayStatusCard } from './BayStatusCard';
 import { cn } from '@/lib/utils';
 import { MapPin, Users, Clock, ArrowUp } from 'lucide-react';
@@ -36,9 +36,9 @@ export const ZoneOverview = memo(({ zones, className }: ZoneOverviewProps) => {
                 <span 
                   className={cn(
                     'px-2 py-1 rounded font-mono text-sm font-bold',
-                    zone.status === 'NORMAL' && 'bg-nexus-open/20 text-nexus-open',
-                    zone.status === 'SURGE' && 'bg-nexus-wait/20 text-nexus-wait',
-                    zone.status === 'CRITICAL' && 'bg-nexus-hold/20 text-nexus-hold',
+                    zone.status === 'NORMAL' && 'bg-FLUXGATE-open/20 text-FLUXGATE-open',
+                    zone.status === 'SURGE' && 'bg-FLUXGATE-wait/20 text-FLUXGATE-wait',
+                    zone.status === 'CRITICAL' && 'bg-FLUXGATE-hold/20 text-FLUXGATE-hold',
                   )}
                   role="status"
                   aria-label={`Zone ${zone.name}, status ${zone.status.toLowerCase()}`}
@@ -48,9 +48,9 @@ export const ZoneOverview = memo(({ zones, className }: ZoneOverviewProps) => {
                 <span 
                   className={cn(
                     'text-xs px-2 py-0.5 rounded',
-                    zone.gateStatus === 'OPEN' && 'bg-nexus-open/10 text-nexus-open',
-                    zone.gateStatus === 'CLOSED' && 'bg-nexus-hold/10 text-nexus-hold',
-                    zone.gateStatus === 'TRANSITIONING' && 'bg-nexus-wait/10 text-nexus-wait',
+                    zone.gateStatus === 'OPEN' && 'bg-FLUXGATE-open/10 text-FLUXGATE-open',
+                    zone.gateStatus === 'CLOSED' && 'bg-FLUXGATE-hold/10 text-FLUXGATE-hold',
+                    zone.gateStatus === 'TRANSITIONING' && 'bg-FLUXGATE-wait/10 text-FLUXGATE-wait',
                   )}
                   role="status"
                   aria-label={`Gate status: ${zone.gateStatus.toLowerCase()}`}

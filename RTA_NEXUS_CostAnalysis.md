@@ -1,4 +1,4 @@
-# 💰 RTA NEXUS: Cost-Benefit Analysis
+# 💰 RTA FLUXGATE: Cost-Benefit Analysis
 ## Detailed Feasibility, Costs & Savings Report
 
 ---
@@ -96,7 +96,7 @@
 | Vehicles per day (drop-off) | 500 | ~60% drive, siblings grouped |
 | Vehicles per day (pickup) | 500 | Same |
 | Current average wait time | 15 minutes | Field observation |
-| NEXUS average wait time | 5 minutes | 67% reduction target |
+| FLUXGATE average wait time | 5 minutes | 67% reduction target |
 | Time saved per vehicle | 10 minutes | Conservative |
 | School days per year | 180 | Standard calendar |
 
@@ -130,7 +130,7 @@ Annual Time Saved = 166.7 hours × 180 days
 |-----------|-------|
 | Average idling fuel consumption | 1.5 liters/hour |
 | Current idle time per vehicle | 15 minutes = 0.25 hours |
-| NEXUS idle time per vehicle | 5 minutes = 0.083 hours |
+| FLUXGATE idle time per vehicle | 5 minutes = 0.083 hours |
 | Idle time reduction | 0.167 hours per vehicle |
 | Fuel price (UAE) | AED 3.00/liter |
 
@@ -174,7 +174,7 @@ Monetary Savings = 45,090 L × AED 3.00 = AED 135,270 per year
 
 #### Safety Improvement Estimates
 
-| Current State | With NEXUS | Improvement |
+| Current State | With FLUXGATE | Improvement |
 |---------------|------------|-------------|
 | Minor incidents/year | 5-10 | 1-2 | 80% reduction |
 | Near misses/year | 50+ | 10 | 80% reduction |
@@ -225,14 +225,14 @@ Monetary Savings = 45,090 L × AED 3.00 = AED 135,270 per year
 | **Current Queue** | 2.4 km (spilling onto main road) |
 | **Current Wait Time** | 30 - 45 minutes |
 
-### 3.2 NEXUS Implementation Model
+### 3.2 FLUXGATE Implementation Model
 
 #### Capacity Calculation
 - **Window**: 7:00 AM - 8:15 AM (75 minutes)
 - **Required Throughput**: 1,400 vehicles / 75 min = **18.6 cars/min**
 - **Gate Capacity**: 3 gates × 7 cars/min (optimized) = **21 cars/min**
 
-> **Verdict**: With 3 gates active, NEXUS can process 100% of traffic without queues IF arrivals are staggered.
+> **Verdict**: With 3 gates active, FLUXGATE can process 100% of traffic without queues IF arrivals are staggered.
 
 #### Staging Strategy
 - **Primary**: School internal loop (capacity 40 cars)
@@ -241,7 +241,7 @@ Monetary Savings = 45,090 L × AED 3.00 = AED 135,270 per year
 
 ### 3.3 Projected Savings for Kings' School
 
-| Metric | Current Reality | With NEXUS | Annual Savings |
+| Metric | Current Reality | With FLUXGATE | Annual Savings |
 |--------|-----------------|------------|----------------|
 | **Avg Wait Time** | 35 mins | < 3 mins | **32 mins/trip** |
 | **Daily Time Lost** | 1,400 × 35 min = 816 hrs | 1,400 × 3 min = 70 hrs | **134,280 hours/year** |
@@ -250,7 +250,7 @@ Monetary Savings = 45,090 L × AED 3.00 = AED 135,270 per year
 | **CO2 Emissions** | 4,850 kg/day | 415 kg/day | **798 Tonnes** |
 
 > [!TIP]
-> **Impact Statement**: Implementing NEXUS at **Kings' School Al Barsha** saves the Dubai economy **AED 13.7 Million annually** and removes **798 tonnes of CO2**.
+> **Impact Statement**: Implementing FLUXGATE at **Kings' School Al Barsha** saves the Dubai economy **AED 13.7 Million annually** and removes **798 tonnes of CO2**.
 
 ---
 
@@ -380,14 +380,14 @@ IRR = 573%
 
 | Solution | CAPEX | Annual OPEX | Effectiveness | Payback |
 |----------|-------|-------------|---------------|---------|
-| **NEXUS (This Solution)** | 285,800 | 48,000 | 67% congestion reduction | 2 months |
+| **FLUXGATE (This Solution)** | 285,800 | 48,000 | 67% congestion reduction | 2 months |
 | Traffic Officer (manual) | 120,000/year | 120,000 | 30% reduction | Never |
 | Road Widening | 2,000,000+ | 20,000 | 40% reduction | 15+ years |
 | Build Parking Structure | 5,000,000+ | 100,000 | 50% reduction | 25+ years |
 | Do Nothing | 0 | 0 | 0% | N/A |
 
 > [!TIP]
-> **NEXUS offers 2x the effectiveness at 1/10th the cost of alternatives.**
+> **FLUXGATE offers 2x the effectiveness at 1/10th the cost of alternatives.**
 
 ---
 
@@ -396,7 +396,7 @@ IRR = 573%
 ### Option A: RTA Direct Investment
 - RTA funds pilot (AED 285K)
 - Scales based on results
-- NEXUS becomes RTA standard
+- FLUXGATE becomes RTA standard
 
 ### Option B: Public-Private Partnership (PPP)
 - Private operator invests in infrastructure
@@ -417,7 +417,7 @@ Start with RTA-funded pilot at 2-3 schools, then scale via PPP model.
 
 ```mermaid
 gantt
-    title NEXUS Implementation Timeline
+    title FLUXGATE Implementation Timeline
     dateFormat  YYYY-MM-DD
     section Phase 1: Pilot
     School Selection & Planning    :2026-02-01, 14d

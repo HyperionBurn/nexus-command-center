@@ -1,10 +1,10 @@
-# 🚦 RTA NEXUS: Traffic Flow & Congestion Physics
+# 🚦 RTA FLUXGATE: Traffic Flow & Congestion Physics
 ## The Mathematics of School Zone Dynamics
 
 ---
 
 ## 🎯 Overview
-This document details the mathematical framework used by RTA NEXUS to predict, measure, and mitigate traffic congestion. It differentiates between **Free Flow** (the ideal state) and **Congestion/Saturation** (the queue state), providing the formulas required to calculate system capacity and throughput.
+This document details the mathematical framework used by RTA FLUXGATE to predict, measure, and mitigate traffic congestion. It differentiates between **Free Flow** (the ideal state) and **Congestion/Saturation** (the queue state), providing the formulas required to calculate system capacity and throughput.
 
 ---
 
@@ -46,7 +46,7 @@ $$ \rho = \frac{\lambda}{\mu} $$
 *   **$\lambda$**: Arrival Rate (Cars arriving per hour)
 *   **$\mu$**: Service Rate (Capacity per hour)
 
-| Value | State | NEXUS Action |
+| Value | State | FLUXGATE Action |
 | :--- | :--- | :--- |
 | $\rho < 0.75$ | **Free Flow** | Green Status usually. |
 | $0.75 < \rho < 0.95$ | **Unstable Flow** | Warning: Buffer capacity diminishing. |
@@ -99,10 +99,10 @@ $$ T_{clear} = \frac{N_{backlog}}{\mu - \lambda_{new}} $$
 
 ## 5. Control Flow & Time Slot Management
 
-This section defines how NEXUS manages the "Input" to ensure it matches the "Capacity".
+This section defines how FLUXGATE manages the "Input" to ensure it matches the "Capacity".
 
 ### A. The Slotting Algorithm (Prevention)
-Instead of allowing random arrivals, NEXUS pre-assigns capacity slots.
+Instead of allowing random arrivals, FLUXGATE pre-assigns capacity slots.
 
 **Total Slots per Interval** ($S_{int}$) are calculated as:
 $$ S_{int} = \mu \times T_{interval} \times \alpha $$
@@ -184,7 +184,7 @@ If all 600 cars arrive randomly in 30 mins:
     *   Length: $240 \times 7m = \mathbf{1.68 \text{ km}}$.
     *   **Result**: Gridlock affecting city roads.
 
-### C. The NEXUS Solution Applied
+### C. The FLUXGATE Solution Applied
 
 **Step 1: Time Slot Expansion (Demand Spreading)**
 *   Problem: 30 mins is too short.
@@ -219,13 +219,13 @@ In an unmanaged system, cars arrive according to a **Poisson Process**.
 *   **The Problem**: Arrivals are clumpy. You might get 0 cars for 1 minute (wasted capacity) and then 20 cars the next minute (instant queue).
 *   **The Math**:
     *   Unmanaged Efficiency $\approx 60-70\%$ of theoretical max due to gaps.
-    *   NEXUS Efficiency $\approx 90-95\%$ because slots force a **Uniform Distribution**.
+    *   FLUXGATE Efficiency $\approx 90-95\%$ because slots force a **Uniform Distribution**.
     *   **Gain**: We reclaim ~25% of lost capacity just by smoothing the arrival rate.
 
 ### B. Variance Reduction in Service Time ($t_{dwell}$)
 The "Bottleneck" is defined by the *slowest* car in the batch.
 *   **Random Scenario**: A fast Senior student (15s) is stuck behind a slow KG parent (60s). The bay moves at the speed of the slowest (60s).
-*   **NEXUS Grouping**:
+*   **FLUXGATE Grouping**:
     *   Lane A (Express): Seniors only. $\mu = 240$ cars/hr.
     *   Lane B (Assisted): KG only. $\mu = 60$ cars/hr.
     *   **Result**: The fast lane clears 4x the volume in the same time, preventing the "fast" cars from adding to the queue.
@@ -233,11 +233,11 @@ The "Bottleneck" is defined by the *slowest* car in the batch.
 ### C. The "Lost Time" Mitigation (Startup Delay)
 When a traffic light turns green, the reaction time propagates backward ($2s$ per car).
 *   **Queue Effect**: In a line of 10 cars, the 10th car waits $20s$ just for the line to start moving.
-*   **NEXUS Continuous Flow**: By maintaining "Rolling Speed" (cars enter bays at 5km/h rather than from a dead stop), we eliminate the startup delay.
+*   **FLUXGATE Continuous Flow**: By maintaining "Rolling Speed" (cars enter bays at 5km/h rather than from a dead stop), we eliminate the startup delay.
 *   **Saving**: $\approx 3-5$ seconds per cycle $\times 60$ cycles/hr = **3-5 minutes of extra capacity per lane/hour**.
 
 ### D. Total System Gain Calculation
 $$ \text{Total Gain} = \text{Smoothing Gain} + \text{Variance Gain} + \text{Startup Gain} $$
 $$ \approx 25\% + 15\% + 10\% = \mathbf{50\% \text{ More Throughput}} $$
-*   **Translation**: A school that needed 2 lanes to handle traffic can now do it with 1 lane using NEXUS logic.
+*   **Translation**: A school that needed 2 lanes to handle traffic can now do it with 1 lane using FLUXGATE logic.
 

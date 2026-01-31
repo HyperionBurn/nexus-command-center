@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, CheckCircle2, AlertTriangle, Shield, UserCheck, LogOut, Loader2, Award, Zap, ChevronRight, Backpack } from "lucide-react";
-import { useNexus, StudentStatus } from "@/context/NexusContext";
+import { useFLUXGATE, StudentStatus } from "@/context/FluxGateContext";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -28,7 +28,7 @@ const TiltCard = ({ children, className }: { children: React.ReactNode, classNam
 };
 
 export default function StudentDashboard() {
-  const { studentStatus, tripStatus, gate, eta, logout, nolBalance } = useNexus();
+  const { studentStatus, tripStatus, gate, eta, logout, nolBalance } = useFLUXGATE();
   const navigate = useNavigate();
 
   const handleLogout = () => {

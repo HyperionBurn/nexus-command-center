@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { User, GraduationCap, ChevronRight, Sparkles, Globe } from "lucide-react";
-import { useNexus } from "@/context/NexusContext";
+import { useFLUXGATE } from "@/context/FluxGateContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { use3DTilt } from "@/hooks/use3DTilt";
@@ -31,7 +31,7 @@ const TiltCard = ({ children, onClick, className }: { children: React.ReactNode,
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useNexus();
+  const { login } = useFLUXGATE();
   const [selected, setSelected] = useState<"parent" | "student" | null>(null);
 
   const handleLogin = (role: "parent" | "student") => {
@@ -71,7 +71,7 @@ export default function Login() {
 
             <div className="relative">
                 <h1 className="text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-200 to-slate-500 pb-2">
-                    NEXUS
+                    FLUXGATE
                 </h1>
                 <p className="text-2xl font-light text-slate-400 tracking-[0.2em] uppercase mt-2">
                     Command Center

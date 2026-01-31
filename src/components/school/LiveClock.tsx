@@ -37,8 +37,8 @@ export const LiveClock = ({ className = "", showDate = true }: LiveClockProps) =
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>
-      <div className="p-2 rounded-lg bg-nexus-blue/10 border border-nexus-blue/20">
-        <Clock className="h-5 w-5 text-nexus-blue animate-pulse" />
+      <div className="p-2 rounded-lg bg-FLUXGATE-blue/10 border border-FLUXGATE-blue/20">
+        <Clock className="h-5 w-5 text-FLUXGATE-blue animate-pulse" />
       </div>
       <div className="text-right">
         <div className="text-2xl font-mono font-bold tracking-wider text-foreground">

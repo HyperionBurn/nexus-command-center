@@ -1,4 +1,4 @@
-import { Zone, Vehicle } from "@/types/nexus";
+import { Zone, Vehicle } from "@/types/fluxgate";
 import { cn } from "@/lib/utils";
 import { memo, useMemo } from "react";
 import { AnimatePresence } from "framer-motion";
@@ -239,7 +239,7 @@ export const DigitalTwinMap = memo(({ zones, vehicles, className }: DigitalTwinM
                         fontSize="14" 
                         fontWeight="bold"
                     >
-                        UNIFIED NEXUS ZONE
+                        UNIFIED FLUXGATE ZONE
                     </text>
                     
                     {/* Stats badge */}

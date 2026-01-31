@@ -38,7 +38,7 @@ export const CommandOperationsGrid = () => {
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Bus className="h-5 w-5 text-nexus-blue" />
+            <Bus className="h-5 w-5 text-FLUXGATE-blue" />
             <h3 className="font-semibold text-foreground">Fleet Operations</h3>
           </div>
           <Badge variant="outline" className="text-xs font-mono">
@@ -50,7 +50,7 @@ export const CommandOperationsGrid = () => {
           {buses.map((bus) => (
             <div key={bus.id} className="space-y-2">
               <div className="flex justify-between items-center text-sm">
-                <span className="font-bold font-mono text-nexus-blue/80">{bus.id}</span>
+                <span className="font-bold font-mono text-FLUXGATE-blue/80">{bus.id}</span>
                 <span className="text-muted-foreground text-xs">{bus.route}</span>
                 <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium border
                   ${bus.status === 'DEPARTED' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 
@@ -87,12 +87,12 @@ export const CommandOperationsGrid = () => {
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="h-5 w-5 text-nexus-success" />
+            <ShieldCheck className="h-5 w-5 text-FLUXGATE-success" />
             <h3 className="font-semibold text-foreground">Security Grid</h3>
           </div>
           <div className="flex gap-2">
-             <Radio className="h-4 w-4 text-nexus-success animate-pulse" />
-             <Wifi className="h-4 w-4 text-nexus-success" />
+             <Radio className="h-4 w-4 text-FLUXGATE-success animate-pulse" />
+             <Wifi className="h-4 w-4 text-FLUXGATE-success" />
           </div>
         </div>
 
@@ -101,7 +101,7 @@ export const CommandOperationsGrid = () => {
             {checkpoints.map(cp => (
                 <div key={cp.id} className="bg-secondary/10 border border-border/50 rounded-md p-2 flex flex-col items-center justify-center text-center gap-1">
                     <span className="text-[10px] text-muted-foreground font-mono">{cp.id}</span>
-                    <Lock className={`h-4 w-4 ${cp.status === 'ACTIVE' || cp.status === 'CONGESTED' ? 'text-nexus-success' : 'text-muted-foreground'}`} />
+                    <Lock className={`h-4 w-4 ${cp.status === 'ACTIVE' || cp.status === 'CONGESTED' ? 'text-FLUXGATE-success' : 'text-muted-foreground'}`} />
                     <span className="text-[10px] font-bold">{cp.load}%</span>
                 </div>
             ))}

@@ -1,4 +1,4 @@
-// Animation presets for NEXUS Command Center
+// Animation presets for FLUXGATE Command Center
 // Provides consistent, professional motion across all components
 
 import { Variants, Transition } from 'framer-motion';

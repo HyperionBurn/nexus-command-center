@@ -31,10 +31,10 @@ export const TodaySummary = () => {
 
   if (isLoading) {
     return (
-      <Card className="glass-panel border-nexus-border/50">
+      <Card className="glass-panel border-FLUXGATE-border/50">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-nexus-blue" />
+            <TrendingUp className="h-5 w-5 text-FLUXGATE-blue" />
             Today's Summary
           </CardTitle>
         </CardHeader>
@@ -54,10 +54,10 @@ export const TodaySummary = () => {
 
   if (!data) {
     return (
-      <Card className="glass-panel border-nexus-border/50">
+      <Card className="glass-panel border-FLUXGATE-border/50">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-nexus-blue" />
+            <TrendingUp className="h-5 w-5 text-FLUXGATE-blue" />
             Today's Summary
           </CardTitle>
         </CardHeader>
@@ -76,38 +76,38 @@ export const TodaySummary = () => {
       label: "Total Pickups",
       value: data.totalPickups.toLocaleString(),
       icon: Users,
-      color: "text-nexus-blue",
-      bgColor: "bg-nexus-blue/10",
+      color: "text-FLUXGATE-blue",
+      bgColor: "bg-FLUXGATE-blue/10",
     },
     {
       label: "Avg Wait Time",
       value: `${data.avgWaitTime} min`,
       icon: Clock,
-      color: "text-nexus-success",
-      bgColor: "bg-nexus-success/10",
+      color: "text-FLUXGATE-success",
+      bgColor: "bg-FLUXGATE-success/10",
     },
     {
       label: "Peak Hour",
       value: data.peakHour,
       icon: TrendingUp,
-      color: "text-nexus-orange",
-      bgColor: "bg-nexus-orange/10",
+      color: "text-FLUXGATE-orange",
+      bgColor: "bg-FLUXGATE-orange/10",
       small: true,
     },
     {
       label: "On-Time Rate",
       value: `${data.onTimeRate}%`,
       icon: Activity,
-      color: "text-nexus-purple",
-      bgColor: "bg-nexus-purple/10",
+      color: "text-FLUXGATE-purple",
+      bgColor: "bg-FLUXGATE-purple/10",
     },
   ];
 
   return (
-    <Card className="glass-panel border-nexus-border/50">
+    <Card className="glass-panel border-FLUXGATE-border/50">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg flex items-center gap-2">
-          <TrendingUp className="h-5 w-5 text-nexus-blue" />
+          <TrendingUp className="h-5 w-5 text-FLUXGATE-blue" />
           Today's Summary
         </CardTitle>
       </CardHeader>

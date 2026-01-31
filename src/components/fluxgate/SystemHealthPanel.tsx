@@ -1,4 +1,4 @@
-import { SystemHealth } from '@/types/nexus';
+import { SystemHealth } from '@/types/fluxgate';
 import { cn } from '@/lib/utils';
 import { 
   Activity, 
@@ -49,9 +49,9 @@ const getHealthPercentage = (status: 'ONLINE' | 'OFFLINE' | 'WARNING'): number =
 };
 
 const getLatencyColor = (latency: number): string => {
-  if (latency <= 50) return 'text-nexus-open';
-  if (latency <= 150) return 'text-nexus-wait';
-  return 'text-nexus-hold';
+  if (latency <= 50) return 'text-FLUXGATE-open';
+  if (latency <= 150) return 'text-FLUXGATE-wait';
+  return 'text-FLUXGATE-hold';
 };
 
 const getLatencyStatus = (latency: number): string => {
@@ -141,21 +141,21 @@ export const SystemHealthPanel = ({ health, className }: SystemHealthPanelProps)
 
   const overallConfig = {
     OPTIMAL: {
-      color: 'text-nexus-open',
-      bg: 'bg-nexus-open/20',
-      borderColor: 'border-nexus-open/30',
+      color: 'text-FLUXGATE-open',
+      bg: 'bg-FLUXGATE-open/20',
+      borderColor: 'border-FLUXGATE-open/30',
       icon: Activity,
     },
     DEGRADED: {
-      color: 'text-nexus-wait',
-      bg: 'bg-nexus-wait/20',
-      borderColor: 'border-nexus-wait/30',
+      color: 'text-FLUXGATE-wait',
+      bg: 'bg-FLUXGATE-wait/20',
+      borderColor: 'border-FLUXGATE-wait/30',
       icon: AlertCircle,
     },
     CRITICAL: {
-      color: 'text-nexus-hold',
-      bg: 'bg-nexus-hold/20',
-      borderColor: 'border-nexus-hold/30',
+      color: 'text-FLUXGATE-hold',
+      bg: 'bg-FLUXGATE-hold/20',
+      borderColor: 'border-FLUXGATE-hold/30',
       icon: WifiOff,
     },
   }[health.overall];
@@ -202,11 +202,11 @@ export const SystemHealthPanel = ({ health, className }: SystemHealthPanelProps)
   const StatusIcon = ({ status }: { status: 'ONLINE' | 'OFFLINE' | 'WARNING' }) => {
     switch (status) {
       case 'ONLINE':
-        return <CheckCircle2 className="h-4 w-4 text-nexus-open" />;
+        return <CheckCircle2 className="h-4 w-4 text-FLUXGATE-open" />;
       case 'WARNING':
-        return <AlertTriangle className="h-4 w-4 text-nexus-wait" />;
+        return <AlertTriangle className="h-4 w-4 text-FLUXGATE-wait" />;
       case 'OFFLINE':
-        return <XCircle className="h-4 w-4 text-nexus-hold" />;
+        return <XCircle className="h-4 w-4 text-FLUXGATE-hold" />;
     }
   };
 
@@ -243,7 +243,7 @@ export const SystemHealthPanel = ({ health, className }: SystemHealthPanelProps)
             <span className="text-xs font-medium text-muted-foreground">Uptime</span>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-lg font-bold text-nexus-open">{uptimePercentage}%</span>
+            <span className="text-lg font-bold text-FLUXGATE-open">{uptimePercentage}%</span>
             <span className="text-xs text-muted-foreground">{formatUptime(SYSTEM_START_TIME)}</span>
           </div>
           <Progress 
@@ -267,7 +267,7 @@ export const SystemHealthPanel = ({ health, className }: SystemHealthPanelProps)
             </span>
           </div>
           <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
-            <Wifi className="h-3 w-3 text-nexus-open" />
+            <Wifi className="h-3 w-3 text-FLUXGATE-open" />
             <span>Connected</span>
             <span className="text-muted-foreground/50">•</span>
             <span>Min: {networkStats.minLatency}ms</span>
@@ -281,9 +281,9 @@ export const SystemHealthPanel = ({ health, className }: SystemHealthPanelProps)
       <div className="space-y-2 mb-4">
         {health.components.map(component => {
           const statusConfig = {
-            ONLINE: { color: 'text-nexus-open', bg: 'bg-nexus-open', progressColor: 'bg-nexus-open' },
-            OFFLINE: { color: 'text-nexus-hold', bg: 'bg-nexus-hold', progressColor: 'bg-nexus-hold' },
-            WARNING: { color: 'text-nexus-wait', bg: 'bg-nexus-wait', progressColor: 'bg-nexus-wait' },
+            ONLINE: { color: 'text-FLUXGATE-open', bg: 'bg-FLUXGATE-open', progressColor: 'bg-FLUXGATE-open' },
+            OFFLINE: { color: 'text-FLUXGATE-hold', bg: 'bg-FLUXGATE-hold', progressColor: 'bg-FLUXGATE-hold' },
+            WARNING: { color: 'text-FLUXGATE-wait', bg: 'bg-FLUXGATE-wait', progressColor: 'bg-FLUXGATE-wait' },
           }[component.status];
 
           const isExpanded = expandedComponents.has(component.name);

@@ -67,19 +67,19 @@ export const StatCard = memo(({
       valueColor: 'text-foreground',
     },
     success: {
-      iconBg: 'bg-nexus-open/10',
-      iconColor: 'text-nexus-open',
-      valueColor: 'text-nexus-open text-glow-green',
+      iconBg: 'bg-FLUXGATE-open/10',
+      iconColor: 'text-FLUXGATE-open',
+      valueColor: 'text-FLUXGATE-open text-glow-green',
     },
     warning: {
-      iconBg: 'bg-nexus-wait/10',
-      iconColor: 'text-nexus-wait',
-      valueColor: 'text-nexus-wait text-glow-amber',
+      iconBg: 'bg-FLUXGATE-wait/10',
+      iconColor: 'text-FLUXGATE-wait',
+      valueColor: 'text-FLUXGATE-wait text-glow-amber',
     },
     danger: {
-      iconBg: 'bg-nexus-hold/10',
-      iconColor: 'text-nexus-hold',
-      valueColor: 'text-nexus-hold text-glow-red',
+      iconBg: 'bg-FLUXGATE-hold/10',
+      iconColor: 'text-FLUXGATE-hold',
+      valueColor: 'text-FLUXGATE-hold text-glow-red',
     },
   }[variant];
 
@@ -109,7 +109,7 @@ export const StatCard = memo(({
           <motion.div 
             className={cn(
               'text-xs font-medium px-2 py-0.5 rounded',
-              trend.positive ? 'bg-nexus-open/10 text-nexus-open' : 'bg-nexus-hold/10 text-nexus-hold'
+              trend.positive ? 'bg-FLUXGATE-open/10 text-FLUXGATE-open' : 'bg-FLUXGATE-hold/10 text-FLUXGATE-hold'
             )}
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}

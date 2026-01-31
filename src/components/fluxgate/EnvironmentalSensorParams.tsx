@@ -15,14 +15,14 @@ export const EnvironmentalSensorParams = () => {
     };
 
     return (
-        <Card className="glass-panel border-nexus-border/50 bg-secondary/5 h-full">
+        <Card className="glass-panel border-FLUXGATE-border/50 bg-secondary/5 h-full">
             <CardHeader className="pb-2 pt-3 px-4">
                 <CardTitle className="text-sm font-semibold flex items-center justify-between text-muted-foreground">
                     <span className="flex items-center gap-2">
-                        <CloudRain className="h-4 w-4 text-nexus-cyan" />
+                        <CloudRain className="h-4 w-4 text-FLUXGATE-cyan" />
                         ENV SENSORS
                     </span>
-                    <Badge variant="outline" className="text-[10px] font-mono border-nexus-cyan/30 text-nexus-cyan bg-nexus-cyan/5">
+                    <Badge variant="outline" className="text-[10px] font-mono border-FLUXGATE-cyan/30 text-FLUXGATE-cyan bg-FLUXGATE-cyan/5">
                         DXB-01
                     </Badge>
                 </CardTitle>
@@ -62,7 +62,7 @@ export const EnvironmentalSensorParams = () => {
                             <Gauge className="h-3 w-3 text-emerald-400" />
                             <span className="text-[10px] text-muted-foreground uppercase">AQI (PM2.5)</span>
                         </div>
-                        <span className="text-lg font-mono font-bold text-nexus-open">{envData.aqi}</span>
+                        <span className="text-lg font-mono font-bold text-FLUXGATE-open">{envData.aqi}</span>
                     </div>
                 </div>
                 

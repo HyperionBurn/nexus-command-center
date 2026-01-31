@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { TrafficMetrics, SimulationMode } from "@/types/nexus";
+import { TrafficMetrics, SimulationMode } from "@/types/fluxgate";
 
 interface CongestionControlPanelProps {
   currentMetrics?: TrafficMetrics;
@@ -47,9 +47,9 @@ export const CongestionControlPanel = ({
 
   const strategies = {
     FREE_FLOW: {
-      color: "text-nexus-open",
-      bgColor: "bg-nexus-open/10",
-      borderColor: "border-nexus-open/20",
+      color: "text-FLUXGATE-open",
+      bgColor: "bg-FLUXGATE-open/10",
+      borderColor: "border-FLUXGATE-open/20",
       title: "Green State: Free Flow",
       tactic: "Standard Slotting",
       action: "Gates Open • Dwell Time 60s",
@@ -67,9 +67,9 @@ export const CongestionControlPanel = ({
       resource: "Deploy Spotters [+2]"
     },
     CONGESTED: {
-      color: "text-nexus-hold",
-      bgColor: "bg-nexus-hold/10",
-      borderColor: "border-nexus-hold/20",
+      color: "text-FLUXGATE-hold",
+      bgColor: "bg-FLUXGATE-hold/10",
+      borderColor: "border-FLUXGATE-hold/20",
       title: "Red State: Metering",
       tactic: "Supply Boosting",
       action: "Overflow Bays • Staff Surge [+2]",
@@ -101,7 +101,7 @@ export const CongestionControlPanel = ({
              </div>
              <div className="flex flex-col text-right">
                 <span className="text-muted-foreground">Zone Capacity (μ)</span>
-                <span className="text-lg font-mono font-bold text-nexus-cyan">{serviceRate.toFixed(1)} <span className="text-[10px] text-muted-foreground">veh/min</span></span>
+                <span className="text-lg font-mono font-bold text-FLUXGATE-cyan">{serviceRate.toFixed(1)} <span className="text-[10px] text-muted-foreground">veh/min</span></span>
              </div>
           </div>
           
@@ -120,7 +120,7 @@ export const CongestionControlPanel = ({
             />
             {/* Visual thresholds */}
             <div className="flex h-1 w-full gap-0.5 mt-0.5">
-                <div className="h-full w-[85%] bg-nexus-open/20 rounded-l-sm" />
+                <div className="h-full w-[85%] bg-FLUXGATE-open/20 rounded-l-sm" />
                 <div className="h-full w-[15%] bg-amber-400/20" />
                 <div className="h-full w-[5%] bg-red-500/20 rounded-r-sm" />
             </div>
@@ -136,7 +136,7 @@ export const CongestionControlPanel = ({
         
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-3">
-            <Sliders className="h-4 w-4 text-nexus-cyan" />
+            <Sliders className="h-4 w-4 text-FLUXGATE-cyan" />
             <h4 className="text-sm font-semibold text-foreground">Active Logic Protocol</h4>
           </div>
           
@@ -172,13 +172,13 @@ export const CongestionControlPanel = ({
          <div className="grid grid-cols-2 gap-2 mt-1">
             <div className="p-2 rounded bg-black/20 border border-white/5 text-center">
                 <div className="text-[10px] text-muted-foreground uppercase">Target Dwell</div>
-                <div className="text-xl font-bold font-mono text-nexus-cyan">
+                <div className="text-xl font-bold font-mono text-FLUXGATE-cyan">
                     {displayState === 'FREE_FLOW' ? '60s' : displayState === 'UNSTABLE' ? '45s' : '30s'}
                 </div>
             </div>
             <div className="p-2 rounded bg-black/20 border border-white/5 text-center">
                 <div className="text-[10px] text-muted-foreground uppercase">Slack Time</div>
-                <div className="text-xl font-bold font-mono text-nexus-open">
+                <div className="text-xl font-bold font-mono text-FLUXGATE-open">
                     {displayState === 'FREE_FLOW' ? '15s' : displayState === 'UNSTABLE' ? '5s' : '0s'}
                 </div>
             </div>
@@ -186,7 +186,7 @@ export const CongestionControlPanel = ({
 
          <div className="flex items-center justify-between mt-3 text-xs">
             <span className="text-muted-foreground flex items-center gap-1">
-                <ShieldCheck className="h-3 w-3 text-nexus-open" /> Safety Buffer
+                <ShieldCheck className="h-3 w-3 text-FLUXGATE-open" /> Safety Buffer
             </span>
             <span className="font-mono font-bold">
                  {displayState === 'FREE_FLOW' ? 'OPTIMAL' : displayState === 'UNSTABLE' ? 'REDUCED' : 'CRITICAL'}
@@ -201,7 +201,7 @@ export const CongestionControlPanel = ({
         <div className="glass-panel p-3 flex flex-col justify-between">
             <div className="flex justify-between items-start">
                <div className="flex items-center gap-2">
-                   <TrendingDown className="h-4 w-4 text-nexus-cyan" />
+                   <TrendingDown className="h-4 w-4 text-FLUXGATE-cyan" />
                    <h4 className="text-sm font-semibold text-foreground">15m Traffic Forecast</h4>
                </div>
                <Badge variant="outline" className="text-[10px] bg-background/50 border-white/10 text-muted-foreground">AI-v4.2 Model</Badge>
@@ -215,7 +215,7 @@ export const CongestionControlPanel = ({
                 <div className="h-8 w-[1px] bg-border/50"></div>
                 <div className="flex-1">
                     <div className="text-[10px] text-muted-foreground mb-1">Confidence Score</div>
-                    <div className="text-sm font-mono font-bold text-nexus-open">98.4%</div>
+                    <div className="text-sm font-mono font-bold text-FLUXGATE-open">98.4%</div>
                 </div>
             </div>
             
@@ -233,8 +233,8 @@ export const CongestionControlPanel = ({
                    <h4 className="text-sm font-semibold text-foreground">Resource Deployment</h4>
                </div>
                <div className="flex gap-1">
-                   <div className="h-2 w-2 rounded-full bg-nexus-open animate-pulse"></div>
-                   <div className="h-2 w-2 rounded-full bg-nexus-open"></div>
+                   <div className="h-2 w-2 rounded-full bg-FLUXGATE-open animate-pulse"></div>
+                   <div className="h-2 w-2 rounded-full bg-FLUXGATE-open"></div>
                    <div className="h-2 w-2 rounded-full bg-muted"></div>
                </div>
             </div>
@@ -250,14 +250,14 @@ export const CongestionControlPanel = ({
                     <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground mb-0.5">
                         <Megaphone className="h-3 w-3" /> Dig. Signage
                     </div>
-                    <div className="text-sm font-bold font-mono text-nexus-cyan">
+                    <div className="text-sm font-bold font-mono text-FLUXGATE-cyan">
                         {displayState === 'FREE_FLOW' ? 'STD MSG' : 'URGENT'}
                     </div>
                 </div>
              </div>
              
              <div className="mt-2 flex justify-between items-center text-[10px] text-muted-foreground">
-                 <span>Comms Channel: <span className="text-nexus-open">Secure</span></span>
+                 <span>Comms Channel: <span className="text-FLUXGATE-open">Secure</span></span>
                  <span className="flex items-center gap-1"><Signal className="h-3 w-3" /> 5G-V2X Active</span>
              </div>
         </div>

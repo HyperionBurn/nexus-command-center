@@ -25,10 +25,10 @@ export const ArrivalPredictionWidget = () => {
     <div className="glass-panel p-4 h-full">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <TrendingUp className="h-4 w-4 text-nexus-cyan" />
+          <TrendingUp className="h-4 w-4 text-FLUXGATE-cyan" />
           <h3 className="font-semibold text-foreground text-sm">Arrival Forecast</h3>
         </div>
-        <span className="text-[10px] font-mono text-nexus-cyan bg-nexus-cyan/10 px-2 py-0.5 rounded border border-nexus-cyan/20">
+        <span className="text-[10px] font-mono text-FLUXGATE-cyan bg-FLUXGATE-cyan/10 px-2 py-0.5 rounded border border-FLUXGATE-cyan/20">
           AI-VQS
         </span>
       </div>

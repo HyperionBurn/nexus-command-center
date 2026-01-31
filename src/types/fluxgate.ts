@@ -1,5 +1,5 @@
 
-// NEXUS System Types
+// FLUXGATE System Types
 
 export type SimulationMode = 'DROPOFF' | 'PICKUP';
 
