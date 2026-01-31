@@ -8,12 +8,18 @@ import {
   BarChart3, 
   Brain,
   Clock, 
+  Cpu,
   Gauge, 
   Layers, 
   Lock, 
+  Megaphone,
+  Network,
   ShieldCheck, 
+  Signal,
   Sliders,
-  Timer
+  Timer,
+  TrendingDown,
+  Users
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -46,7 +52,9 @@ export const CongestionControlPanel = ({
       borderColor: "border-nexus-open/20",
       title: "Green State: Free Flow",
       tactic: "Standard Slotting",
-      action: "Gates Open • Dwell Time 60s"
+      action: "Gates Open • Dwell Time 60s",
+      prediction: "Stable for next 30m",
+      resource: "Standard Deployment"
     },
     UNSTABLE: {
       color: "text-amber-400",
@@ -54,7 +62,9 @@ export const CongestionControlPanel = ({
       borderColor: "border-amber-400/20",
       title: "Yellow State: Throttled",
       tactic: "Demand Spreading",
-      action: "Express Mode • Dwell Time 45s"
+      action: "Express Mode • Dwell Time 45s",
+      prediction: "Queue building (+5/min)",
+      resource: "Deploy Spotters [+2]"
     },
     CONGESTED: {
       color: "text-nexus-hold",
@@ -62,12 +72,15 @@ export const CongestionControlPanel = ({
       borderColor: "border-nexus-hold/20",
       title: "Red State: Metering",
       tactic: "Supply Boosting",
-      action: "Overflow Bays • Staff Surge [+2]"
+      action: "Overflow Bays • Staff Surge [+2]",
+      prediction: "Clearance Time: 12m",
+      resource: "MAX SECURITY DEPLOYMENT"
     }
   }[displayState];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="space-y-3">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
       {/* 1. Saturation Monitor (The Physics) */}
       <div className={cn("glass-panel p-4 flex flex-col justify-between border-l-4", strategies.borderColor)}>
         <div className="flex justify-between items-start mb-2">
@@ -180,6 +193,75 @@ export const CongestionControlPanel = ({
             </span>
          </div>
       </div>
+    </div>
+    
+    {/* Row 2: Prediction & Resource Matrix */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {/* Component A: AI Forecast Analysis */}
+        <div className="glass-panel p-3 flex flex-col justify-between">
+            <div className="flex justify-between items-start">
+               <div className="flex items-center gap-2">
+                   <TrendingDown className="h-4 w-4 text-nexus-cyan" />
+                   <h4 className="text-sm font-semibold text-foreground">15m Traffic Forecast</h4>
+               </div>
+               <Badge variant="outline" className="text-[10px] bg-background/50 border-white/10 text-muted-foreground">AI-v4.2 Model</Badge>
+            </div>
+            
+            <div className="flex items-center gap-4 mt-2">
+                <div className="flex-1">
+                    <div className="text-[10px] text-muted-foreground mb-1">State Prediction</div>
+                    <div className={cn("text-sm font-mono font-bold", strategies.color)}>{strategies.prediction}</div>
+                </div>
+                <div className="h-8 w-[1px] bg-border/50"></div>
+                <div className="flex-1">
+                    <div className="text-[10px] text-muted-foreground mb-1">Confidence Score</div>
+                    <div className="text-sm font-mono font-bold text-nexus-open">98.4%</div>
+                </div>
+            </div>
+            
+             <div className="mt-3 text-[10px] text-muted-foreground flex items-center gap-1 bg-black/20 p-1.5 rounded">
+                <Cpu className="h-3 w-3" /> 
+                System Auto-Scaling Active: Pre-allocating overflow buffer (+10%)
+            </div>
+        </div>
+
+        {/* Component B: Connected Resource Matrix */}
+        <div className="glass-panel p-3 flex flex-col justify-between">
+            <div className="flex justify-between items-start">
+               <div className="flex items-center gap-2">
+                   <Network className="h-4 w-4 text-primary" />
+                   <h4 className="text-sm font-semibold text-foreground">Resource Deployment</h4>
+               </div>
+               <div className="flex gap-1">
+                   <div className="h-2 w-2 rounded-full bg-nexus-open animate-pulse"></div>
+                   <div className="h-2 w-2 rounded-full bg-nexus-open"></div>
+                   <div className="h-2 w-2 rounded-full bg-muted"></div>
+               </div>
+            </div>
+            
+             <div className="grid grid-cols-2 gap-2 mt-2">
+                <div className="bg-secondary/10 p-2 rounded border border-white/5">
+                    <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground mb-0.5">
+                        <Users className="h-3 w-3" /> Marshals
+                    </div>
+                    <div className="text-sm font-bold font-mono text-foreground">{strategies.resource}</div>
+                </div>
+                <div className="bg-secondary/10 p-2 rounded border border-white/5">
+                    <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground mb-0.5">
+                        <Megaphone className="h-3 w-3" /> Dig. Signage
+                    </div>
+                    <div className="text-sm font-bold font-mono text-nexus-cyan">
+                        {displayState === 'FREE_FLOW' ? 'STD MSG' : 'URGENT'}
+                    </div>
+                </div>
+             </div>
+             
+             <div className="mt-2 flex justify-between items-center text-[10px] text-muted-foreground">
+                 <span>Comms Channel: <span className="text-nexus-open">Secure</span></span>
+                 <span className="flex items-center gap-1"><Signal className="h-3 w-3" /> 5G-V2X Active</span>
+             </div>
+        </div>
+    </div>
     </div>
   );
 };
