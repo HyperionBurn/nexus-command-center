@@ -12,6 +12,7 @@ import { SystemHealthPanel } from '@/components/nexus/SystemHealthPanel';
 import { ProtocolIndicator } from '@/components/nexus/ProtocolIndicator';
 import { MasterSystemSwitch } from '@/components/nexus/MasterSystemSwitch';
 import { CongestionControlPanel } from '@/components/nexus/CongestionControlPanel';
+import { CommandOperationsGrid } from '@/components/nexus/CommandOperationsGrid';
 import { EnvironmentalSensorParams } from '@/components/nexus/EnvironmentalSensorParams';
 import { 
   Car, Users, Clock, TrendingUp, AlertTriangle, CheckCircle,
@@ -336,6 +337,8 @@ const Index = () => {
               mode={mode} 
             />
           </motion.div>
+
+          <CommandOperationsGrid />
         </motion.div>
 
         {/* Right Column - Controls & Monitoring */}
