@@ -6,6 +6,7 @@ import {
   AlertTriangle, 
   ArrowRight, 
   BarChart3, 
+  Brain,
   Clock, 
   Gauge, 
   Layers, 
