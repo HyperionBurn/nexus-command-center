@@ -68,38 +68,57 @@ const initializeBays = (mode: SimulationMode): Zone[] => {
 // Generate simulated vehicles for the map
 const generateVehicles = (count: number): Vehicle[] => {
   return Array.from({ length: count }, (_, i) => {
-    const isBus = Math.random() > 0.85; // Slightly fewer buses
+    // 15% chance of being a bus
+    const isBus = i === 0 || Math.random() > 0.85;
     
-    // Position based on type/lane
-    let baseY = 50; // Default Bus lane
-    if (!isBus) {
-       // Randomly choose Lane 1 (270) or Lane 2 (310) for cars
-       baseY = Math.random() > 0.5 ? 270 : 310;
+    // Strict lane positioning - no variance to prevent flying
+    let baseY: number;
+    if (isBus) {
+      baseY = 80; // Bus priority lane (fixed)
+    } else {
+      // Cars strictly in pickup lanes
+      baseY = i % 2 === 0 ? 270 : 310;
     }
     
     return {
-    id: `V${i}`,
-    plateNumber: isBus ? `BUS-${Math.floor(Math.random() * 99)}` : generatePlate(),
-    rfidTag: `RFID${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
-    position: {
-      x: 100 + Math.random() * 600,
-      y: baseY + (Math.random() - 0.5) * 10, // Less variance to stick to lane
-    },
-    speed: Math.random() * 15,
-    heading: Math.random() * 360,
-    inZone: (['A', 'B', 'C', 'BUS', 'QUEUE', 'EXIT'] as const)[Math.floor(Math.random() * 6)],
-    type: isBus ? 'BUS' : 'CAR',
-    confidence: 0.85 + Math.random() * 0.14,
-    boundingBox: {
-      x: 0,
-      y: 0,
-      width: isBus ? 80 : 40 + Math.random() * 20,
-      height: isBus ? 35 : 25 + Math.random() * 15,
-    },
-  }});
+      id: `V${i}`,
+      plateNumber: isBus ? `BUS-${Math.floor(Math.random() * 99)}` : generatePlate(),
+      rfidTag: `RFID${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
+      position: {
+        x: (i * 90) + 50 + Math.random() * 40, // Spaced out along the road
+        y: baseY, // No variance - strict lane adherence
+      },
+      speed: isBus ? 6 + Math.random() * 4 : 8 + Math.random() * 7, // Realistic speed range
+      heading: 90, // All facing right (east)
+      inZone: (['A', 'B', 'C', 'BUS', 'QUEUE', 'EXIT'] as const)[Math.floor(Math.random() * 6)],
+      type: isBus ? 'BUS' : 'CAR',
+      confidence: 0.92 + Math.random() * 0.07,
+      boundingBox: {
+        x: 0,
+        y: 0,
+        width: isBus ? 80 : 40 + Math.random() * 20,
+        height: isBus ? 35 : 25 + Math.random() * 15,
+      },
+    };
+  });
 };
 
+// Extended metrics interface for dashboard
+export interface ExtendedMetrics {
+  rfidScanRate: number; // scans per minute
+  lprConfidence: number; // average LPR accuracy %
+  predictedArrivalAccuracy: number; // VQS prediction accuracy %
+  avgWaitTimeQueue: number; // seconds
+  safetyScore: number; // 0-100
+  complianceRate: number; // % vehicles following protocol
+  peakLoadFactor: number; // current vs max capacity
+  energyEfficiency: number; // system optimization score
+  parentSatisfactionIndex: number; // computed from rewards
+  aiDecisionsPerMin: number; // fuzzy logic decisions
+}
+
 export const useNexusSimulation = () => {
+  const [isRunning, setIsRunning] = useState(true);
   const [mode, setMode] = useState<SimulationMode>('DROPOFF');
   const [zones, setZones] = useState<Zone[]>(initializeBays('DROPOFF'));
   const [vehicles, setVehicles] = useState<Vehicle[]>(() => generateVehicles(8));
@@ -108,6 +127,18 @@ export const useNexusSimulation = () => {
   const [nolRewards, setNolRewards] = useState<NOLReward[]>([]);
   const [surgeEvents, setSurgeEvents] = useState<SurgeEvent[]>([]);
   const [activeSurge, setActiveSurge] = useState<SurgeEvent | null>(null);
+  const [extendedMetrics, setExtendedMetrics] = useState<ExtendedMetrics>({
+    rfidScanRate: 45,
+    lprConfidence: 94.5,
+    predictedArrivalAccuracy: 87.3,
+    avgWaitTimeQueue: 42,
+    safetyScore: 98,
+    complianceRate: 92.1,
+    peakLoadFactor: 0.65,
+    energyEfficiency: 88.7,
+    parentSatisfactionIndex: 4.2,
+    aiDecisionsPerMin: 12,
+  });
   const [systemHealth, setSystemHealth] = useState<SystemHealth>({
     overall: 'OPTIMAL',
     components: [
@@ -123,6 +154,9 @@ export const useNexusSimulation = () => {
 
   const simulationRef = useRef<NodeJS.Timeout>();
   const animationFrameRef = useRef<number>();
+  const lastFrameTimeRef = useRef<number>(0);
+  const TARGET_FPS = 30;
+  const FRAME_INTERVAL = 1000 / TARGET_FPS; // ~33ms for 30fps
 
   const toggleSimulationMode = useCallback(() => {
     const newMode = mode === 'DROPOFF' ? 'PICKUP' : 'DROPOFF';
@@ -131,6 +165,35 @@ export const useNexusSimulation = () => {
     setTrafficHistory([]);
     setNolRewards([]);
   }, [mode]);
+
+  // Master system toggle
+  const toggleSystem = useCallback(() => {
+    setIsRunning(prev => !prev);
+  }, []);
+
+  // Update extended metrics with realistic fluctuations
+  const updateExtendedMetrics = useCallback(() => {
+    if (!isRunning) return;
+    
+    setExtendedMetrics(prev => {
+      const occupiedBays = zones.flatMap(z => z.bays).filter(b => b.status === 'OCCUPIED').length;
+      const totalBays = zones.flatMap(z => z.bays).length;
+      const loadFactor = occupiedBays / totalBays;
+      
+      return {
+        rfidScanRate: Math.max(20, Math.min(80, prev.rfidScanRate + (Math.random() - 0.5) * 8)),
+        lprConfidence: Math.max(88, Math.min(99.5, prev.lprConfidence + (Math.random() - 0.5) * 1.5)),
+        predictedArrivalAccuracy: Math.max(78, Math.min(96, prev.predictedArrivalAccuracy + (Math.random() - 0.5) * 3)),
+        avgWaitTimeQueue: Math.max(15, Math.min(90, prev.avgWaitTimeQueue + (Math.random() - 0.5) * 10)),
+        safetyScore: Math.max(90, Math.min(100, prev.safetyScore + (Math.random() - 0.5) * 2)),
+        complianceRate: Math.max(82, Math.min(99, prev.complianceRate + (Math.random() - 0.5) * 2)),
+        peakLoadFactor: loadFactor,
+        energyEfficiency: Math.max(75, Math.min(98, prev.energyEfficiency + (Math.random() - 0.5) * 3)),
+        parentSatisfactionIndex: Math.max(3.5, Math.min(5, prev.parentSatisfactionIndex + (Math.random() - 0.5) * 0.2)),
+        aiDecisionsPerMin: Math.max(5, Math.min(25, prev.aiDecisionsPerMin + (Math.random() - 0.5) * 4)),
+      };
+    });
+  }, [isRunning, zones]);
 
   // TFOE: Calculate arrival and service rates
   const calculateRates = useCallback(() => {
@@ -213,6 +276,8 @@ export const useNexusSimulation = () => {
 
   // Simulate bay updates
   const updateBays = useCallback(() => {
+    if (!isRunning) return;
+    
     setZones(prevZones => {
       return prevZones.map(zone => {
         const updatedBays = zone.bays.map(bay => {
@@ -315,10 +380,12 @@ export const useNexusSimulation = () => {
         };
       });
     });
-  }, [evaluateFuzzyLogic, mode]);
+  }, [evaluateFuzzyLogic, mode, isRunning]);
 
   // Update traffic metrics
   const updateTrafficMetrics = useCallback(() => {
+    if (!isRunning) return;
+    
     const { arrivalRate, serviceRate } = calculateRates();
     
     const newMetric: TrafficMetrics = {
@@ -350,52 +417,79 @@ export const useNexusSimulation = () => {
       setActiveSurge(prev => prev ? { ...prev, resolved: true } : null);
       setTimeout(() => setActiveSurge(null), 5000);
     }
-  }, [calculateRates, zones, activeSurge, mode]);
+  }, [calculateRates, zones, activeSurge, mode, isRunning]);
 
-  // Update vehicle positions
-  const updateVehicles = useCallback(() => {
-    setVehicles(prev => prev.map(v => {
-      const isBus = v.plateNumber.startsWith('BUS');
+  // Update vehicle positions - throttled to 30fps for smooth performance
+  const updateVehicles = useCallback((currentTime: number) => {
+    if (!isRunning) {
+      animationFrameRef.current = requestAnimationFrame(updateVehicles);
+      return;
+    }
+    
+    // Throttle to target FPS
+    const elapsed = currentTime - lastFrameTimeRef.current;
+    
+    if (elapsed >= FRAME_INTERVAL) {
+      lastFrameTimeRef.current = currentTime - (elapsed % FRAME_INTERVAL);
       
-      // Determine Target Lane Logic
-      let targetY = v.position.y;
+      // Delta time factor for consistent speed regardless of frame rate
+      const deltaFactor = Math.min(elapsed / 16.67, 2); // Cap delta to prevent jumps
       
-      if (isBus) {
-        targetY = 50; // Bus Priority Lane
-      } else {
-        // Car logic: stick to closest lane (270 or 310)
-        // With small chance to lane change
-        const currentLane = Math.abs(v.position.y - 270) < Math.abs(v.position.y - 310) ? 270 : 310;
+      setVehicles(prev => prev.map(v => {
+        const isBus = v.plateNumber.startsWith('BUS');
         
-        // 0.2% chance to switch lanes per frame (approx 60fps)
-        if (Math.random() > 0.998) {
-           targetY = currentLane === 270 ? 310 : 270;
+        // Determine Target Lane Logic
+        let targetY = v.position.y;
+        
+        if (isBus) {
+          // Buses stay in the bus priority lane (Y: 80)
+          targetY = 80;
         } else {
-           targetY = currentLane;
+          // Cars should stay in pickup lanes (Y: 270 or 310)
+          // Ensure they're assigned to a valid lane
+          if (v.position.y < 200) {
+            // Car somehow in bus lane, move to car lane
+            targetY = 270;
+          } else {
+            const currentLane = Math.abs(v.position.y - 270) < Math.abs(v.position.y - 310) ? 270 : 310;
+            
+            // Very rare lane switching (0.1% chance per frame)
+            if (Math.random() > 0.999) {
+              targetY = currentLane === 270 ? 310 : 270;
+            } else {
+              targetY = currentLane;
+            }
+          }
         }
-      }
 
-      // Move forward (Left to Right) with loop-around
-      // Speed scaled for 60fps (approx 0.05 factor of previous 1s interval)
-      let newX = v.position.x + (v.speed * 0.08); 
-      if (newX > 800) newX = -50; // Loop back
+        // Move forward (Left to Right) with smooth loop-around
+        // Speed scaled appropriately - slower for realism
+        const baseSpeed = isBus ? 0.8 : 1.2; // Buses slower than cars
+        let newX = v.position.x + (v.speed * baseSpeed * 0.08 * deltaFactor);
+        
+        // Smooth loop-around instead of teleporting
+        if (newX > 850) {
+          newX = -60;
+        }
 
-      // Smooth steering towards target lane
-      // Vehicles drift smoothly to lane center
-      const newY = v.position.y + (targetY - v.position.y) * 0.05;
+        // Very smooth steering towards target lane (easing)
+        const lerpFactor = 0.03 * deltaFactor; // Slower lane changes
+        const newY = v.position.y + (targetY - v.position.y) * lerpFactor;
 
-      return {
-        ...v,
-        position: { x: newX, y: newY },
-        // Constant speed for smoothness, no jitter
-        speed: v.speed, 
-         // Slowly varying confidence to simulate sensor noise
-        confidence: Math.min(0.99, Math.max(0.85, v.confidence + (Math.random() - 0.5) * 0.005)),
-      };
-    }));
+        return {
+          ...v,
+          position: { 
+            x: Math.round(newX * 10) / 10, // Reduce floating point jitter
+            y: Math.round(newY * 10) / 10 
+          },
+          speed: v.speed,
+          confidence: Math.min(0.99, Math.max(0.85, v.confidence + (Math.random() - 0.5) * 0.002)),
+        };
+      }));
+    }
       
     animationFrameRef.current = requestAnimationFrame(updateVehicles);
-  }, []);
+  }, [isRunning]);
 
   // Main simulation loop
   useEffect(() => {
@@ -403,9 +497,11 @@ export const useNexusSimulation = () => {
     simulationRef.current = setInterval(() => {
       updateBays();
       updateTrafficMetrics();
+      updateExtendedMetrics();
     }, 1000);
 
-    // Animation Loop (60fps)
+    // Animation Loop (throttled to 30fps)
+    lastFrameTimeRef.current = performance.now();
     animationFrameRef.current = requestAnimationFrame(updateVehicles);
 
     return () => {
@@ -416,10 +512,12 @@ export const useNexusSimulation = () => {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [updateBays, updateTrafficMetrics, updateVehicles]);
+  }, [updateBays, updateTrafficMetrics, updateVehicles, updateExtendedMetrics]);
 
   // Trigger manual surge for demo
   const triggerSurge = useCallback(() => {
+    if (!isRunning) return;
+    
     const surge: SurgeEvent = {
       id: `SURGE-${Date.now()}`,
       timestamp: new Date(),
@@ -455,6 +553,8 @@ export const useNexusSimulation = () => {
   }, []);
 
   return {
+    isRunning,
+    toggleSystem,
     mode,
     toggleSimulationMode,
     zones,
@@ -465,6 +565,7 @@ export const useNexusSimulation = () => {
     surgeEvents,
     activeSurge,
     systemHealth,
+    extendedMetrics,
     triggerSurge,
     triggerStalledVehicle,
   };

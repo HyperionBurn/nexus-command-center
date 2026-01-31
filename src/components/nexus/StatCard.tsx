@@ -1,5 +1,7 @@
 import { cn } from '@/lib/utils';
 import { LucideIcon } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { memo, useRef, useEffect } from 'react';
 
 interface StatCardProps {
   title: string;
@@ -14,7 +16,42 @@ interface StatCardProps {
   className?: string;
 }
 
-export const StatCard = ({
+// Animated counter component for smooth number transitions
+const AnimatedValue = memo(({ value }: { value: string | number }) => {
+  const nodeRef = useRef<HTMLSpanElement>(null);
+  const prevValue = useRef<string | number>(value);
+  
+  useEffect(() => {
+    const node = nodeRef.current;
+    if (!node) return;
+    
+    // Only animate if value changed
+    if (prevValue.current !== value) {
+      // Use CSS animation class for GPU-accelerated transform
+      node.classList.add('animate-number-tick');
+      
+      const cleanup = setTimeout(() => {
+        node.classList.remove('animate-number-tick');
+      }, 200);
+      
+      prevValue.current = value;
+      return () => clearTimeout(cleanup);
+    }
+  }, [value]);
+  
+  return (
+    <span 
+      ref={nodeRef} 
+      className="inline-block" 
+      style={{ willChange: 'transform' }}
+    >
+      {value}
+    </span>
+  );
+});
+AnimatedValue.displayName = 'AnimatedValue';
+
+export const StatCard = memo(({
   title,
   value,
   subtitle,
@@ -47,18 +84,45 @@ export const StatCard = ({
   }[variant];
 
   return (
-    <div className={cn('glass-panel p-4', className)}>
+    <motion.div 
+      className={cn('glass-panel p-4 overflow-hidden', className)}
+      style={{ willChange: 'transform' }}
+      whileHover={{ 
+        scale: 1.02,
+        boxShadow: variant === 'danger' 
+          ? '0 0 30px hsla(0, 100%, 60%, 0.3)' 
+          : variant === 'success' 
+            ? '0 0 30px hsla(142, 100%, 50%, 0.2)'
+            : '0 0 30px hsla(186, 100%, 50%, 0.15)'
+      }}
+      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+    >
       <div className="flex items-start justify-between">
-        <div className={cn('p-2 rounded-lg', variantStyles.iconBg)}>
+        <motion.div 
+          className={cn('p-2 rounded-lg', variantStyles.iconBg)}
+          whileHover={{ rotate: [0, -10, 10, 0] }}
+          transition={{ duration: 0.4 }}
+        >
           <Icon className={cn('h-5 w-5', variantStyles.iconColor)} />
-        </div>
+        </motion.div>
         {trend && (
-          <div className={cn(
-            'text-xs font-medium px-2 py-0.5 rounded',
-            trend.positive ? 'bg-nexus-open/10 text-nexus-open' : 'bg-nexus-hold/10 text-nexus-hold'
-          )}>
-            {trend.positive ? '↑' : '↓'} {Math.abs(trend.value)}%
-          </div>
+          <motion.div 
+            className={cn(
+              'text-xs font-medium px-2 py-0.5 rounded',
+              trend.positive ? 'bg-nexus-open/10 text-nexus-open' : 'bg-nexus-hold/10 text-nexus-hold'
+            )}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+          >
+            <motion.span
+              animate={{ y: trend.positive ? [0, -2, 0] : [0, 2, 0] }}
+              transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 2 }}
+            >
+              {trend.positive ? '↑' : '↓'}
+            </motion.span>
+            {' '}{Math.abs(trend.value)}%
+          </motion.div>
         )}
       </div>
       
@@ -67,12 +131,14 @@ export const StatCard = ({
           {title}
         </h4>
         <p className={cn('text-2xl font-bold font-mono mt-1', variantStyles.valueColor)}>
-          {value}
+          <AnimatedValue value={value} />
         </p>
         {subtitle && (
           <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
         )}
       </div>
-    </div>
+    </motion.div>
   );
-};
+});
+
+StatCard.displayName = 'StatCard';

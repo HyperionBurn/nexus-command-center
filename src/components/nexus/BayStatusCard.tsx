@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Bay, BayPhase } from '@/types/nexus';
 import { GoldenMinuteTimer } from './GoldenMinuteTimer';
 import { cn } from '@/lib/utils';
@@ -17,7 +18,21 @@ const getPhaseConfig = (phase: BayPhase) => {
   }
 };
 
-export const BayStatusCard = ({ bay }: BayStatusCardProps) => {
+export const BayStatusCard = memo(({ bay }: BayStatusCardProps) => {
+  // Generate accessible description for screen readers
+  const getAccessibleDescription = () => {
+    const status = bay.status.toLowerCase();
+    const zone = bay.zone;
+    const dwellInfo = bay.status === 'OCCUPIED' 
+      ? ` Dwell time: ${bay.dwellTime} of ${bay.maxDwell} seconds.`
+      : '';
+    const plateInfo = bay.plateNumber ? ` Vehicle: ${bay.plateNumber}.` : '';
+    const childInfo = bay.childName ? ` Student: ${bay.childName}.` : '';
+    const alertInfo = bay.isAlerted ? ' Alert: Dwell time exceeded.' : '';
+    
+    return `Bay ${bay.id}, Zone ${zone}, Status: ${status}.${dwellInfo}${plateInfo}${childInfo}${alertInfo}`;
+  };
+
   const statusConfig = {
     OPEN: {
       bg: 'border-nexus-open/30 bg-nexus-open/5',
@@ -37,14 +52,8 @@ export const BayStatusCard = ({ bay }: BayStatusCardProps) => {
       iconColor: 'text-nexus-cyan',
       label: 'CLEARING',
     },
-    CLEARING: {
-      bg: 'border-nexus-cyan/30 bg-nexus-cyan/5',
-      icon: Clock,
-      iconColor: 'text-nexus-cyan',
-      label: 'CLEARING',
-    },
     BLOCKED: {
-      bg: 'border-nexus-hold/50 bg-nexus-hold/10 surge-alert',
+      bg: 'border-nexus-hold/50 bg-nexus-hold/10',
       icon: AlertTriangle,
       iconColor: 'text-nexus-hold',
       label: 'BLOCKED',
@@ -55,10 +64,15 @@ export const BayStatusCard = ({ bay }: BayStatusCardProps) => {
   const phaseConfig = getPhaseConfig(bay.phase);
 
   return (
-    <div className={cn(
-      'glass-panel p-4 border transition-all duration-300',
-      statusConfig.bg
-    )}>
+    <article 
+      className={cn(
+        'glass-panel p-4 border',
+        statusConfig.bg
+      )}
+      role="region"
+      aria-label={getAccessibleDescription()}
+      tabIndex={0}
+    >
       <div className="flex items-start justify-between mb-3">
         <div>
           <div className="flex items-center gap-2">
@@ -85,7 +99,7 @@ export const BayStatusCard = ({ bay }: BayStatusCardProps) => {
           </div>
           <span className="text-xs text-muted-foreground">Zone {bay.zone}</span>
         </div>
-        <StatusIcon className={cn('h-5 w-5', statusConfig.iconColor)} />
+        <StatusIcon className={cn('h-5 w-5', statusConfig.iconColor)} aria-hidden="true" />
       </div>
 
       <div className="flex items-center gap-4">
@@ -96,7 +110,7 @@ export const BayStatusCard = ({ bay }: BayStatusCardProps) => {
             <div>
               <span className="text-xs text-muted-foreground flex items-center gap-1">
                 Plate
-                {bay.phase === 'VERIFICATION' && <ShieldCheck className="h-3 w-3 text-purple-400" />}
+                {bay.phase === 'VERIFICATION' && <ShieldCheck className="h-3 w-3 text-purple-400" aria-hidden="true" />}
               </span>
               <p className="font-mono text-sm font-medium text-foreground">{bay.plateNumber}</p>
             </div>
@@ -105,13 +119,21 @@ export const BayStatusCard = ({ bay }: BayStatusCardProps) => {
             <div>
               <span className="text-xs text-muted-foreground flex items-center gap-1">
                 Student
-                {bay.phase === 'HANDOFF' && <UserCheck className="h-3 w-3 text-pink-400" />}
+                {bay.phase === 'HANDOFF' && <UserCheck className="h-3 w-3 text-pink-400" aria-hidden="true" />}
               </span>
               <p className="text-sm font-medium text-foreground">{bay.childName}</p>
             </div>
           )}
           {bay.status === 'OCCUPIED' && (
-            <div className="relative h-2 bg-secondary rounded-full overflow-hidden">
+            <div 
+              className="relative h-2 bg-secondary rounded-full overflow-hidden"
+              role="progressbar"
+              aria-label={`Dwell time progress for Bay ${bay.id}`}
+              aria-valuenow={bay.dwellTime}
+              aria-valuemin={0}
+              aria-valuemax={bay.maxDwell}
+              aria-valuetext={`${bay.dwellTime} of ${bay.maxDwell} seconds`}
+            >
                {/* Progress Bar Background */}
               <div 
                 className={cn(
@@ -129,13 +151,19 @@ export const BayStatusCard = ({ bay }: BayStatusCardProps) => {
       </div>
 
       {bay.isAlerted && (
-        <div className="mt-3 p-2 rounded bg-nexus-hold/20 border border-nexus-hold/30">
+        <div 
+          className="mt-3 p-2 rounded bg-nexus-hold/20 border border-nexus-hold/30"
+          role="alert"
+          aria-live="assertive"
+        >
           <div className="flex items-center gap-2 text-nexus-hold text-xs">
-            <AlertTriangle className="h-3 w-3" />
+            <AlertTriangle className="h-3 w-3" aria-hidden="true" />
             <span>Marshall Alert: Dwell time exceeded</span>
           </div>
         </div>
       )}
-    </div>
+    </article>
   );
-};
+});
+
+BayStatusCard.displayName = 'BayStatusCard';

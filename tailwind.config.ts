@@ -12,6 +12,14 @@ export default {
         "2xl": "1400px",
       },
     },
+    screens: {
+      'xs': '480px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
+    },
     extend: {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
@@ -98,12 +106,12 @@ export default {
         },
         "glow-pulse": {
           "0%, 100%": { boxShadow: "0 0 20px hsl(var(--nexus-cyan) / 0.3)" },
-          "50%": { boxShadow: "0 0 40px hsl(var(--nexus-cyan) / 0.6)" },
+          "50%": { boxShadow: "0 0 35px hsl(var(--nexus-cyan) / 0.5)" },
         },
         "number-tick": {
-          "0%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-2px)" },
-          "100%": { transform: "translateY(0)" },
+          "0%": { transform: "translateY(0) scale(1)" },
+          "50%": { transform: "translateY(-2px) scale(1.05)" },
+          "100%": { transform: "translateY(0) scale(1)" },
         },
       },
       animation: {
@@ -112,7 +120,7 @@ export default {
         "fade-in": "fade-in 0.5s ease-out forwards",
         "slide-in-right": "slide-in-right 0.4s ease-out forwards",
         "scale-in": "scale-in 0.3s ease-out forwards",
-        "glow-pulse": "glow-pulse 2s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 3s ease-in-out infinite",
         "number-tick": "number-tick 0.2s ease-out",
       },
     },
