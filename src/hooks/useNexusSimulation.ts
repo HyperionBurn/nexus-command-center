@@ -155,8 +155,8 @@ export const useNexusSimulation = () => {
   const simulationRef = useRef<NodeJS.Timeout>();
   const animationFrameRef = useRef<number>();
   const lastFrameTimeRef = useRef<number>(0);
-  const TARGET_FPS = 30;
-  const FRAME_INTERVAL = 1000 / TARGET_FPS; // ~33ms for 30fps
+  const TARGET_FPS = 60;
+  const FRAME_INTERVAL = 1000 / TARGET_FPS; // ~16.67ms for 60fps
 
   const toggleSimulationMode = useCallback(() => {
     const newMode = mode === 'DROPOFF' ? 'PICKUP' : 'DROPOFF';

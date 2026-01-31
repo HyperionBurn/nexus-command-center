@@ -385,7 +385,7 @@ export const DigitalTwinMap = memo(({ zones, vehicles, className }: DigitalTwinM
                         <g 
                             key={v.id}
                             transform={`translate(${v.position.x}, ${v.position.y})`}
-                            style={{ transition: 'transform 0.1s linear' }}
+                            // Removed CSS transition for smoother 60fps JS animation
                         >
                              {/* Static Glow */}
                              <circle 

@@ -242,6 +242,8 @@ export const LiveWaveGraph = memo(({ data, className }: LiveWaveGraphProps) => {
               {/* Service rate area (behind arrival) */}
               <Area
                 type="monotone"
+                isAnimationActive={true}
+                animationDuration={750}
                 dataKey="service"
                 stroke="hsl(142 100% 50%)"
                 fill="url(#serviceGradient)"
@@ -260,7 +262,7 @@ export const LiveWaveGraph = memo(({ data, className }: LiveWaveGraphProps) => {
                 strokeWidth={2.5}
                 dot={false}
                 name="Arrival Rate (λ)"
-                animationDuration={300}
+                animationDuration={750}
               />
               
               {/* Current service rate line */}
