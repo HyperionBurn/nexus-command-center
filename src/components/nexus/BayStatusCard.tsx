@@ -1,11 +1,21 @@
-import { Bay } from '@/types/nexus';
+import { Bay, BayPhase } from '@/types/nexus';
 import { GoldenMinuteTimer } from './GoldenMinuteTimer';
 import { cn } from '@/lib/utils';
-import { Car, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
+import { Car, AlertTriangle, CheckCircle, Clock, ShieldCheck, UserCheck, Bus } from 'lucide-react';
 
 interface BayStatusCardProps {
   bay: Bay;
 }
+const getPhaseConfig = (phase: BayPhase) => {
+  switch (phase) {
+    case 'ENTRY': return { label: 'ENTRY', color: 'text-blue-400', bg: 'bg-blue-400/20' };
+    case 'ACTION': return { label: 'ACTION', color: 'text-amber-400', bg: 'bg-amber-400/20' };
+    case 'EXIT': return { label: 'EXIT', color: 'text-emerald-400', bg: 'bg-emerald-400/20' };
+    case 'VERIFICATION': return { label: 'VERIFY', color: 'text-purple-400', bg: 'bg-purple-400/20' };
+    case 'HANDOFF': return { label: 'HANDOFF', color: 'text-pink-400', bg: 'bg-pink-400/20' };
+    default: return { label: 'IDLE', color: 'text-muted-foreground', bg: 'bg-muted/20' };
+  }
+};
 
 export const BayStatusCard = ({ bay }: BayStatusCardProps) => {
   const statusConfig = {
@@ -16,10 +26,16 @@ export const BayStatusCard = ({ bay }: BayStatusCardProps) => {
       label: 'READY',
     },
     OCCUPIED: {
-      bg: bay.dwellTime > 50 ? 'border-nexus-wait/50 bg-nexus-wait/10' : 'border-primary/30 bg-primary/5',
-      icon: Car,
-      iconColor: bay.dwellTime > 50 ? 'text-nexus-wait' : 'text-primary',
+      bg: bay.dwellTime > (bay.maxDwell * 0.8) ? 'border-nexus-wait/50 bg-nexus-wait/10' : 'border-primary/30 bg-primary/5',
+      icon: bay.type === 'BUS' ? Bus : Car,
+      iconColor: bay.dwellTime > (bay.maxDwell * 0.8) ? 'text-nexus-wait' : 'text-primary',
       label: 'ACTIVE',
+    },
+    CLEARING: {
+      bg: 'border-nexus-cyan/30 bg-nexus-cyan/5',
+      icon: Clock,
+      iconColor: 'text-nexus-cyan',
+      label: 'CLEARING',
     },
     CLEARING: {
       bg: 'border-nexus-cyan/30 bg-nexus-cyan/5',
@@ -36,6 +52,7 @@ export const BayStatusCard = ({ bay }: BayStatusCardProps) => {
   }[bay.status];
 
   const StatusIcon = statusConfig.icon;
+  const phaseConfig = getPhaseConfig(bay.phase);
 
   return (
     <div className={cn(
@@ -57,6 +74,14 @@ export const BayStatusCard = ({ bay }: BayStatusCardProps) => {
             )}>
               {statusConfig.label}
             </span>
+            {bay.status === 'OCCUPIED' && (
+               <span className={cn(
+                'px-2 py-0.5 rounded text-xs font-medium uppercase tracking-wider flex items-center gap-1',
+                phaseConfig.bg, phaseConfig.color
+              )}>
+                {phaseConfig.label}
+              </span>
+            )}
           </div>
           <span className="text-xs text-muted-foreground">Zone {bay.zone}</span>
         </div>
@@ -69,26 +94,35 @@ export const BayStatusCard = ({ bay }: BayStatusCardProps) => {
         <div className="flex-1 space-y-2">
           {bay.plateNumber && (
             <div>
-              <span className="text-xs text-muted-foreground">Plate</span>
+              <span className="text-xs text-muted-foreground flex items-center gap-1">
+                Plate
+                {bay.phase === 'VERIFICATION' && <ShieldCheck className="h-3 w-3 text-purple-400" />}
+              </span>
               <p className="font-mono text-sm font-medium text-foreground">{bay.plateNumber}</p>
             </div>
           )}
           {bay.childName && (
             <div>
-              <span className="text-xs text-muted-foreground">Student</span>
+              <span className="text-xs text-muted-foreground flex items-center gap-1">
+                Student
+                {bay.phase === 'HANDOFF' && <UserCheck className="h-3 w-3 text-pink-400" />}
+              </span>
               <p className="text-sm font-medium text-foreground">{bay.childName}</p>
             </div>
           )}
           {bay.status === 'OCCUPIED' && (
-            <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
+            <div className="relative h-2 bg-secondary rounded-full overflow-hidden">
+               {/* Progress Bar Background */}
               <div 
                 className={cn(
-                  'h-full transition-all duration-1000',
-                  bay.dwellTime <= 45 ? 'bg-nexus-open' : 
-                  bay.dwellTime <= 60 ? 'bg-nexus-wait' : 'bg-nexus-hold'
+                  'absolute top-0 left-0 h-full transition-all duration-1000',
+                  bay.dwellTime <= bay.maxDwell * 0.75 ? 'bg-nexus-open' : 
+                  bay.dwellTime <= bay.maxDwell ? 'bg-nexus-wait' : 'bg-nexus-hold'
                 )}
                 style={{ width: `${Math.min((bay.dwellTime / bay.maxDwell) * 100, 100)}%` }}
               />
+              
+              {/* Markers for phases could go here if we knew exact pixel widths, simple bar is clearer for now */}
             </div>
           )}
         </div>

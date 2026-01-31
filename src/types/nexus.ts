@@ -1,23 +1,31 @@
+
 // NEXUS System Types
 
+export type SimulationMode = 'DROPOFF' | 'PICKUP';
+
 export type BayStatus = 'OPEN' | 'OCCUPIED' | 'CLEARING' | 'BLOCKED';
+export type BayPhase = 'IDLE' | 'ENTRY' | 'ACTION' | 'EXIT' | 'HANDOFF' | 'VERIFICATION'; // Expanded for detailed protocols
+
 export type ZoneStatus = 'NORMAL' | 'SURGE' | 'CRITICAL';
 export type GateStatus = 'OPEN' | 'CLOSED' | 'TRANSITIONING';
 
 export interface Bay {
   id: string;
-  zone: 'A' | 'B' | 'C';
+  zone: 'A' | 'B' | 'C' | 'BUS';
   status: BayStatus;
+  phase: BayPhase;
+  phaseProgress: number; // 0-100%
   vehicleId?: string;
   plateNumber?: string;
   dwellTime: number; // seconds
-  maxDwell: number; // 60 seconds standard
+  maxDwell: number; // 60s (Dropoff) or 90s (Pickup)
   childName?: string;
   isAlerted: boolean;
+  type?: 'CAR' | 'BUS';
 }
 
 export interface Zone {
-  id: 'A' | 'B' | 'C';
+  id: 'A' | 'B' | 'C' | 'BUS';
   name: string;
   status: ZoneStatus;
   bays: Bay[];
@@ -34,6 +42,7 @@ export interface TrafficMetrics {
   queueLength: number;
   avgWaitTime: number;
   throughput: number;
+  mode: SimulationMode; // Track which mode metrics belong to
 }
 
 export interface FuzzyLogicDecision {
@@ -46,6 +55,8 @@ export interface FuzzyLogicDecision {
     zoneOccupancy: number;
     dwellTimeAvg: number;
     timeOfDay: string;
+    arrivalRate?: number;
+    serviceRate?: number;
   };
   rules: string[];
   confidence: number;
@@ -88,7 +99,8 @@ export interface Vehicle {
   position: { x: number; y: number };
   speed: number;
   heading: number;
-  inZone: 'A' | 'B' | 'C' | 'QUEUE' | 'EXIT';
+  inZone: 'A' | 'B' | 'C' | 'BUS' | 'QUEUE' | 'EXIT';
+  type: 'CAR' | 'BUS';
   confidence: number; // YOLO detection confidence
   boundingBox: {
     x: number;
@@ -96,4 +108,7 @@ export interface Vehicle {
     width: number;
     height: number;
   };
+  scheduledTime?: Date; // For VQS
+  actualTime?: Date;    // For VQS
+  punctualityScore?: number;
 }

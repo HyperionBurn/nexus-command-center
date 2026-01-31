@@ -9,10 +9,11 @@ interface DigitalTwinMapProps {
 }
 
 export const DigitalTwinMap = ({ zones, vehicles, className }: DigitalTwinMapProps) => {
-  const zonePositions = useMemo(() => ({
+  const zonePositions = useMemo<Record<string, { x: number; y: number; width: number; height: number }>>(() => ({
     A: { x: 120, y: 120, width: 180, height: 100 },
     B: { x: 340, y: 120, width: 180, height: 100 },
     C: { x: 560, y: 120, width: 180, height: 100 },
+    BUS: { x: 120, y: 20, width: 620, height: 60 }, // Priority lane at top
   }), []);
 
   const getZoneColor = (zone: Zone) => {
@@ -198,12 +199,12 @@ export const DigitalTwinMap = ({ zones, vehicles, className }: DigitalTwinMapPro
                 y={vehicle.position.y - vehicle.boundingBox.height / 2}
                 width={vehicle.boundingBox.width}
                 height={vehicle.boundingBox.height}
-                fill="none"
+                fill="hsl(var(--nexus-cyan))"
+                fillOpacity="0.05"
                 stroke="hsl(var(--nexus-cyan))"
-                strokeWidth="1.5"
-                strokeDasharray="4 2"
+                strokeWidth="1"
                 rx="2"
-                opacity={0.8}
+                opacity={0.6}
               />
               {/* Vehicle dot */}
               <circle

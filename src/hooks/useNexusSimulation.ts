@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { 
   Bay, Zone, TrafficMetrics, FuzzyLogicDecision, 
-  NOLReward, SurgeEvent, SystemHealth, Vehicle 
+  NOLReward, SurgeEvent, SystemHealth, Vehicle,
+  SimulationMode, BayPhase
 } from '@/types/nexus';
 
 // Generate realistic vehicle plates
@@ -23,27 +24,39 @@ const parentNames = [
 ];
 
 // Initialize bays for each zone
-const initializeBays = (): Zone[] => {
+const initializeBays = (mode: SimulationMode): Zone[] => {
   const zones: Zone[] = [
     { id: 'A', name: 'Zone Alpha', status: 'NORMAL', bays: [], queueLength: 0, vehicleCount: 0, avgDwellTime: 0, gateStatus: 'OPEN' },
     { id: 'B', name: 'Zone Bravo', status: 'NORMAL', bays: [], queueLength: 0, vehicleCount: 0, avgDwellTime: 0, gateStatus: 'OPEN' },
     { id: 'C', name: 'Zone Charlie', status: 'NORMAL', bays: [], queueLength: 0, vehicleCount: 0, avgDwellTime: 0, gateStatus: 'CLOSED' },
+    { id: 'BUS', name: 'Priority Bus Lane', status: 'NORMAL', bays: [], queueLength: 0, vehicleCount: 0, avgDwellTime: 0, gateStatus: 'OPEN' },
   ];
 
+  const maxDwell = mode === 'DROPOFF' ? 60 : 90;
+
   zones.forEach(zone => {
-    for (let i = 1; i <= 4; i++) {
+    // Bus zone has 2 large bays, others have 4 standard bays
+    const bayCount = zone.id === 'BUS' ? 2 : 4;
+    
+    for (let i = 1; i <= bayCount; i++) {
+        const isBus = zone.id === 'BUS';
+        const bayMaxDwell = isBus ? maxDwell * 1.5 : maxDwell; // Buses take 50% longer
+
       zone.bays.push({
         id: `${zone.id}${i}`,
         zone: zone.id,
         status: Math.random() > 0.6 ? 'OCCUPIED' : 'OPEN',
+        phase: 'IDLE',
+        phaseProgress: 0,
         dwellTime: 0,
-        maxDwell: 60,
+        maxDwell: bayMaxDwell,
         isAlerted: false,
+        type: isBus ? 'BUS' : 'CAR',
         ...(Math.random() > 0.6 ? {
           vehicleId: `V${Math.random().toString(36).substr(2, 6)}`,
-          plateNumber: generatePlate(),
-          childName: childNames[Math.floor(Math.random() * childNames.length)],
-          dwellTime: Math.floor(Math.random() * 45),
+          plateNumber: isBus ? `BUS-${Math.floor(Math.random() * 99)}` : generatePlate(),
+          childName: isBus ? 'School Bus Route 1' : childNames[Math.floor(Math.random() * childNames.length)],
+          dwellTime: Math.floor(Math.random() * (bayMaxDwell * 0.7)),
         } : {})
       });
     }
@@ -54,29 +67,41 @@ const initializeBays = (): Zone[] => {
 
 // Generate simulated vehicles for the map
 const generateVehicles = (count: number): Vehicle[] => {
-  return Array.from({ length: count }, (_, i) => ({
+  return Array.from({ length: count }, (_, i) => {
+    const isBus = Math.random() > 0.85; // Slightly fewer buses
+    
+    // Position based on type/lane
+    let baseY = 50; // Default Bus lane
+    if (!isBus) {
+       // Randomly choose Lane 1 (270) or Lane 2 (310) for cars
+       baseY = Math.random() > 0.5 ? 270 : 310;
+    }
+    
+    return {
     id: `V${i}`,
-    plateNumber: generatePlate(),
+    plateNumber: isBus ? `BUS-${Math.floor(Math.random() * 99)}` : generatePlate(),
     rfidTag: `RFID${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
     position: {
       x: 100 + Math.random() * 600,
-      y: 100 + Math.random() * 300,
+      y: baseY + (Math.random() - 0.5) * 10, // Less variance to stick to lane
     },
     speed: Math.random() * 15,
     heading: Math.random() * 360,
-    inZone: (['A', 'B', 'C', 'QUEUE', 'EXIT'] as const)[Math.floor(Math.random() * 5)],
+    inZone: (['A', 'B', 'C', 'BUS', 'QUEUE', 'EXIT'] as const)[Math.floor(Math.random() * 6)],
+    type: isBus ? 'BUS' : 'CAR',
     confidence: 0.85 + Math.random() * 0.14,
     boundingBox: {
       x: 0,
       y: 0,
-      width: 40 + Math.random() * 20,
-      height: 25 + Math.random() * 15,
+      width: isBus ? 80 : 40 + Math.random() * 20,
+      height: isBus ? 35 : 25 + Math.random() * 15,
     },
-  }));
+  }});
 };
 
 export const useNexusSimulation = () => {
-  const [zones, setZones] = useState<Zone[]>(initializeBays);
+  const [mode, setMode] = useState<SimulationMode>('DROPOFF');
+  const [zones, setZones] = useState<Zone[]>(initializeBays('DROPOFF'));
   const [vehicles, setVehicles] = useState<Vehicle[]>(() => generateVehicles(8));
   const [trafficHistory, setTrafficHistory] = useState<TrafficMetrics[]>([]);
   const [fuzzyDecisions, setFuzzyDecisions] = useState<FuzzyLogicDecision[]>([]);
@@ -97,18 +122,27 @@ export const useNexusSimulation = () => {
   });
 
   const simulationRef = useRef<NodeJS.Timeout>();
+  const animationFrameRef = useRef<number>();
+
+  const toggleSimulationMode = useCallback(() => {
+    const newMode = mode === 'DROPOFF' ? 'PICKUP' : 'DROPOFF';
+    setMode(newMode);
+    setZones(initializeBays(newMode));
+    setTrafficHistory([]);
+    setNolRewards([]);
+  }, [mode]);
 
   // TFOE: Calculate arrival and service rates
   const calculateRates = useCallback(() => {
-    const baseArrival = 8; // vehicles per minute baseline
+    const baseArrival = mode === 'DROPOFF' ? 8 : 6; // vehicles per minute baseline
     const timeMultiplier = 1 + Math.sin(Date.now() / 30000) * 0.5; // Oscillating traffic
     const arrivalRate = baseArrival * timeMultiplier + (Math.random() - 0.5) * 2;
     
     const occupiedBays = zones.flatMap(z => z.bays).filter(b => b.status === 'OCCUPIED').length;
-    const serviceRate = Math.max(4, 12 - occupiedBays * 0.5);
+    const serviceRate = Math.max(2, (mode === 'DROPOFF' ? 12 : 8) - occupiedBays * 0.5);
 
     return { arrivalRate, serviceRate };
-  }, [zones]);
+  }, [zones, mode]);
 
   // Fuzzy Logic Gate Control
   const evaluateFuzzyLogic = useCallback((zone: Zone): FuzzyLogicDecision => {
@@ -123,27 +157,32 @@ export const useNexusSimulation = () => {
     let action: 'OPEN' | 'CLOSE' | 'HOLD' = 'HOLD';
     let confidence = 0.7;
 
-    // Rule evaluation based on FLGC from documentation
+    // Rule evaluation with AI Reasoning
     if (inputs.queueLength > 50 && inputs.zoneOccupancy < 50) {
-      rules.push('Queue > 50m + Zone < 50% = OPEN');
+      rules.push(`High demand detected (${inputs.queueLength.toFixed(0)}m queue). Zone capacity is sufficient (${inputs.zoneOccupancy.toFixed(0)}%).`);
+      rules.push('Action: OPEN GATES to release pressure.');
       action = 'OPEN';
       confidence = 0.92;
     } else if (inputs.zoneOccupancy > 80) {
-      rules.push('Zone Occupancy > 80% = CLOSE');
+      rules.push(`Safety Threshold Exceeded: Zone occupancy is critical at ${inputs.zoneOccupancy.toFixed(0)}%.`);
+      rules.push('Action: CLOSE GATES to prevent gridlock inside zone.');
       action = 'CLOSE';
       confidence = 0.88;
     } else if (inputs.dwellTimeAvg > 45) {
-      rules.push('Avg Dwell > 45s = HOLD (Clearing)');
+      rules.push('Traffic flow is sluggish. Average dwell time is high (>45s).');
+      rules.push('Action: HOLD new entries until flow normalizes.');
       action = 'HOLD';
       confidence = 0.75;
     } else if (inputs.queueLength < 20 && inputs.zoneOccupancy < 30) {
-      rules.push('Queue < 20m + Zone < 30% = OPEN');
+      rules.push(`Low activity detected in Zone ${zone.id}.`);
+      rules.push('Action: OPEN GATES for unhindered access.');
       action = 'OPEN';
       confidence = 0.85;
     }
 
     if (rules.length === 0) {
-      rules.push('Default: Maintain current state');
+      rules.push('System Balanced: No critical triggers.');
+      rules.push('Action: Maintaining stable configuration.');
     }
 
     return {
@@ -157,6 +196,21 @@ export const useNexusSimulation = () => {
     };
   }, []);
 
+  // Determine standard bay phases based on dwell time and mode
+  const determinePhase = (mode: SimulationMode, dwellTime: number): { phase: BayPhase, progress: number } => {
+    if (mode === 'DROPOFF') {
+      // 60s Protocol: Entry(10s) -> Action(25s) -> Exit(25s)
+      if (dwellTime < 10) return { phase: 'ENTRY', progress: (dwellTime / 10) * 100 };
+      if (dwellTime < 35) return { phase: 'ACTION', progress: ((dwellTime - 10) / 25) * 100 };
+      return { phase: 'EXIT', progress: ((dwellTime - 35) / 25) * 100 };
+    } else {
+      // 90s Protocol: Ready(20s) -> Approach(40s) -> Handoff(30s)
+      if (dwellTime < 20) return { phase: 'VERIFICATION', progress: (dwellTime / 20) * 100 }; // Represents Student Ready
+      if (dwellTime < 60) return { phase: 'ENTRY', progress: ((dwellTime - 20) / 40) * 100 }; // Represents Parent Approach/Entry
+      return { phase: 'HANDOFF', progress: ((dwellTime - 60) / 30) * 100 };
+    }
+  };
+
   // Simulate bay updates
   const updateBays = useCallback(() => {
     setZones(prevZones => {
@@ -164,22 +218,25 @@ export const useNexusSimulation = () => {
         const updatedBays = zone.bays.map(bay => {
           if (bay.status === 'OCCUPIED') {
             const newDwellTime = bay.dwellTime + 1;
+            const maxDwell = bay.maxDwell;
             
-            // Check for stalled vehicle (>90s)
-            if (newDwellTime > 90 && !bay.isAlerted) {
-              return { ...bay, dwellTime: newDwellTime, isAlerted: true };
+            // Check for stalled vehicle (> max + 30s)
+            if (newDwellTime > maxDwell + 30 && !bay.isAlerted) {
+              return { ...bay, dwellTime: newDwellTime, isAlerted: true, status: 'BLOCKED' as const };
             }
             
-            // Vehicle departs (random chance after 40s, guaranteed after 70s)
-            if (newDwellTime > 70 || (newDwellTime > 40 && Math.random() > 0.95)) {
-              // Generate NOL reward for good drop-off
-              if (newDwellTime <= 60) {
+            // Vehicle departs logic
+            const shouldDepart = newDwellTime > maxDwell + 10 || (newDwellTime > maxDwell * 0.7 && Math.random() > 0.95);
+
+            if (shouldDepart) {
+              // Generate NOL reward for good drop-off/pickup
+              if (newDwellTime <= maxDwell) {
                 const reward: NOLReward = {
                   id: `NOL-${Date.now()}`,
                   parentId: bay.vehicleId || 'unknown',
                   parentName: parentNames[Math.floor(Math.random() * parentNames.length)],
-                  credits: newDwellTime <= 45 ? 5 : 3,
-                  reason: newDwellTime <= 45 ? 'Perfect Drop-off (<45s)' : 'Efficient Drop-off (<60s)',
+                  credits: newDwellTime <= maxDwell * 0.75 ? 5 : 3,
+                  reason: newDwellTime <= maxDwell * 0.75 ? `Perfect ${mode} (<${Math.floor(maxDwell * 0.75)}s)` : `Efficient ${mode} (<${maxDwell}s)`,
                   timestamp: new Date(),
                   dropOffTime: newDwellTime,
                 };
@@ -189,30 +246,46 @@ export const useNexusSimulation = () => {
               return {
                 ...bay,
                 status: 'CLEARING' as const,
+                phase: 'EXIT',
+                phaseProgress: 0,
                 dwellTime: 0,
               };
             }
             
-            return { ...bay, dwellTime: newDwellTime };
+            const phaseInfo = determinePhase(mode, newDwellTime);
+            return { 
+              ...bay, 
+              dwellTime: newDwellTime,
+              phase: phaseInfo.phase,
+              phaseProgress: phaseInfo.progress
+            };
           } else if (bay.status === 'CLEARING') {
             // Bay clears after 3 seconds
-            return {
-              ...bay,
-              status: 'OPEN' as const,
-              vehicleId: undefined,
-              plateNumber: undefined,
-              childName: undefined,
-              isAlerted: false,
-            };
+            if (Math.random() > 0.7) { // 30% chance to clear per tick ~ 3.3s avg
+               return {
+                ...bay,
+                status: 'OPEN' as const,
+                phase: 'IDLE',
+                phaseProgress: 0,
+                vehicleId: undefined,
+                plateNumber: undefined,
+                childName: undefined,
+                isAlerted: false,
+              };
+            }
+            return bay;
           } else if (bay.status === 'OPEN' && Math.random() > 0.97) {
             // New vehicle arrives
             return {
               ...bay,
               status: 'OCCUPIED' as const,
+              phase: 'ENTRY',
+              phaseProgress: 0,
               vehicleId: `V${Math.random().toString(36).substr(2, 6)}`,
               plateNumber: generatePlate(),
               childName: childNames[Math.floor(Math.random() * childNames.length)],
               dwellTime: 0,
+              maxDwell: mode === 'DROPOFF' ? 60 : 90,
             };
           }
           return bay;
@@ -238,11 +311,11 @@ export const useNexusSimulation = () => {
           vehicleCount: occupiedBays.length,
           queueLength: Math.max(0, 10 + Math.random() * 40 + (occupiedBays.length * 8)),
           gateStatus: decision.action === 'OPEN' ? 'OPEN' : decision.action === 'CLOSE' ? 'CLOSED' : zone.gateStatus,
-          status: occupiedBays.length >= 3 ? 'SURGE' : avgDwell > 50 ? 'CRITICAL' : 'NORMAL',
+          status: occupiedBays.length >= 3 ? 'SURGE' : avgDwell > (mode === 'DROPOFF' ? 50 : 80) ? 'CRITICAL' : 'NORMAL',
         };
       });
     });
-  }, [evaluateFuzzyLogic]);
+  }, [evaluateFuzzyLogic, mode]);
 
   // Update traffic metrics
   const updateTrafficMetrics = useCallback(() => {
@@ -255,6 +328,7 @@ export const useNexusSimulation = () => {
       queueLength: zones.reduce((sum, z) => sum + z.queueLength, 0) / zones.length,
       avgWaitTime: Math.max(0, (arrivalRate - serviceRate) * 5 + Math.random() * 10),
       throughput: serviceRate * 0.9,
+      mode: mode,
     };
 
     setTrafficHistory(prev => [...prev, newMetric].slice(-60));
@@ -276,32 +350,70 @@ export const useNexusSimulation = () => {
       setActiveSurge(prev => prev ? { ...prev, resolved: true } : null);
       setTimeout(() => setActiveSurge(null), 5000);
     }
-  }, [calculateRates, zones, activeSurge]);
+  }, [calculateRates, zones, activeSurge, mode]);
 
   // Update vehicle positions
   const updateVehicles = useCallback(() => {
-    setVehicles(prev => prev.map(v => ({
-      ...v,
-      position: {
-        x: Math.max(50, Math.min(750, v.position.x + (Math.random() - 0.5) * 10)),
-        y: Math.max(50, Math.min(350, v.position.y + (Math.random() - 0.5) * 8)),
-      },
-      speed: Math.max(0, Math.min(20, v.speed + (Math.random() - 0.5) * 2)),
-      confidence: Math.min(0.99, Math.max(0.8, v.confidence + (Math.random() - 0.5) * 0.05)),
-    })));
+    setVehicles(prev => prev.map(v => {
+      const isBus = v.plateNumber.startsWith('BUS');
+      
+      // Determine Target Lane Logic
+      let targetY = v.position.y;
+      
+      if (isBus) {
+        targetY = 50; // Bus Priority Lane
+      } else {
+        // Car logic: stick to closest lane (270 or 310)
+        // With small chance to lane change
+        const currentLane = Math.abs(v.position.y - 270) < Math.abs(v.position.y - 310) ? 270 : 310;
+        
+        // 0.2% chance to switch lanes per frame (approx 60fps)
+        if (Math.random() > 0.998) {
+           targetY = currentLane === 270 ? 310 : 270;
+        } else {
+           targetY = currentLane;
+        }
+      }
+
+      // Move forward (Left to Right) with loop-around
+      // Speed scaled for 60fps (approx 0.05 factor of previous 1s interval)
+      let newX = v.position.x + (v.speed * 0.08); 
+      if (newX > 800) newX = -50; // Loop back
+
+      // Smooth steering towards target lane
+      // Vehicles drift smoothly to lane center
+      const newY = v.position.y + (targetY - v.position.y) * 0.05;
+
+      return {
+        ...v,
+        position: { x: newX, y: newY },
+        // Constant speed for smoothness, no jitter
+        speed: v.speed, 
+         // Slowly varying confidence to simulate sensor noise
+        confidence: Math.min(0.99, Math.max(0.85, v.confidence + (Math.random() - 0.5) * 0.005)),
+      };
+    }));
+      
+    animationFrameRef.current = requestAnimationFrame(updateVehicles);
   }, []);
 
   // Main simulation loop
   useEffect(() => {
+    // Logic Loop (1s interval)
     simulationRef.current = setInterval(() => {
       updateBays();
       updateTrafficMetrics();
-      updateVehicles();
     }, 1000);
+
+    // Animation Loop (60fps)
+    animationFrameRef.current = requestAnimationFrame(updateVehicles);
 
     return () => {
       if (simulationRef.current) {
         clearInterval(simulationRef.current);
+      }
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
       }
     };
   }, [updateBays, updateTrafficMetrics, updateVehicles]);
@@ -335,6 +447,7 @@ export const useNexusSimulation = () => {
           vehicleId: 'STALLED-001',
           plateNumber: 'X999ABC',
           childName: 'Emergency Alert',
+          phase: 'EXIT',
         };
       }
       return newZones;
@@ -342,6 +455,8 @@ export const useNexusSimulation = () => {
   }, []);
 
   return {
+    mode,
+    toggleSimulationMode,
     zones,
     vehicles,
     trafficHistory,

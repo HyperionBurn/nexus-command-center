@@ -9,6 +9,7 @@ import { FuzzyLogicTrace } from '@/components/nexus/FuzzyLogicTrace';
 import { NOLRewardTicker } from '@/components/nexus/NOLRewardTicker';
 import { SurgeAlertBanner } from '@/components/nexus/SurgeAlertBanner';
 import { SystemHealthPanel } from '@/components/nexus/SystemHealthPanel';
+import { ProtocolIndicator } from '@/components/nexus/ProtocolIndicator';
 import { 
   Car, Users, Clock, TrendingUp, AlertTriangle, CheckCircle 
 } from 'lucide-react';
@@ -25,6 +26,8 @@ const Index = () => {
     systemHealth,
     triggerSurge,
     triggerStalledVehicle,
+    mode,
+    toggleSimulationMode,
   } = useNexusSimulation();
 
   // Calculate stats
@@ -58,11 +61,16 @@ const Index = () => {
         <QuickActions 
           onTriggerSurge={triggerSurge}
           onTriggerStalled={triggerStalledVehicle}
+          onToggleMode={toggleSimulationMode}
+          currentMode={mode}
         />
         <div className="text-xs text-muted-foreground">
-          TFOE Engine Active • Cyber-Physical Sync Enabled
+          TFOE Engine Active • Cyber-Physical Sync Enabled • {mode} Protocol
         </div>
       </div>
+
+      {/* Protocol Legend */}
+      <ProtocolIndicator mode={mode} />
 
       {/* Surge Alert */}
       {activeSurge && (
