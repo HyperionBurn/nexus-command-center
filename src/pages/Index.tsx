@@ -337,8 +337,6 @@ const Index = () => {
               mode={mode} 
             />
           </motion.div>
-
-          <CommandOperationsGrid />
         </motion.div>
 
         {/* Right Column - Controls & Monitoring */}
@@ -382,6 +380,14 @@ const Index = () => {
             transition={{ delay: 0.7 }}
           >
              <EnvironmentalSensorParams />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.75 }}
+          >
+             <CommandOperationsGrid />
           </motion.div>
         </motion.div>
       </div>
