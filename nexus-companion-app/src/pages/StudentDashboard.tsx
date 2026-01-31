@@ -1,132 +1,218 @@
+import { useRef, useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Clock, CheckCircle2, AlertTriangle, Shield, UserCheck, LogOut, Loader2 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Clock, CheckCircle2, AlertTriangle, Shield, UserCheck, LogOut, Loader2, Award, Zap, ChevronRight, Backpack } from "lucide-react";
 import { useNexus, StudentStatus } from "@/context/NexusContext";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
+import { use3DTilt } from "@/hooks/use3DTilt";
+
+const TiltCard = ({ children, className }: { children: React.ReactNode, className?: string }) => {
+    const ref = useRef<HTMLDivElement>(null!);
+    const { rotateX, rotateY, handleMouseMove, handleMouseLeave } = use3DTilt(ref);
+
+    return (
+        <motion.div
+            ref={ref}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+            className={cn("relative transition-colors", className)}
+        >
+            {children}
+            <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent pointer-events-none rounded-inherit" />
+        </motion.div>
+    );
+};
 
 export default function StudentDashboard() {
-  const { studentStatus, tripStatus, gate, eta, logout } = useNexus();
+  const { studentStatus, tripStatus, gate, eta, logout, nolBalance } = useNexus();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   }
 
-  // Helper to determine display state
-  const getStatusColor = (s: StudentStatus) => {
-      switch(s) {
-          case 'in-class': return "border-slate-800 bg-slate-900";
-          case 'released': return "border-amber-500 bg-amber-950/20";
-          case 'waiting-at-gate': return "border-green-500 bg-green-950/20 animate-pulse-slow";
-          case 'loaded': return "border-blue-500 bg-blue-950/20";
-          default: return "border-slate-800";
+  // Status visual config
+  const statusConfig = {
+      "in-class": {
+          icon: Shield,
+          label: "Classroom Secure",
+          desc: "Academic Session Active",
+          gradient: "from-slate-800 to-slate-900",
+          iconStyle: "border-slate-500/30 bg-slate-500/10 text-slate-400"
+      },
+      "released": {
+          icon: Backpack,
+          label: "Dismissal Initiated",
+          desc: "Prepare for Departure",
+          gradient: "from-amber-900/40 to-slate-900",
+          iconStyle: "border-amber-500/30 bg-amber-500/10 text-amber-400"
+      },
+      "waiting-at-gate": {
+          icon: CheckCircle2,
+          label: "Ready for Pickup",
+          desc: "Proceed to Loading Zone",
+          gradient: "from-emerald-900/40 to-slate-900",
+          iconStyle: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
+      },
+      "loaded": {
+          icon: UserCheck,
+          label: "Mission Complete",
+          desc: "Successfully Onboarded",
+          gradient: "from-blue-900/40 to-slate-900",
+          iconStyle: "border-blue-500/30 bg-blue-500/10 text-blue-400"
       }
   };
 
+  const currentConfig = statusConfig[studentStatus] || statusConfig["in-class"];
+  const StatusIcon = currentConfig.icon;
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-4 pb-20 font-inter">
-      <header className="mb-6 flex justify-between items-center">
-        <div>
-            <h1 className="text-2xl font-bold">Hello, Adam</h1>
-            <p className="text-slate-400 text-sm">Grade 5-A • ID: 99281</p>
+    <div className="min-h-screen bg-[#020617] text-slate-100 font-inter selection:bg-purple-500/30 overflow-x-hidden">
+      
+      {/* Background Grid */}
+      <div className="fixed inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+      <div className="fixed top-0 right-0 w-[300px] h-[300px] bg-purple-600/20 blur-[100px] pointer-events-none" />
+
+      <header className="relative z-10 p-6 flex justify-between items-start">
+        <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-purple-500/20 font-black text-xl">
+                A
+            </div>
+            <div>
+                <h1 className="text-xl font-bold text-white tracking-tight">Adam Smith</h1>
+                <p className="text-slate-400 text-xs font-medium uppercase tracking-wider flex items-center gap-1">
+                   <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse block" /> Grade 5-A
+                </p>
+            </div>
         </div>
-        <Button variant="ghost" size="icon" onClick={handleLogout} className="text-slate-500 hover:text-white">
+        <Button variant="ghost" size="icon" onClick={handleLogout} className="text-slate-500 hover:text-white hover:bg-white/5 rounded-full">
             <LogOut className="h-5 w-5" />
         </Button>
       </header>
 
-      <div className="space-y-6">
-        {/* Main Status Card */}
-        <Card className={cn("border-2 transition-all duration-500 shadow-2xl", getStatusColor(studentStatus))}>
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                    {studentStatus === 'waiting-at-gate' && <CheckCircle2 className="text-green-500 h-6 w-6" />}
-                    {studentStatus === 'released' && <Clock className="text-amber-500 h-6 w-6" />}
-                    {studentStatus === 'in-class' && <Shield className="text-slate-500 h-6 w-6" />}
-                    {studentStatus === 'loaded' && <UserCheck className="text-blue-500 h-6 w-6" />}
-                    
-                    <span className="text-lg">
-                        {studentStatus === 'in-class' && "In Class"}
-                        {studentStatus === 'released' && "Dismissal Time"}
-                        {studentStatus === 'waiting-at-gate' && "Parent Arrived"}
-                        {studentStatus === 'loaded' && "Safe & Secure"}
-                    </span>
-                </CardTitle>
-                <CardDescription className="text-slate-300">
-                     {studentStatus === 'in-class' && "Focus on your studies. No active pickups."}
-                     {studentStatus === 'released' && "Class dismissed. Pack bags. Wait for signal."}
-                     {studentStatus === 'waiting-at-gate' && "Go to the pickup zone immediately."}
-                     {studentStatus === 'loaded' && "Pickup complete. Have a safe trip!"}
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                {/* Dynamic Content based on State */}
-                
-                {studentStatus === 'released' && (
-                     <div className="flex flex-col items-center gap-4 py-4">
-                        {tripStatus === 'en-route' ? (
-                            <div className="flex flex-col items-center">
-                                <Loader2 className="h-8 w-8 text-amber-500 animate-spin mb-2" />
-                                <p className="text-amber-400 font-bold">Parent En Route</p>
-                                <p className="text-xs text-slate-400">ETA: {eta} MINS</p>
-                            </div>
-                        ) : (
-                            <p className="text-sm text-slate-500 italic">Waiting for parent to depart...</p>
-                        )}
+      <main className="relative z-10 px-6 space-y-8">
+        
+        {/* Main Status HUD */}
+        <TiltCard className={cn(
+            "rounded-[32px] overflow-hidden border border-white/10 shadow-2xl relative group",
+            studentStatus === "waiting-at-gate" ? "shadow-[0_0_50px_rgba(16,185,129,0.2)]" : ""
+        )}>
+             <div className={cn("absolute inset-0 bg-gradient-to-br opacity-80 transition-colors duration-700", currentConfig.gradient)} />
+             <div className="relative p-8 text-center space-y-6">
+                 
+                 <motion.div 
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    key={studentStatus}
+                    className="inline-flex relative"
+                 >
+                     <div className={cn(
+                         "h-24 w-24 rounded-full flex items-center justify-center border-4 backdrop-blur-md transition-colors duration-500",
+                         currentConfig.iconStyle
+                     )}>
+                         <StatusIcon className="h-10 w-10" />
                      </div>
-                )}
+                     {studentStatus === "waiting-at-gate" && (
+                         <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500"></span>
+                        </span>
+                     )}
+                 </motion.div>
 
-                {studentStatus === 'waiting-at-gate' && (
-                    <div className="text-center p-6 bg-green-500/20 rounded-xl border border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.2)]">
-                        <p className="text-sm font-bold text-green-400 uppercase tracking-widest mb-2">Gate Assigned</p>
-                        <div className="text-7xl font-black text-white tracking-tight">{gate || 'B4'}</div>
-                        <div className="mt-4 flex items-center justify-center gap-2 text-sm text-green-200">
-                            <UserCheck className="h-4 w-4" /> Driver Verified: Mom
-                        </div>
-                    </div>
-                )}
-            </CardContent>
-        </Card>
+                 <div>
+                     <motion.h2 
+                        key={`${studentStatus}-title`}
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        className="text-3xl font-black text-white tracking-tight mb-2"
+                     >
+                         {currentConfig.label}
+                     </motion.h2>
+                     <motion.p 
+                        key={`${studentStatus}-desc`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.1 }}
+                        className="text-slate-300 font-medium"
+                     >
+                         {currentConfig.desc}
+                     </motion.p>
+                 </div>
 
-        {/* Digital ID */}
-        <Card className="bg-slate-900 border-slate-800 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            <CardHeader className="pb-2">
-                <CardTitle className="text-lg">My Digital ID</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col items-center">
-                <div className="w-56 h-56 bg-white p-3 rounded-2xl shadow-lg">
-                    <div className="w-full h-full bg-slate-950 rounded-xl flex items-center justify-center relative overflow-hidden">
-                        {/* Mock QR Pattern */}
-                        <div className="absolute inset-2 border-4 border-white rounded-lg opacity-20"></div>
-                        <div className="grid grid-cols-4 gap-2 opacity-80">
-                             {[...Array(16)].map((_, i) => (
-                                 <div key={i} className={`h-6 w-6 rounded-sm ${Math.random() > 0.5 ? 'bg-white' : 'bg-transparent'}`} />
-                             ))}
-                        </div>
-                        <div className="absolute inset-0 bg-blue-500/20 animate-scan"></div>
+                 {studentStatus === "waiting-at-gate" && (
+                     <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-emerald-500/20 border border-emerald-500/30 p-4 rounded-xl backdrop-blur-md"
+                    >
+                         <p className="text-xs font-bold text-emerald-300 uppercase tracking-widest mb-1">Assigned Gate</p>
+                         <p className="text-4xl font-black text-white">{gate}</p>
+                     </motion.div>
+                 )}
+             </div>
+        </TiltCard>
+
+        {/* Gamification Stats */}
+        <div className="grid grid-cols-2 gap-4">
+            <TiltCard className="bg-slate-900/50 border border-white/5 rounded-2xl p-4 flex flex-col justify-between h-32 backdrop-blur-sm">
+                <div className="flex justify-between items-start">
+                    <div className="bg-amber-500/20 p-2 rounded-lg text-amber-500">
+                        <Zap className="h-5 w-5" />
                     </div>
+                    <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Streak</span>
                 </div>
-                <p className="text-xs text-slate-500 mt-4 text-center max-w-[200px]">
-                    Scan this at the RFID Gate or if asked by a marshal.
-                </p>
-            </CardContent>
-        </Card>
+                <div>
+                    <span className="text-3xl font-black text-white">12</span>
+                    <span className="text-xs text-slate-400 ml-1">Days</span>
+                </div>
+            </TiltCard>
 
-        {/* Safety Tips */}
-        <div className="bg-blue-900/10 p-4 rounded-xl border border-blue-900/30 flex gap-4 items-start">
-            <AlertTriangle className="text-blue-400 h-6 w-6 flex-shrink-0" />
-            <div>
-                <h4 className="font-bold text-blue-400 text-sm">Secure Handoff</h4>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                    Never enter a car unless the Gate Screen shows your name and the car matches the verified plate.
-                </p>
-            </div>
+            <TiltCard className="bg-slate-900/50 border border-white/5 rounded-2xl p-4 flex flex-col justify-between h-32 backdrop-blur-sm">
+                <div className="flex justify-between items-start">
+                    <div className="bg-purple-500/20 p-2 rounded-lg text-purple-500">
+                        <Award className="h-5 w-5" />
+                    </div>
+                    <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Points</span>
+                </div>
+                <div>
+                    <span className="text-3xl font-black text-white">{nolBalance.toFixed(0)}</span>
+                    <span className="text-xs text-slate-400 ml-1">PTS</span>
+                </div>
+            </TiltCard>
         </div>
-      </div>
+
+        {/* Recent Achievements */}
+        <div className="space-y-4">
+            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Recent Badges</h3>
+            {[
+                { name: "Early Bird", desc: "Ready before 2:15 PM", icon: Clock, color: "text-blue-400" },
+                { name: "Safety Star", desc: "No incidents this month", icon: Shield, color: "text-emerald-400" }
+            ].map((badge, i) => (
+                <motion.div 
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 + (i * 0.1) }}
+                    key={badge.name}
+                    className="bg-slate-900/40 border border-white/5 p-3 rounded-xl flex items-center gap-4"
+                >
+                    <div className="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center">
+                        <badge.icon className={cn("h-5 w-5", badge.color)} />
+                    </div>
+                    <div>
+                        <p className="text-sm font-bold text-white">{badge.name}</p>
+                        <p className="text-[10px] text-slate-500">{badge.desc}</p>
+                    </div>
+                </motion.div>
+            ))}
+        </div>
+
+      </main>
     </div>
   );
 }
