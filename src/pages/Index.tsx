@@ -297,11 +297,11 @@ const Index = () => {
         </div>
       </motion.div>
 
-      {/* Main Grid */}
+      {/* Main Grid - 3 Column Layout for Desktop */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4">
-        {/* Left Column - Digital Twin & Wave Graph */}
+        {/* Left Column - Digital Twin */}
         <motion.div 
-          className="col-span-1 lg:col-span-8 space-y-3 sm:space-y-4"
+          className="col-span-1 lg:col-span-5 space-y-3 sm:space-y-4"
           variants={slideUpVariants}
           initial="hidden"
           animate="visible"
@@ -316,17 +316,8 @@ const Index = () => {
               <DigitalTwinMap zones={zones} vehicles={vehicles} />
             </div>
           </motion.div>
-          
-          <motion.div 
-            className="glass-panel p-2 sm:p-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <LiveWaveGraph data={trafficHistory} />
-          </motion.div>
 
-          {/* Congestion Control Panel - The "Gap" Filler */}
+          {/* Congestion Control Panel */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -337,16 +328,32 @@ const Index = () => {
               mode={mode} 
             />
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <CommandOperationsGrid />
+          </motion.div>
         </motion.div>
 
-        {/* Right Column - Controls & Monitoring */}
+        {/* Center Column - Wave Graph & System Health */}
         <motion.div 
           className="col-span-1 lg:col-span-4 space-y-3 sm:space-y-4"
-          variants={slideRightVariants}
-          initial="hidden"
-          animate="visible"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
+          <motion.div 
+            className="glass-panel p-2 sm:p-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <LiveWaveGraph data={trafficHistory} />
+          </motion.div>
+
           <motion.div 
             className="glass-panel p-2 sm:p-4"
             whileHover={{ scale: 1.01 }}
@@ -357,13 +364,22 @@ const Index = () => {
 
           <motion.div 
             className="glass-panel p-2 sm:p-4"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
             <FuzzyLogicTrace decisions={fuzzyDecisions} />
           </motion.div>
+        </motion.div>
 
+        {/* Right Column - Rewards & Environment */}
+        <motion.div 
+          className="col-span-1 lg:col-span-3 space-y-3 sm:space-y-4"
+          variants={slideRightVariants}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.3 }}
+        >
           <motion.div 
             className="glass-panel p-2 sm:p-4"
             initial={{ opacity: 0, x: 20 }}
@@ -374,20 +390,11 @@ const Index = () => {
           </motion.div>
 
           <motion.div
-            className="pb-1"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.7 }}
           >
              <EnvironmentalSensorParams />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.75 }}
-          >
-             <CommandOperationsGrid />
           </motion.div>
         </motion.div>
       </div>
