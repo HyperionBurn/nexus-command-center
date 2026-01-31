@@ -11,6 +11,7 @@ import { SurgeAlertBanner } from '@/components/nexus/SurgeAlertBanner';
 import { SystemHealthPanel } from '@/components/nexus/SystemHealthPanel';
 import { ProtocolIndicator } from '@/components/nexus/ProtocolIndicator';
 import { MasterSystemSwitch } from '@/components/nexus/MasterSystemSwitch';
+import { CongestionControlPanel } from '@/components/nexus/CongestionControlPanel';
 import { 
   Car, Users, Clock, TrendingUp, AlertTriangle, CheckCircle,
   Scan, Camera, Brain, Timer, Shield, Gauge, Zap, Star
@@ -321,6 +322,18 @@ const Index = () => {
             transition={{ delay: 0.4 }}
           >
             <LiveWaveGraph data={trafficHistory} />
+          </motion.div>
+
+          {/* Congestion Control Panel - The "Gap" Filler */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45 }}
+          >
+            <CongestionControlPanel 
+              currentMetrics={trafficHistory[trafficHistory.length - 1]} 
+              mode={mode} 
+            />
           </motion.div>
         </motion.div>
 
