@@ -12,6 +12,7 @@ import { SystemHealthPanel } from '@/components/nexus/SystemHealthPanel';
 import { ProtocolIndicator } from '@/components/nexus/ProtocolIndicator';
 import { MasterSystemSwitch } from '@/components/nexus/MasterSystemSwitch';
 import { CongestionControlPanel } from '@/components/nexus/CongestionControlPanel';
+import { EnvironmentalSensorParams } from '@/components/nexus/EnvironmentalSensorParams';
 import { 
   Car, Users, Clock, TrendingUp, AlertTriangle, CheckCircle,
   Scan, Camera, Brain, Timer, Shield, Gauge, Zap, Star
@@ -369,6 +370,15 @@ const Index = () => {
             transition={{ delay: 0.6 }}
           >
             <NOLRewardTicker rewards={nolRewards} />
+          </motion.div>
+
+          <motion.div
+            className="pb-1"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.7 }}
+          >
+             <EnvironmentalSensorParams />
           </motion.div>
         </motion.div>
       </div>
