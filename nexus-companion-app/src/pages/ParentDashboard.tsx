@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Car, Clock, MapPin, Navigation, ShieldCheck, LogOut, CheckCheck, Wallet, ChevronRight, Settings, CreditCard, Sparkles, Zap, Map as MapIcon, Calendar } from "lucide-react";
+import { Car, Clock, MapPin, Navigation, ShieldCheck, LogOut, CheckCheck, Wallet, ChevronRight, Settings, CreditCard, Sparkles, Zap, Map as MapIcon, Calendar, History as HistoryIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useFLUXGATE, StudentStatus } from "@/context/FluxGateContext";
 import { useNavigate } from "react-router-dom";
@@ -32,6 +32,7 @@ const TiltCard = ({ children, className }: { children: React.ReactNode, classNam
 export default function ParentDashboard() {
   const [activeTab, setActiveTab] = useState("pickup");
   const [view, setView] = useState<"trip" | "vehicle" | "history">("trip");
+  const [showWalletModal, setShowWalletModal] = useState(false);
   
   const { 
       tripStatus, 
@@ -121,11 +122,20 @@ export default function ParentDashboard() {
                         </div>
                   </div>
                   <div className="flex gap-2">
-                      <Button size="sm" className="h-8 text-xs bg-blue-600 hover:bg-blue-500 text-white border-0 shadow-lg shadow-blue-900/20 flex-1">
-                          Manage Wallet
+                      <Button 
+                          size="sm" 
+                          onClick={() => setView("history")} 
+                          className="h-8 text-xs bg-blue-600 hover:bg-blue-500 text-white border-0 shadow-lg shadow-blue-900/20 flex-1"
+                      >
+                          Top Up NOL
                       </Button>
-                      <Button size="sm" variant="outline" className="h-8 text-xs border-white/10 bg-white/5 hover:bg-white/10 text-slate-300 flex-1">
-                          History
+                      <Button 
+                          size="sm" 
+                          variant="outline" 
+                          onClick={() => setView("history")} 
+                          className="h-8 text-xs border-white/10 bg-white/5 hover:bg-white/10 text-slate-300 flex-1"
+                      >
+                          Trip History
                       </Button>
                   </div>
               </div>
